@@ -1,0 +1,55 @@
+﻿<?php
+    $templateURL = $this->basePath('template/');
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hệ thống quản lý cán bộ TPHCM - Đăng nhập</title>
+    <script src="<?php echo $templateURL;?>js/jquery-1.9.1.js"></script>
+    <script src="<?php echo $templateURL;?>js/jqueryui/js/jquery-ui-1.10.3.custom.js"></script>
+
+    <link rel="stylesheet" href="<?php echo $templateURL;?>css/style.css" type="text/css">
+    <?php echo $this->headScript() ?>
+
+    <link rel="stylesheet" href="<?php echo $templateURL;?>js/jqueryui/css/qlcbd-theme/jquery-ui-1.10.3.custom.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo $templateURL;?>css/style.css" type="text/css">
+
+</head>
+<body>
+<!--Header-->
+<div id="header">
+    <div class="content">
+        <div class="title">
+            <a class="logo" href="<?php echo $this->basePath(); ?>">Hệ thống Quản lý cán bộ</a>
+        </div>
+    </div>
+</div>
+<!--End header-->
+<!--Wrapper-->
+<div id="wrapper">
+    <div class="content">
+        <?php echo $this->content; ?>
+    </div>
+</div>
+<!--End wrapper-->
+<!--Footer-->
+<div id="footer">
+    <div class="content">
+        <div class="author">
+            <a class="logo" href="#"></a>
+        </div>
+
+        <div class="copyright">
+            <p>Hệ thống Quản lý Cán bộ Thành Đoàn TPHCM</p>
+            <p>Copyright (C) 2013</p>
+            <p>Xây dựng bởi Đoàn trường ĐH Công nghệ Thông tin - ĐHQG-HCM</p>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+</div>
+<!--End footer-->
+
+<script src="<?php echo $templateURL;?>js/animation.js"></script>
+</body>
+</html>

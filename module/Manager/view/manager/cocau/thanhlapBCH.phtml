@@ -1,0 +1,337 @@
+<style>
+    .custom-combobox {
+        position: relative;
+        display: inline-block;
+        margin-right: 30px;
+    }
+    .custom-combobox-toggle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-left: -1px;
+        padding: 0;
+        /* support: IE7 */
+        *height: 1.7em;
+        *top: 0.1em;
+    }
+    .custom-combobox-input {
+        margin: 0;
+        padding: 0.3em;
+    }
+
+    .ui-autocomplete {
+        max-height: 200px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    #overlay {
+        color: #000;
+    }
+    #overlay h2{
+        margin-left: 20px;
+        padding-top: 5px;
+    }
+</style>
+
+<script>
+    //===Function==========================================================
+    /**
+     * Load html for dsCanBo
+     */
+    function getDsCanBoHtml(){
+        var dsCanBo = <?php echo json_encode($this->dsCanBo);?>;
+
+        var dsCanBoHtml = '';
+        dsCanBoHtml = '<select class="combobox hoten" name="hoten[]">';
+        var size = dsCanBo.length;
+        for (i = 0; i < size; i++)
+        {
+            dsCanBoHtml += '<option value="' + dsCanBo[i].Ma_Can_Bo + '">'+ dsCanBo[i].Ho_Ten_CB +'</option>';
+        }
+        dsCanBoHtml += '</select>';
+
+        return dsCanBoHtml;
+
+    }
+    /**
+     * Load html for dsChucVu
+     */
+    function getDsChucVuHtml(){
+        var dsChucVu = <?php echo json_encode($this->dsChucVu); ?>;
+
+        var dsChucVuHtml = '';
+        dsChucVuHtml = '<select class="combobox" name="chucvu[]">';
+        size =  dsChucVu.length;
+
+        for (i = 0; i < size; i++)
+        {
+            dsChucVuHtml += '<option value="' + dsChucVu[i].Ma_Chuc_Vu + '">' + dsChucVu[i].Ten_Chuc_Vu + '</option>';
+        }
+
+        dsChucVuHtml += '</select>';
+
+        return dsChucVuHtml;
+    }
+
+    //=============================================================
+    var dsCanBoHtml = getDsCanBoHtml();
+    var dsChucVuHtml = getDsChucVuHtml();
+</script>
+
+<div id="overlay">
+    <div class="lylich">
+
+    </div>
+</div>
+
+<div class="block">
+    <h2 class="title">Thành lập Ban Chấp Hành</h2>
+    <div class="block-content">
+        <form method="post">
+            Đơn vị trực thuộc:
+            <select id="donvitructhuoc" class="combobox1" name="donvi" onchange="autofillBchName()">
+            <?php
+                //Load "Don Vi" list for Dropbox
+                foreach($this->dsDonVi as $donvi){
+                    echo '<option value="', $donvi['Ma_ĐV'],'">', $donvi['Ten_Đon_Vi'],'</option>';
+                }
+
+            ?>
+            </select>
+            <br/>
+
+            <fieldset>
+                <legend>Thông tin Ban lãnh đạo hiện tại:</legend>
+                <div class="content">
+                    Ngày thành lập:
+                    <br/>
+                    Tên chính thức:
+                    <br/>
+                    Thành viên:
+                    <table>
+                        <th>Họ tên: </th>
+                        <th>Chức vụ: </th>
+                        <th>Ngày gia nhập:</th>
+
+                    </table>
+                </div>
+                </legend>
+            </fieldset>
+
+            <br/>
+            Loại Hình Ban:
+            <select id="loaihinhban" name="loaiban" class="combobox" onchange="autofillBchName()">
+                <?php
+                //Load "Loai Ban  (lãnh đạo)"  list for Dropbox
+                foreach($this->dsLoaiBanLD as $loaiban){
+                    echo '<option value="', $loaiban['Ma_Loai_Ban'],'">',
+                                $loaiban['Ten_Loai_Hinh_Ban'],
+                         '</option>';
+                }
+                ?>
+            </select>(*)
+
+            <br/>
+
+            Ngày thành lập:
+            <input class ='ngaythang' id="ngaythanhlap" name="ngaythanhlap" type="text" value="<?php echo date('d/m/Y'); ?>" /> (*)<br/>
+
+
+            Nhiệm kỳ:
+            <input id="nhiemky" type="text" placeholder="Nhập tên nhiệm kỳ" name="tengoiban" value="<?=date('Y')?>" onchange="autofillBchName()"/><br/>
+
+            Tên gọi chính thức:
+            <input id="tengoiban" name="tengoiban" type="text" size="50" placeholder="Nhập tên"  value=""/><br/>
+
+            Mô tả: <br/>
+            <textarea name="mota"></textarea><br/>
+            <script>
+                CKEDITOR.replace( 'mota', {
+                    toolbar: 'Basic'
+                });
+            </script>
+            Danh sách BCH mới:
+
+            <table id="danhsachBCH">
+                <tr>
+                    <th>Họ và tên</th>
+                    <th>Chức vụ</th>
+                    <th>Thao tác</th>
+                </tr>
+                <tr>
+                    <td>
+                        <script>
+                            document.write(dsCanBoHtml);
+                        </script>
+                    </td>
+                    <td>
+                        <script>
+                            document.write(dsChucVuHtml);
+                        </script>
+                    </td>
+                    <td><button class="view" onclick="xemlylich(this)" type="button" title="Xem lý lịch rút gọn"></button><button type="button" class="delete" onclick="deleteRow(this)" title="Xóa"></button> </td>
+                </tr>
+            </table>
+            <button type="button" id="add">Thêm</button>
+            <button type="submit">Thành lập</button>
+        </form>
+    </div>
+</div>
+<script>
+
+    //===Function==========================================================
+    /**
+     *
+     * @param date
+     * @param srcFormat
+     * @param tgtFormat
+     * @returns {string}
+     */
+    function formatDate(date, srcFormat, tgtFormat){
+
+        if(srcFormat =='dd-mm-yyyy'){
+            switch (tgtFormat){
+                case 'yyyy-mm-dd':
+                    return ((date).split('-').reverse()).join('-');
+                case 'yyyy/mm/dd':
+                    return ((date).split('-').reverse()).join('/');
+                default :
+                    return '31-12-2000'; //no format
+            }
+        }
+        else if(srcFormat =='dd/mm/yyyy'){
+            switch (tgtFormat){
+                case 'yyyy-mm-dd':
+                    return ((date).split('/').reverse()).join('-');
+                case 'yyyy/mm/dd':
+                    return ((date).split('/').reverse()).join('/');
+                default :
+                    return '31-12-2000'; //no format
+            }
+        }
+        else{
+            return '31-12-2000'; //no format
+        }
+    }
+    /**
+     *auto fill name of new BCH
+     */
+    function autofillBchName(){
+        $('#tengoiban').val(
+            $('#loaihinhban option:selected').text() +
+            ' ' + $('#donvitructhuoc option:selected').text() +
+            ' nhiệm kỳ ' + $('#nhiemky').val()
+        );
+    }
+    /**
+     * delete a Row
+     * @param obj
+     */
+    function deleteRow(obj){
+        obj = $(obj);
+        element = obj.parent().parent();
+
+
+        //remove element
+        element.remove();
+    }
+    function xemlylich(obj){
+        obj = $(obj);
+        var id = obj.parent().parent().find('.hoten').val();
+        $('#loading').fadeIn(300);
+        $.ajax(
+            {
+                url : "<?php echo $this->basePath('manager/canbo/xemlylichcanbo/'); ?>" + id,
+                type: "POST",
+                data : "",
+                //dataType: 'json',
+                success:function(returnData)
+                {
+                    var data = JSON.parse(returnData);
+                    console.log(data);
+
+                    for (var prop in data) {
+                        if(data[prop] === null || typeof data[prop] === "undefined")
+                            data[prop] = ''; 
+                    }
+
+                    var html = '<h2>Lý lịch trích ngang</h2>';
+                    html += '<table style="width: 100%; color: #000;">';
+                    html += '<tr><td>Họ tên </td><td>' + data.Ho_Ten_CB + '</td></tr>';
+                    html += '<tr><td>Ngày sinh </td><td>' + data.Ngay_Sinh + '</td></tr>';
+                    html += '<tr><td>Nơi sinh </td><td>' + data.Noi_Sinh + '</td></tr>';
+                    html += '<tr><td>Nơi ở hiện nay </td><td>' + data.Noi_O_Hien_Nay + '</td></tr>';
+                    html += '<tr><td>Quê quán </td><td>' + data.Que_Quan + '</td></tr>';
+                    html += '<tr><td>Dân tộc </td><td>' + data.Dan_Toc + '</td></tr>';
+                    html += '<tr><td>Tôn giáo </td><td>' + data.Ton_Giao + '</td></tr>';
+                    html += '<tr><td>Ngày vào Đảng </td><td>' + data.Ngay_Vao_Đang + '</td></tr>';
+                    html += '<tr><td>Ngày vào Đảng chính thức</td><td>' + data.Ngay_Chinh_Thuc + '</td></tr>';
+                    html += '<tr><td>Học hàm </td><td>' + data.Hoc_Ham + '</td></tr>';
+                    html += '<tr><td>Công tác chính đang làm </td><td>' + data.Cong_Tac_Chinh_Đang_Lam + '</td></tr>';
+                    html += '<tr><td>Khen thưởng </td><td>' + data.Khen_Thuong + '</td></tr>';
+                    html += '<tr><td>Kỷ luật </td><td>' + data.Ky_Luat + '</td></tr>';
+                    html += '<tr><td>Lý luận chính trị </td><td>' + data.Ten_CTLL + '</td></tr>';
+                    html += '</table>';
+
+
+                    $('#overlay .lylich').html(html);
+                    $('#loading').fadeOut(300);
+                    $('#overlay').fadeIn(500);
+                },
+                error: function(data, errorThrown)
+                {
+                    alert('request failed :'+errorThrown);
+                }
+            });
+    }
+
+
+
+    //==Execute====================
+    $(function() {
+        autofillBchName();//auto fill first time
+
+        //==event handling
+        $(".xemlylich").click(function(){
+            $('#overlay').fadeIn(500);
+        });
+        //add new "can bo"
+        $("#add").click(function(){
+            newElement = '<tr>\
+                        <td>' + dsCanBoHtml + '</td>\
+                        <td>' + dsChucVuHtml + '</td>\
+                        <td><button onclick="xemlylich(this)" class="view" type="button"></button><button type="button" onclick="deleteRow(this)" class="delete"></button> </td>\
+                     </tr>';
+            $('#danhsachBCH').append(newElement);
+            $(".ngaysinh").datepicker();
+
+            /*$(".view").click(function(){
+             $('#overlay').fadeIn(500);
+             });*/
+            //set combobox
+            $( ".combobox" ).combobox();
+        });
+
+
+        //==set combobox, datepicker
+        $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
+        $(".combobox" ).combobox();
+        $('.combobox1').combobox({
+            select: function (event, ui) {
+                autofillBchName();
+                var id = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo $this->basePath('manager/cocau/thongtinbld/'); ?>" + id,
+                    data: "",
+                    contentType : false,
+                    processData : false,
+                    success: function( data )
+                    {
+                        console.log(data);
+                    }
+                });
+            }
+        });
+    });
+</script>

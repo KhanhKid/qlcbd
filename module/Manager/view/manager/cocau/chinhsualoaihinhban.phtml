@@ -1,0 +1,57 @@
+<style>
+    table.input td{
+        border: none;
+    }
+    table.input th, table.input td{
+        text-align: left;
+        padding-left: 5px;
+    }
+</style>
+<div class="block">
+    <h2 class="title">Chỉnh sửa loại hình ban</h2>
+    <div class="block-content">
+        <form method="post">
+            <input type="hidden" name="maloaihinhban" value="<?php echo $this->data['Ma_Loai_Ban'];?>">
+            <table class="input">
+                <tr>
+                    <td>Tên loại hình ban: </td>
+                    <td><input type="text" size ='50' name = "tenloaihinhban" value="<?php echo $this->data['Ten_Loai_Hinh_Ban']; ?>" /></td>
+                </tr>
+                <tr>
+                    <td>Kiểu loại hình ban: </td>
+                    <td>
+                        <select name="kieuloaihinhban">
+                            <option selected="selected" value="">(không rõ)</option>
+                            <?php
+                            if($this->dsKieuLoaiHinhBan){
+                                $maKLHBHienTai = $this->data['Ma_KLHB']; //mã kiểu loại hình ban hiện tại
+                                foreach($this->dsKieuLoaiHinhBan as $element){
+                                        echo '<option ',($element['Ma_KLHB']== $maKLHBHienTai)?'selected="selected"':'',' value = "',$element['Ma_KLHB'],' "> ',$element['Ten_KLHB'],'</option>';
+                                }
+                            }
+
+
+                            ?>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <p>
+                Mô tả:
+                <textarea name="mota"><?php echo $this->data['Mo_Ta']; ?></textarea>
+                <script>
+                    CKEDITOR.replace( 'mota', {
+                        toolbar: 'Basic'
+                    });
+                </script>
+            </p>
+            <p>
+
+            </p>
+
+
+            <button type="submit">Cập nhật</button>
+            <a href="<?php echo $this->basePath('manager/cocau/loaihinhban/'); ?>" class="button">Xem danh sách đơn vị</a>
+        </form>
+    </div>
+</div>

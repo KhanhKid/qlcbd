@@ -1,0 +1,94 @@
+<style>
+    table.input td{
+        border: none;
+    }
+    table.input th, table.input td{
+        text-align: left;
+        padding-left: 5px;
+    }
+</style>
+<div class="block">
+    <h2 class="title">Chỉnh sửa đơn vị</h2>
+    <div class="block-content">
+        <form method="post">
+            <input type="hidden" name="madonvi" value="<?php echo $this->data['Ma_ĐV'];?>">
+            <table class="input">
+                <tr>
+                    <td>Tên đơn vị: </td>
+                    <td><input type="text" size ='50' name = "tendonvi" value="<?php echo $this->data['Ten_Đon_Vi']; ?>" /></td>
+                </tr>
+                <tr>
+                    <td>Ký hiệu đơn vị</td>
+                    <td><input type="text" size ='50' name = "kyhieudonvi" value="<?php echo $this->data['Ky_Hieu_ĐV']; ?>" /></td>
+                </tr>
+                <tr>
+                    <td>Ngày thành lập</td>
+                    <td><input type="text" name="ngaythanhlap" class="ngaythanhlap" value="<?= date('d/m/Y',strtotime($this->data['Ngay_Thanh_Lap'])); ?>" /></td>
+                </tr>
+                <tr>
+                    <td>Loại hình</td>
+                    <td>
+                        <select name="makhoi">
+                            <option selected="selected" value="">(không rõ)</option>
+                            <?php
+                            if($this->dsKhoi){
+                                $makhoiHienTai = $this->data['Ma_Khoi']; //mã khối hiện tại
+                                foreach($this->dsKhoi as $element){
+                                        echo '<option ',($element['Ma_Khoi']== $makhoiHienTai)?'selected="selected"':'',' value = "',$element['Ma_Khoi'],' "> ',$element['Ten_Khoi'],'</option>';
+                                }
+                            }
+
+
+                            ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ</td>
+                    <td><input type="text" name="diachi" size="80" value="<?php echo $this->data['Đia_Chi']; ?>" /></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input type="email" name="email" size="50" value="<?php echo $this->data['Email']; ?>" /></td>
+                </tr>
+                <tr>
+                    <td>Số điện thoại</td>
+                    <td><input type="tel" name="sodienthoai" value="<?php echo $this->data['So_Đien_Thoai']; ?>" /></td>
+                </tr>
+                <tr>
+                    <td>Trạng Thái</td>
+                    <td>
+                    <select name="trangthai">
+                        <?php
+
+                        echo '<option ', ($this->data['Trang_Thai']== 1)?'selected="selected"':'' ,' value = "1" > ','Đang Hoạt Động','</option>',
+                             '<option ', ($this->data['Trang_Thai']== 0)?'selected="selected"':'' ,' value = "0" > ','Ngừng Hoạt Động','</option>';
+                        ?>
+                    </select>
+                    </td>
+
+                </tr>
+
+            </table>
+            <p>
+                Mô tả:
+                <textarea name="mota"><?php echo $this->data['Mo_Ta']; ?></textarea>
+                <script>
+                    CKEDITOR.replace( 'mota', {
+                        toolbar: 'Basic'
+                    });
+                </script>
+            </p>
+            <p>
+
+            </p>
+
+
+            <button type="submit">Cập nhật</button>
+            <a href="<?php echo $this->basePath('manager/cocau/thanhlapdonvi/'); ?>" class="button">Xem danh sách đơn vị</a>
+        </form>
+    </div>
+    <script>
+        $('.ngaythanhlap').datepicker({dateFormat: 'dd/mm/yy'});
+    </script>
+</div>

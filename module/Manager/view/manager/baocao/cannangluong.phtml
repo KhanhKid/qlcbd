@@ -1,0 +1,57 @@
+<div class="block">
+<h2 class="title">Danh Sách Cán Bộ Cần Nâng Lương</h2>
+<div class="block-content">
+    <fieldset>
+        <legend>Danh Sách Cán Bộ Đã Đến Hạn Nâng Lương</legend>
+        <div class="content">
+            <form method="post">
+            <p>Ngày xét (thường lại thời điểm hiện tại):
+            <input type="text" id="ngayxet" class="ngaythang" name="ngayxet" value="<?=date('d-m-Y')?>"/>
+            </p>
+            <p>Điều kiện (thời hạn nâng lương là bao lâu?):
+            <input type="number" id="sonam" name="sonam" value="3"/> năm
+            </p>
+            <button type="submit">Xem</button>
+            <table>
+                <th>Họ Tên</th>
+                <th>Ngày Nâng Lương</th>
+                <th>Ngạch Lương</th>
+                <th>Bậc Lương</th>
+                <th>Hệ số Lương</th>
+                <th>Hệ Số phụ cấp</th>
+                <th>Vượt khung</th>
+                <th>Lương Khoán</th>
+
+                <?php
+                if($this->dscannangluong){
+                    foreach($this->dscannangluong as $value){
+                        echo '<tr>
+                                <td>',$value['Ho_Ten_CB'],'</td>
+                                <td>',$value['Thoi_Gian_Nang_Luong'],'</td>
+                                <td>',$value['Ma_So_Ngach'],'</td>
+                                <td>',$value['Bac_Luong'],'</td>
+                                <td>',$value['He_So_Luong'],'</td>
+                                <td>',$value['He_So_Phu_Cap'],'</td>
+                                <td>',$value['Phu_Cap_Vuot_Khung'],'</td>
+                                <td>',$value['Muc_Luong_Khoang'],'</td>
+                                <td>
+                                    <a href="',$this->basePath('manager/canbo/luong/'),$value['Ma_CB'] . '" class="button">Nâng lương</a>
+                                </td>
+                              </tr>';
+                    }
+
+
+                }
+                ?>
+            </table>
+        </div>
+    </form>
+    </fieldset>
+
+</div>
+</div>
+
+<script>
+    $(".ngaythang").datepicker({dateFormat:'dd-mm-yy'});
+
+</script>

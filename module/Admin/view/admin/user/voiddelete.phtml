@@ -1,0 +1,28 @@
+<div class="block">
+    <h2 class="title">Xóa cán bộ</h2>
+    <div class="block-content">
+        <fieldset>
+            <legend>Bạn đồng ý xóa cán bộ này</legend>
+            <div class="content">
+                <form method="post">
+                    <div>
+                        <div>Tài khoản:</td> <td><?=$this->user['Username']?></td> </div>
+                        <div>Vai trò: <?=$this->user['Role_Display_Name']?></div>
+                        <div>Cán bộ: <?=$this->user['Ho_Ten_CB']?></div>
+                        <div>Ngày sinh: <?=$this->user['Ngay_Sinh']?></div>
+                        <div>CMND: <?=$this->user['So_CMND']?></div>
+                    </div>
+
+                    <div>
+                       <span> <button type="submit" id="change-pass">Xóa cán bộ</button> </span>
+                    </div>
+
+
+                </form>
+                <p>
+                <mark> <?php echo $this->message?> <mark>
+                </p>
+            </div>
+        </fieldset>
+    </div>
+</div>

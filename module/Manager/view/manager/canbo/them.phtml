@@ -1,0 +1,1100 @@
+<style xmlns="http://www.w3.org/1999/html">
+    #addquatrinh, #adddaotao, #addquanhegiadinh, #addquanhegiadinhvo, #addkyluat, #addkhenthuong, #addquatrinhluong{
+        margin-top: 10px;
+        cursor: pointer;
+    }
+    #addquatrinh:hover, #adddaotao:hover, #addquanhegiadinh:hover, #addquanhegiadinhvo:hover, #addkyluat:hover, #addkhenthuong:hover, #addquatrinhluong{
+        background-color: #39a0b9;
+        color: #fff;
+    }
+
+    #daotaoboiduong, #quatrinhcongtac, #quanhegiadinh, #quanhegiadinhvo, #kyluat, #khenthuong, #quatrinhluong{
+        float: left;
+        min-width: 0 !important;
+        margin-top: 10px;
+        height: 26px;
+    }
+
+    #dragdrop {
+        width: 100%;
+        height: 70px;
+        color: #ccc;
+        font-size: 1.5em;
+        font-style: italic;
+        border: 2px dashed #ccc;
+        text-align: center;
+    }
+    .thaotac{
+        width: 20px;
+    }
+    .delete{
+        color: red;
+        cursor: pointer;
+    }
+
+    .custom-combobox {
+        position: relative;
+        display: inline-block;
+        margin-right: 30px;
+    }
+    .custom-combobox-toggle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-left: -1px;
+        padding: 0;
+        /* support: IE7 */
+        *height: 1.7em;
+        *top: 0.1em;
+    }
+    .custom-combobox-input {
+        margin: 0;
+        padding: 0.3em;
+    }
+
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+</style>
+
+<div class="block">
+    <h2 class="title">Thêm cán bộ</h2>
+    <div class="block-content">
+        <div id="dragdrop">
+            <span id="caption">Thả tệp chứa lý lịch tại đây</span>
+        </div>
+        <form id="file-input" enctype="multipart/formdata" method="post">
+            <input type="file" name="filename"  />
+            <br/><button type="submit" id="submitfile">Nhập dữ liệu</button>
+        </form>
+        <form method="post">
+        <fieldset>
+            <legend>Thông tin cơ bản</legend>
+            <div class="content">
+                <div class="group">
+                    <span>Số hiệu cán bộ:</span>
+                    <input id="sohieu" type="text" name="sohieu"/>
+                </div>
+                <div class="clear"></div>
+                <div class="group">
+                    <span>Họ tên:</span>
+                    <input id="hoten" type="text" name="hoten"/>
+                </div>
+                <div class="group">
+                    <span>Giới tính:</span>
+                    <select id="gioitinh" name="gioitinh">
+                        <option value="0">Nam</option>
+                        <option value="1">Nữ</option>
+                    </select>
+                </div>
+                <div class="clear"></div>
+                <div class="group">
+                    <span>Ngày sinh:</span>
+                    <input type="text" id="ngaysinh" class="ngaythang" required="required" name="ngaysinh" value="<?=date('m/d/Y')?>"/>(*)
+                </div>
+                <div class="group">
+                    <span>Ngày gia nhập:</span>
+                    <input type="text" id="ngaygianhap" class="ngaythang" name="ngaygianhap"
+                           value="<?php echo date('d/m/Y'); ?>"/>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <!--<fieldset>
+            <legend>Cơ cấu</legend>
+            <div class="content">
+                <div class="group">
+                    <span>Chức vụ chính</span>
+                    <select id="chucvuchinh" name="chucvuchinh">
+
+                        <?php
+/*                        foreach ($this->dsChucVu as $chucvu){
+                            echo '<option value="' , $chucvu['Ma_Chuc_Vu'] , '">' , $chucvu['Ten_Chuc_Vu'] , '</option>';
+                        }
+                        */?>
+                    </select>
+                </div>
+            </div>
+        </fieldset>-->
+
+        <fieldset>
+            <legend>Thông tin lương hưởng hiện tại</legend>
+            <div class="content">
+
+                <div class="group">
+                    <span>Nhận thông báo tuyển dụng</span>
+                    <input type="text" id="ngay_tbtd" class="ngaythang" name="ngaytuyendung"/>
+                </div>
+
+                <div class="group">
+                    <span>Ngày vào biên chế</span>
+                    <input type="text" id="ngay_bienche" class="ngaythang" name="ngaybienche"/>
+                </div>
+                <div class="clear"></div>
+
+                <p>Thông tin lương hưởng hiện tại:</p>
+
+                <div class="group">
+                    <span>Thời gian nâng bậc lương</span>
+                    <input type="text" id="ngay_nangbac" class="ngaythang" name="ngaynangbac" value="<?=date('d/m/Y')?>"/>
+                </div>
+                <div class="group">
+                    <span>Ngạch công chức:</span>
+                    <select id="mangach" name="mangach">
+                        <?php
+                        foreach ($this->dsNgachLuong as $ngach) {
+
+                            echo '<option value="', $ngach->maSoNgach(), '">', $ngach->maSoNgach(),' - ',$ngach->tenNgach(), '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="clear"></div>
+                <div class="group">
+                    <span>Bậc lương:</span>
+                    <input id="bacluong" type="text" name="bacluong"/>
+                </div>
+
+                <div class="group">
+                    <span>Hệ số lương:</span>
+                    <input id="hesoluong" type="text" name="hesoluong"/>
+                </div>
+
+                <div class="group">
+                    <span>Hệ số phụ cấp:</span>
+                    <input id="hesophucap" type="text" name="phucap"/>
+                </div>
+
+                <div class="group">
+                    <span>Phụ cấp vượt khung:</span>
+                    <input id="phucapvuotkhung" type="text" name="vuotkhung"/> (%)
+                </div>
+
+                <div class="clear"></div>
+                <div class="group">
+                    <span>Mức lương khoán:</span>
+                    <input id="mucluongkhoan" type="number" name="mucluongkhoan"/> (VNĐ/Tháng)
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Lý lịch</legend>
+            <div class="content">
+                <div class="group">
+                    <span>Số CMND:</span>
+                    <input id="cmnd" type="text" name="cmnd" required="required"/>
+                </div>
+
+                <div class="group">
+                    <span>Ngày cấp:</span>
+                    <input id="ngaycap" class="ngaythang" type="text" name="ngaycapCMND"/>
+                </div>
+
+                <div class="group">
+                    <span>Nơi cấp:</span>
+                    <input id="noicap" type="text" name="noicapCMND"/>
+                </div>
+
+                <div class="group">
+                    <span>Tên gọi khác:</span>
+                    <input id="tengoikhac" type="text" name="tengoikhac"/>
+                </div>
+
+                <div class="group">
+                    <span>Nơi sinh:</span>
+                    <input id="noisinh" type="text" name="noisinh"/>
+                </div>
+
+                <div class="group">
+                    <span>Quê quán:</span>
+                    <input id="quequan" type="text" name="quequan"/>
+                </div>
+
+                <div class="group">
+                    <span>Nơi ở hiện nay:</span>
+                    <input id="noiohiennay" type="text" name="noiohiennay"/>
+                </div>
+
+                <div class="group">
+                    <span>Điện thoại:</span>
+                    <input id="dienthoai" type="tel" name="dienthoai"/>
+                </div>
+
+                <div class="group">
+                    <span>Dân tộc:</span>
+                    <select id="dantoc" name="dantoc">
+                        <?php
+                        foreach ($this->dsDanToc as $element) {
+                            echo '<option value="', $element['Ma_Dan_Toc'], '">', $element['Ten_Dan_Toc'], '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="group">
+                    <span>Tôn giáo:</span>
+                    <select id="tongiao" name="tongiao"/>
+                        <?php
+                        //var_dump($this->dsTonGiao);exit;
+                        foreach ($this->dsTonGiao as $element) {
+                            echo '<option value="', $element['Ma_Ton_Giao'], '">', $element['Ten_Ton_Giao'], '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="group">
+                    <span>Thành phần gia đình:</span>
+                    <input id="thanhphangiadinh" type="text" name="thanhphangiadinh"/>
+                </div>
+
+                <div class="group">
+                    <span>Cấp Ủy hiện tại:</span>
+                    <input id="capuyhientai" type="text" name="capuyhientai"/>
+                </div>
+
+                <div class="group">
+                    <span>Cấp Ủy kiêm:</span>
+                    <input id="capuykiem" type="text" name="capuykiem"/>
+                </div>
+
+                <div class="group">
+                    <span>Chức danh:</span>
+                    <input id="chucdanh" type="text" name="chucdanh"/>
+                </div>
+
+                <div class="group">
+                    <span>Nghề nghiệp trước đó:</span>
+                    <input id="nghenghieptruocdo" type="text" name="nghenghieptruocdo"/>
+                </div>
+
+                <div class="group">
+                    <span>Cơ quan tuyển dụng:</span>
+                    <input id="coquantuyendung" type="text" name="coquantuyendung" value="Thành Đoàn TPHCM"/>
+                </div>
+
+                <div class="group">
+                    <span>Ngày tham gia Cách mạng:</span>
+                    <input id="ngaythamgiacachmang" type="text" name="ngaythamgiacachmang" class="ngaythang" />
+                </div>
+
+                <div class="group">
+                    <span>Ngày  vào Đảng:</span>
+                    <input id="ngayvaodang" type="text" class="ngaythang" name="ngayvaodang"/>
+                </div>
+
+                <div class="group">
+                    <span>Ngày chính thức:</span>
+                    <input id="ngayvaodangchinhthuc" type="text" class="ngaythang" name="ngayvaodangchinhthuc"/>
+                </div>
+
+                <div class="group">
+                    <span>Ngày tham gia t.chức CTXH:</span>
+                    <input id="ngaythamgiactxh" type="text" name="ngaythamgiactxh" class="ngaythang" />
+                </div>
+
+                <div class="group">
+                    <span>Ngày nhập ngũ:</span>
+                    <input id="ngaynhapngu" type="text" name="ngaynhapngu" class="ngaythang" />
+                </div>
+
+                <div class="group">
+                    <span>Ngày xuất ngũ:</span>
+                    <input id="ngayxuatngu" type="text" name="ngayxuatngu" class="ngaythang" />
+                </div>
+
+                <div class="group">
+                    <span>Quân hàm, CV cao nhất:</span>
+                    <input id="quanhamchucvu" type="text" name="quanhamchucvu"/>
+                </div>
+
+                <div class="group">
+                    <span>Chuyên môn:</span>
+                    <input id="chuyenmon" type="text" name="chuyenmon"/>
+                </div>
+
+                <div class="group">
+                    <span>Học hàm:</span>
+                    <select id="hocham" name="hocham">
+                        <option value="Không">Không</option>
+                        <option value="Phó giáo sư">Phó giáo sư</option>
+                        <option value="Giáo sư">Giáo sư</option>
+                    </select>
+                </div>
+                <div class="clear"></div>
+                <div class="group">
+                    <span>Học vị (Trình độ chuyên môn):</span>
+                    <select id="trinhdochuyenmon" name="trinhdochuyenmon"/>
+                    <?php
+                    //var_dump($this->dsTonGiao);exit;
+                    foreach ($this->dsTDCM as $element) {
+                        echo '<option value="', $element['Cap_Đo_TĐCM'], '">', $element['Ten_TĐCM'], '</option>';
+                    }
+                    ?>
+                    </select>
+                </div>
+
+                <div class="group">
+                    <span>Lý luận chính trị:</span>
+                    <select id="lyluanchinhtri" name="lyluanchinhtri"/>
+                    <?php
+                    //var_dump($this->dsTonGiao);exit;
+                    foreach ($this->dsTDLLCT as $element) {
+                        echo '<option value="', $element['Cap_Đo_LLCT'], '">', $element['Ten_CTLL'], '</option>';
+                    }
+                    ?>
+                    </select>
+                </div>
+
+                <div class="group">
+                    <span>Giáo dục phổ thông:</span>
+                    <select id="giaoducphothong" name="giaoducphothong">
+                        <option value="12/12">12/12</option>
+                        <option value="9/12">9/12</option>
+                    </select>
+                </div>
+
+                <div class="group">
+                    <span>Ngoại ngữ:</span>
+                    <input id="ngoaingu" type="text" name="ngoaingu"/>
+                </div>
+
+                <div class="group">
+                    <span>Danh hiệu được phong:</span>
+                    <input id="danhhieu" type="text" name="danhhieu"/>
+                </div>
+
+
+                <div class="group">
+                    <span>Sở trường công tác:</span>
+                    <input id="sotruong" type="text" name="sotruong"/>
+                </div>
+
+
+                <div class="group">
+                    <span>Công việc làm lâu nhất:</span>
+                    <input id="congvieclaunhat" type="text" name="congvieclaunhat"/>
+                </div>
+
+
+                <div class="group">
+                    <span>Tình trạng sức khỏe:</span>
+                    <input id="tinhtrangsuckhoe" type="text" name="tinhtrangsuckhoe"/>
+                </div>
+
+
+                <div class="group">
+                    <span>Chiều cao:</span>
+                    <input id="chieucao" type="text" name="chieucao" size="20"/>m
+                </div>
+
+                <div class="group">
+                    <span>Cân nặng:</span>
+                    <input id="cannang" type="text" name="cannang"/> (kg)
+                </div>
+
+
+                <div class="group">
+                    <span>Nhóm máu:</span>
+                    <select id="nhommau" name="nhommau">
+                        <option value="O">O</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="AB">AB</option>
+                    </select>
+                </div>
+
+                <div class="group">
+                    <span>Thương binh loại:</span>
+                    <select id="thuongbinhloai" name="thuongbinhloai">
+                        <option value="Không">Không</option>
+                        <option value="1/4">1/4</option>
+                        <option value="2/4">2/4</option>
+                        <option value="3/4">3/4</option>
+                        <option value="4/4">4/4</option>
+                    </select>
+                </div>
+                <div class="clear"></div>
+                <label for="giadinhlietsy">
+                    <div class="group">
+                        <span>Gia đình liệt sỹ</span>
+                        <input type="checkbox" id="giadinhlietsy" name="giadinhlietsy" />
+                    </div>
+                </label>
+
+            </div>
+        </fieldset>
+
+
+        <fieldset>
+            <legend>Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị, ngoại ngữ</legend>
+            <div class="content">
+                <table>
+                    <th>Tên trường</th>
+                    <th>Ngành học (Tên lớp)</th>
+                    <th>Thời gian học</th>
+                    <th>Thời kết thúc</th>
+                    <th>Hình thức học</th>
+                    <th>Văn bằng, chứng chỉ, trình độ gì</th>
+                    <tbody id="input-daotao">
+
+                    </tbody>
+                </table>
+                <select id="daotaoboiduong">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <button type="button" id="adddaotao">Thêm</button>
+
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Tóm tắt quá trình công tác</legend>
+            <div class="content">
+                <table>
+                    <th>Từ</th>
+                    <th>Đến</th>
+                    <th>Chức danh, chức vụ, đơn vị công tác</th>
+                    <tbody id="input-quatrinh">
+
+                    </tbody>
+                </table>
+                <select id="quatrinhcongtac">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <button type="button" id="addquatrinh">Thêm</button>
+
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Kỷ luật</legend>
+            <div class="content">
+                <table>
+                    <th>Thời gian</th>
+                    <th>Hình thức kỷ luật</th>
+                    <th>Nơi ra quyết định</th>
+                    <th>Lý do</th>
+                    <tbody id="input-kyluat">
+
+                    </tbody>
+                </table>
+                <select id="kyluat">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <button type="button" id="addkyluat">Thêm</button>
+
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Khen thưởng</legend>
+            <div class="content">
+                <table>
+                    <th>Thời gian</th>
+                    <th>Hình thức khen thưởng</th>
+                    <th>Nơi ra quyết định</th>
+                    <th>Lý do</th>
+                    <tbody id="input-khenthuong">
+
+                    </tbody>
+                </table>
+                <select id="khenthuong">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <button type="button" id="addkhenthuong">Thêm</button>
+
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Đặc điểm lịch sử bản thân</legend>
+            <div class="content">
+                Khai rõ bị bắt, bị tù, đã khai báo cho ai, những vấn đề gì:<br/>
+                <textarea id="dacdiemlichsu" name="dacdiemlichsu"></textarea><br/>
+                Bản thân có làm việc trong chế độ cũ:<br/>
+                <textarea id="lamviecchedocu" name="lamviecchedocu"></textarea>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Quan hệ với nước ngoài</legend>
+            <div class="content">
+                Tham gia hoặc có quan hệ với các tổ chức chính trị, kinh tế, xã hội nào ở nước ngoài<br/>
+                <textarea id="quanhenuocngoai" name="quanhenuocngoai"></textarea><br/>
+                Có thân nhân nước ngoài<br/>
+                <textarea id="thannhannuocngoai" name="thannhannuocngoai"></textarea>
+
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Quan hệ gia đình</legend>
+            <div class="content">
+                a) Bản thân:
+                <table>
+                    <th>Quan hệ</th>
+                    <th>Họ tên</th>
+                    <th>Năm sinh</th>
+                    <th>Quê quán, nghề nghiệp, chức danh,...</th>
+                    <tbody id="input-quanhegiadinh">
+
+                    </tbody>
+                </table>
+                <select id="quanhegiadinh">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <button type="button" id="addquanhegiadinh">Thêm</button>
+
+                </br>
+                </br>
+                </br>
+                b) Bên vợ:
+                <table>
+                    <th>Quan hệ</th>
+                    <th>Họ tên</th>
+                    <th>Năm sinh</th>
+                    <th>Quê quán, nghề nghiệp, chức danh,...</th>
+                    <tbody id="input-quanhegiadinhvo">
+
+                    </tbody>
+                </table>
+                <select id="quanhegiadinhvo">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <button type="button" id="addquanhegiadinhvo">Thêm</button>
+            </div>
+        </fieldset>
+
+
+        <fieldset>
+            <legend>Hoàn cảnh kinh tế gia đình</legend>
+            <div class="content">
+                Qúa trình lương trước đây (không phải hiện tại):
+                <table>
+                    <th>Tháng/năm</th>
+                    <th>Ngạch</th>
+                    <th>Bậc</th>
+                    <th>Hệ số lương</th>
+                    <th>Phụ cấp</th>
+                    <th>Phụ cấp vượt bậc</th>
+                    <th>Mức lương khoán</th>
+                    <tbody id="input-quatrinhluong">
+
+                    </tbody>
+                </table>
+                <select id="quatrinhluong">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <button type="button" id="addquatrinhluong">Thêm</button>
+
+                <br/>
+
+            </div>
+        </fieldset>
+        <fieldset>
+                <span>- Nguồn Thu Nhập Chính Gia Đình (hàng năm):<br/>
+                <span> + Lương: <input type='number' id="luongnam" name="luongnam"/> VNĐ/ năm.<br/>
+                <span> + Các nguồn khác: </span>  <input id="nguonkhac" type="text" name="nguonthunhapkhac" size="70"/>
+                <br/>
+                <br/>
+                - Nhà ở:<br/>
+                 + Được cấp, được thuê, loại nhà: <input type="text" id="nhacap" name="loainhaduoccap">,	 tổng diện tích sử dụng: <input type='number' id="dientichnhacap" name="dientichnhaduoccap"/>  m<sup>2</sup> <br/>
+                 + Nhà tự mua, tự xây, loại nhà: <input id="nhamua" type="text" name="loainhatuxay">,	tổng diện tích sử dụng <input type='number' id="dientichnhamua" name="dientichnhatuxay"/> m<sup>2</sup>
+                <br/>
+                <br/>
+                - Đất ở: + Đất được cấp: <input type='number' id="datcap" name="dientichdatduoccap"/> m<sup>2</sup>;	+ Đất tự mua: <input id="dattumua" type='number' name="dientichdattumua"/> m<sup>2</sup>
+                <br/>
+                <span>- Đất sản xuất, kinh doanh:</span> <input id="datsxkd" type='number' name="dientichdatsx"/></span>m<sup>2</sup>
+        </fieldset>
+        <p>
+            <mark> <?php echo $this->message?> <mark>
+        </p>
+        <button type="submit">Nhập thông tin</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function getDaoTaoBoiDuong(truong, nganh, thoigian, tgketthuc, hinhthuc, vanbang){
+        var html    = '';
+        html        = '<tr>\
+                            <td><input type="text" name="daotao-tentruong[]" value="' + truong + '" /></td>\
+                            <td><input type="text" name="daotao-nganhhoc[]" value="' + nganh + '" /></td>\
+                            <td><input type="text" name="daotao-thoigian[]" class="ngaythang" value="' + thoigian + '" /></td>\
+                            <td><input type="text" name="daotao-tgketthuc[]" class="ngaythang" value="' + tgketthuc + '" /></td>\
+                            <td><input type="text" name="daotao-hinhthuc[]" value="' + hinhthuc + '" /></td>\
+                            <td><input type="text" name="daotao-vanbang[]" value="' + vanbang + '" /></td>\
+                            <td><button type="button" onclick="deleteContent(this);" class="delete"></button></td>\
+                       </tr>';
+
+        return html;
+    }
+
+    function getQuaTrinhCongTac(tu, den, thongtin){
+        var html    = '';
+        html        = '<tr>\
+                            <td><input type="text" name="congtac-tu[]" class="ngaythang" value="' + tu + '" /></td>\
+                            <td><input type="text" name="congtac-den[]" class="ngaythang" value="' + den + '" /></td>\
+                            <td><input type="text" name="congtac-thongtin[]" value="' + thongtin + '" /></td>\
+                            <td><button type="button" onclick="deleteContent(this);" class="delete"></button></td>\
+                       </tr>';
+        return html;
+    }
+
+    function getQuanHeGiaDinh(quanhe, hoten, namsinh, thongtin){
+        var html    = '';
+        html        = '<tr>\
+                            <td><input type="text" name="qh-quanhe[]" value="' + quanhe + '" /></td>\
+                            <td><input type="text" name="qh-hoten[]" value="' + hoten + '" /></td>\
+                            <td><input type="text" name="qh-namsinh[]" class="ngaythang" value="' + namsinh + '" /></td>\
+                            <td><input type="text" name="qh-thongtin[]" value="' + thongtin + '" /></td>\
+                            <td><button type="button" onclick="deleteContent(this);" class="delete"></button></td>\
+                       </tr>';
+        return html;
+    }
+
+    function getQuanHeGiaDinhVo(quanhe, hoten, namsinh, thongtin){
+        var html    = '';
+        html        = '<tr>\
+                            <td><input type="text" name="qhvo-quanhe[]" value="' + quanhe + '" /></td>\
+                            <td><input type="text" name="qhvo-hoten[]" value="' + hoten + '" /></td>\
+                            <td><input type="text" name="qhvo-namsinh[]" class="ngaythang" value="' + namsinh + '" /></td>\
+                            <td><input type="text" name="qhvo-thongtin[]" value="' + thongtin + '" /></td>\
+                            <td><button type="button" onclick="deleteContent(this);" class="delete"></button></td>\
+                       </tr>';
+        return html;
+    }
+
+    function getKyLuat(thoigian, hinhthuc, noiquyetdinh, lydo){
+        var html    = '';
+        html        = '<tr>\
+                            <td><input type="text" name="kyluat-thoigian[]" class="ngaythang" value="' + thoigian + '" /></td>\
+                            <td><input type="text" name="kyluat-hinhthuc[]" value="' + hinhthuc + '" /></td>\
+                            <td><input type="text" name="kyluat-noiquyetdinh[]" value="' + noiquyetdinh + '" /></td>\
+                            <td><input type="text" name="kyluat-lydo[]" value="' + lydo + '" /></td>\
+                            <td><button type="button" onclick="deleteContent(this);" class="delete"></button></td>\
+                       </tr>';
+        return html;
+    }
+
+    function getKhenThuong(thoigian, hinhthuc, noiquyetdinh, lydo){
+        var html    = '';
+        html        = '<tr>\
+                            <td><input type="text" name="khenthuong-thoigian[]" class="ngaythang" value="' + thoigian + '" /></td>\
+                            <td><input type="text" name="khenthuong-hinhthuc[]" value="' + hinhthuc + '" /></td>\
+                            <td><input type="text" name="khenthuong-noiquyetdinh[]" value="' + noiquyetdinh + '" /></td>\
+                            <td><input type="text" name="khenthuong-lydo[]" value="' + lydo + '" /></td>\
+                            <td><button type="button" onclick="deleteContent(this);" class="delete"></button></td>\
+                       </tr>';
+        return html;
+    }
+
+    function getQuaTrinhLuong(thang, ngach, bac, hesoluong, vuotkhung, phucap, mucluongkhoan){
+        var html    = '';
+        html        = '<tr>\
+                            <td><input type="text" name="qtluong-thoigian[]" class="ngaythang" value="' + thang + '" /></td>\
+                            <td><input type="text" name="qtluong-ngach[]" value="' + ngach +'" /></td>\
+                            <td><input type="text" name="qtluong-bac[]" value="' + bac + '" /></td>\
+                            <td><input type="text" name="qtluong-hesoluong[]" value="' + hesoluong + '" /></td>\
+                            <td><input type="text" name="qtluong-phucap[]" value="' + phucap + '" /></td>\
+                            <td><input type="text" name="qtluong-vuotkhung[]" value="' + vuotkhung + '" /></td>\
+                            <td><input type="text" name="qtluong-mucluongkhoan[]" value="' + mucluongkhoan + '" /></td>\
+                            <td><button type="button" onclick="deleteContent(this);" class="delete"></button></td>\
+                       </tr>';
+        return html;
+    }
+
+    var daotao          = $('#input-daotao');
+    var quatrinh        = $('#input-quatrinh');
+    var quanhegiadinh   = $('#input-quanhegiadinh');
+    var quanhegiadinhvo = $('#input-quanhegiadinhvo');
+    var kyluat          = $('#input-kyluat');
+    var khenthuong      = $('#input-khenthuong');
+    var quatrinhluong   = $('#input-quatrinhluong');
+
+
+    $(function() {
+        $('#adddaotao').click(function(){
+            number = $('#daotaoboiduong').val();
+            for (i = 0; i < number; i++){
+                daotao.append(getDaoTaoBoiDuong('','','','','',''));
+            }
+            $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
+        });
+
+    });
+
+    $(function() {
+        $('#addquatrinh').click(function(){
+            number = $('#quatrinhcongtac').val();
+            for (i = 0; i < number; i++){
+                quatrinh.append(getQuaTrinhCongTac('','',''));
+            }
+            $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
+        });
+    });
+
+    $(function() {
+        $('#addquanhegiadinh').click(function(){
+            number = $('#quanhegiadinh').val();
+            for (i = 0; i < number; i++){
+                quanhegiadinh.append(getQuanHeGiaDinh('','','',''));
+            }
+            $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
+        });
+    });
+
+
+    $(function() {
+        $('#addquanhegiadinhvo').click(function(){
+            number = $('#quanhegiadinhvo').val();
+            for (i = 0; i < number; i++){
+                quanhegiadinhvo.append(getQuanHeGiaDinhVo('','','',''));
+            }
+            $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
+        });
+    });
+
+    $(function() {
+        $('#addkyluat').click(function(){
+            number = $('#kyluat').val();
+            for (i = 0; i < number; i++){
+                kyluat.append(getKyLuat('','','',''));
+            }
+            $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
+        });
+    });
+    $(function() {
+        $('#addkhenthuong').click(function(){
+            number = $('#khenthuong').val();
+            for (i = 0; i < number; i++){
+                khenthuong.append(getKhenThuong('','','',''));
+            }
+            $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
+        });
+    });
+
+    $(function() {
+        $('#addquatrinhluong').click(function(){
+            number = $('#quatrinhluong').val();
+            for (i = 0; i < number; i++){
+                quatrinhluong.append(getQuaTrinhLuong('','','','','','',''));
+            }
+            $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
+        });
+    });
+
+
+    function deleteContent(obj){
+        obj = $(obj);
+        obj.parent().parent().remove();
+    }
+
+
+    //using drapdrop file
+    var obj = $("#dragdrop");
+    var caption = $('#caption');
+    var counter = 0;
+    obj.on('dragenter', function (e)
+    {
+        e.stopPropagation();
+        e.preventDefault();
+        $(this).css('border', '2px solid #0B85A1');
+        caption.html('Thả tệp');
+    });
+    obj.on('dragover', function (e)
+    {
+        e.stopPropagation();
+        e.preventDefault();
+    });
+    obj.on('drop', function (e)
+    {
+        $(this).css('border', '2px dotted #0B85A1');
+        e.preventDefault();
+        var files = e.originalEvent.dataTransfer.files;
+        handleFileUpload(files,obj);
+    });
+    function handleFileUpload(files,obj)
+    {
+        for (var i = 0; i < files.length; i++)
+        {
+            var fd = new FormData();
+            fd.append('filename', files[i]);
+            sendFileToServer(fd);
+        }
+    }
+    $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
+
+    //Thêm dữ liệu từ file excel vào form
+    function addToForm(obj){
+        var lylich = obj[0];
+        var thongtinluong = obj[1];
+        var daotaoboiduong = obj[2];
+        var quatrinhcongtac = obj[3];
+        var qhgiadinh = obj[4];
+        var qhgiadinhvo = obj[5];
+        var thongtinkyluat = obj[6];
+        var thongtinkhenthuong = obj[7];
+        //console.log(lylich);
+
+        $('#sohieu').val(lylich[1].B);
+        $('#hoten').val(lylich[2].B);
+        $('#gioitinh option').map(function() {
+            if ($(this).text() == lylich[3].B) {
+                return this;
+            }
+
+        }).attr('selected', 'selected');
+
+        $('#mangach option').map(function() {
+            var txt = $(this).text();
+            txt = txt.substr(9);
+            if (txt == thongtinluong[4].B) {
+                return this;
+            }
+
+        }).attr('selected', 'selected');
+
+        $('#ngaysinh').val(lylich[8].B);
+        $('#cmnd').val(lylich[45].B);
+        $('#ngaycap').val(lylich[47].B);
+        $('#noicap').val(lylich[46].B);
+        $('#tengoikhac').val(lylich[4].B);
+        $('#noisinh').val(lylich[9].B);
+        $('#quequan').val(lylich[10].B);
+        $('#noiohiennay').val(lylich[11].B);
+        $('#dienthoai').val(lylich[12].B);
+        $('#dantoc').val(lylich[13].B);
+        $('#tongiao').val(lylich[14].B);
+        $('#thanhphangiadinh').val(lylich[15].B);
+        $('#capuyhientai').val(lylich[5].B);
+        $('#capuykiem').val(lylich[6].B);
+        $('#nghenghieptruocdo').val(lylich[16].B);
+        $('#ngaythamgiacachmang').val(lylich[20].B);
+        $('#ngayvaodang').val(lylich[21].B);
+        $('#ngayvaodangchinhthuc').val(lylich[22].B);
+        $('#ngaythamgiactxh').val(lylich[23].B);
+        $('#ngaynhapngu').val(lylich[24].B);
+        $('#ngayxuatngu').val(lylich[25].B);
+        $('#quanhamchucvu').val(lylich[26].B);
+        $('#chuyenmon').val(lylich[29].B);
+        $('#hocham option').map(function() {
+            if ($(this).text() == lylich[30].B) {
+                return this;
+            }
+        }).attr('selected', 'selected');
+        $('#hocvi option').map(function() {
+            if ($(this).text() == lylich[31].B) {
+                return this;
+            }
+        }).attr('selected', 'selected');
+
+        $('#lyluanchinhtri option').map(function() {
+            if ($(this).text() == lylich[32].B) {
+                return this;
+            }
+        }).attr('selected', 'selected');
+
+
+        $('#giaoducphothong option').map(function() {
+            if ($(this).text() == lylich[28].B) {
+                return this;
+            }
+        }).attr('selected', 'selected');
+
+        $('#ngoaingu').val(lylich[33].B);
+        $('#danhhieu').val(lylich[38].B);
+        $('#sotruong').val(lylich[39].B);
+        $('#congvieclaunhat').val(lylich[40].B);
+        $('#tinhtrangsuckhoe').val(lylich[41].B);
+        $('#chieucao').val(lylich[42].B);
+        $('#cannang').val(lylich[43].B);
+
+
+        $('#nhommau option').map(function() {
+            if ($(this).text() == lylich[44].B) {
+                return this;
+            }
+        }).attr('selected', 'selected');
+        $('#thuongbinhloai option').map(function() {
+            if ($(this).text() == lylich[48].B) {
+                return this;
+            }
+        }).attr('selected', 'selected');
+
+        if (lylich[49].B == 'Có'){
+            $('#giadinhlietsy').attr('checked', 'checked');
+        }
+
+        $('#dacdiemlichsu').val(lylich[51].B);
+        $('#lamviecchedocu').val(lylich[52].B);
+        $('#quanhenuocngoai').val(lylich[54].B);
+        $('#thannhannuocngoai').val(lylich[55].B);
+
+
+        $('#luongnam').val(lylich[57].B);
+        $('#nguonkhac').val(lylich[58].B);
+        $('#nhacap').val(lylich[60].B);
+        $('#dientichnhacap').val(lylich[61].B);
+        $('#nhamua').val(lylich[62].B);
+        $('#dientichnhamua').val(lylich[63].B);
+        $('#datcap').val(lylich[65].B);
+        $('#dattumua').val(lylich[66].B);
+        $('#datsxkd').val(lylich[67].B);
+
+
+        //console.log(thongtinluong);
+        //Thong tin luong
+        $('#ngay_tbtd').val(thongtinluong[1].B);
+        $('#ngay_bienche').val(thongtinluong[2].B);
+        $('#ngay_nangbac').val(thongtinluong[3].B);
+        /*$('#mangach option').map(function() {
+            if ($(this).text() == thongtinluong[4].B) return this;
+        }).attr('selected', 'selected');*/
+        $('#bacluong').val(thongtinluong[5].B);
+        $('#hesoluong').val(thongtinluong[6].B);
+        $('#hesophucap').val(thongtinluong[7].B);
+        $('#phucapvuotkhung').val(thongtinluong[8].B);
+        $('#mucluongkhoan').val(thongtinluong[9].B);
+
+
+        //Đào tạo bồi dưỡng
+        console.log(daotaoboiduong);
+        var size = daotaoboiduong.length;
+        for (i = 1; i < size; i++){
+            if(!checkAndFixNull(daotaoboiduong[i]))
+            daotao.append(getDaoTaoBoiDuong(daotaoboiduong[i].A, daotaoboiduong[i].B, daotaoboiduong[i].C, daotaoboiduong[i].D, daotaoboiduong[i].E, daotaoboiduong[i].F));
+        }
+
+        size = quatrinhcongtac.length;
+        for (i = 1; i < size; i++){
+            if(!checkAndFixNull(quatrinhcongtac[i]))
+            quatrinh.append(getQuaTrinhCongTac(quatrinhcongtac[i].A, quatrinhcongtac[i].B, quatrinhcongtac[i].C));
+        }
+
+        size = qhgiadinh.length;
+        for (i = 1; i < size; i++){
+            if(!checkAndFixNull(qhgiadinh[i]))
+            quanhegiadinh.append(getQuanHeGiaDinh(qhgiadinh[i].A, qhgiadinh[i].B, qhgiadinh[i].C, qhgiadinh[i].D));
+        }
+
+        size = qhgiadinhvo.length;
+        for (i = 1; i < size; i++){
+            if(!checkAndFixNull(getQuanHeGiaDinhVo[i]))
+            quanhegiadinhvo.append(getQuanHeGiaDinhVo(qhgiadinhvo[i].A, qhgiadinhvo[i].B, qhgiadinhvo[i].C, qhgiadinhvo[i].D));
+        }
+
+        size = thongtinkyluat.length;
+        for (i = 1; i < size; i++){
+            if(!checkAndFixNull(thongtinkyluat[i]))
+            kyluat.append(getKyLuat(thongtinkyluat[i].A, thongtinkyluat[i].B, thongtinkyluat[i].C, thongtinkyluat[i].D));
+        }
+        size = thongtinkhenthuong.length;
+        for (i = 1; i < size; i++){
+            if(!checkAndFixNull(thongtinkhenthuong[i]))
+            khenthuong.append(getKhenThuong(thongtinkhenthuong[i].A, thongtinkhenthuong[i].B, thongtinkhenthuong[i].C, thongtinkhenthuong[i].D));
+        }
+
+
+        $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
+    }
+
+    function checkAndFixNull(data) {
+        var isAllNull = true;
+        for (var prop in data) {
+            if(data[prop] == null || typeof(data[prop]) == 'undefined') {
+                data[prop] = '';
+            }
+            else {
+                isAllNull = false;
+            }
+        }
+
+        return isAllNull;
+    }
+
+    function sendFileToServer(formData){
+        var area = $('#info');
+        $.ajax({
+            type: "POST",
+            url: "<?php echo $this->basePath('manager/canbo/getlylichfromfile'); ?>",
+            data: formData,
+            contentType : false,
+            processData : false,
+            success: function( data )
+            {
+                if (data == 'Error'){
+
+                    $('#caption').text('Tệp không hợp lệ!');
+                    return;
+                }
+                setTimeout(function(){
+                    $('#caption').html('Thả tệp danh sách vào đây');
+                }, 3000);
+                var obj = JSON.parse(data);
+                addToForm(obj);
+            }
+        });
+    }
+
+    $( "#file-input" ).submit(function(e){
+        $('#loading').fadeIn(300);
+        var formData = new FormData(this);
+        $.ajax({
+            url: "<?php echo $this->basePath('manager/canbo/getlylichfromfile'); ?>",
+            type: 'POST',
+            data:  formData,
+            mimeType:"multipart/form-data",
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data, textStatus, jqXHR)
+            {
+                if (data == 'Error'){
+                    alert('Tệp không hợp lệ');
+                }
+                else{
+                    var obj = JSON.parse(data);
+                    addToForm(obj);
+                }
+                $('#loading').fadeOut(300);
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+            }
+        });
+        e.preventDefault(); //Prevent Default action.
+    });
+</script>

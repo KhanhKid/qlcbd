@@ -1,0 +1,37 @@
+<div class="block">
+    <h2 class="title">Tài khoản người dùng</h2>
+    <div class="block-content">
+        <ul class="metro">
+            <li title="Thông tin các user">
+                <a href="<?php echo $this->basePath('admin/user/thongtin'); ?>">
+                    Thông tin user
+                    <span><i class="fa fa-info-circle fa-5x"></i></span>
+                </a>
+            </li>
+            <li title="Tạo Tài Khoản (không cần qua xác nhận)">
+                <a href="<?php echo $this->basePath('admin/user/create-account'); ?>">
+                    Tạo tài khoản
+                    <span ><i class="fa fa-user-plus fa-5x"></i></span>
+                </a>
+            </li>
+            <li title="Đổi mật khẩu user">
+                <a href="<?php echo $this->basePath('admin/user/change-password'); ?>">
+                    Đổi mật khẩu
+                    <span><i class="fa fa-lock fa-5x"></i></span>
+                </a>
+            </li>
+            <li title="Cấp Quyền Hạn cho user">
+                <a href="<?php echo $this->basePath('admin/user/authorization'); ?>">
+                    Cấp quyền
+                    <span><i class="fa fa-users fa-5x"></i></span>
+                </a>
+            </li>
+            <li title="Phân quyền cho các nhóm người dùng">
+                <a href="<?php echo $this->basePath('admin/user/access-control'); ?>">
+                    Phân quyền
+                    <span ><i class="fa fa-user-secret fa-5x"></i></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

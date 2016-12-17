@@ -1,0 +1,99 @@
+﻿<?php
+$templateURL = $this->basePath('template/');
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hệ thống quản lý cán bộ TPHCM</title>
+    <script src="<?php echo $templateURL;?>js/jquery-1.9.1.js"></script>
+    <script src="<?php echo $templateURL;?>js/jqueryui/js/jquery-ui-1.10.3.custom.js"></script>
+
+    <?php echo $this->headScript() ?>
+
+    <link rel="stylesheet" href="<?php echo $templateURL;?>js/jqueryui/css/qlcbd-theme/jquery-ui-1.10.3.custom.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo $templateURL;?>css/style.css" type="text/css">
+</head>
+<body>
+<div id="loading"></div>
+<!--Header-->
+<div id="header">
+    <div class="content">
+        <div class="title">
+            <a class="logo" href="<?php echo $this->basePath(); ?>">Hệ thống Quản lý cán bộ</a>
+        </div>
+        <div class="navigation">
+            <ul class="menu">
+                <li class="first"><a href="<?php echo $this->basePath('application/user/account'); ?>">Tài khoản</a></li>
+                <li class="last"><a href="<?php echo $this->basePath('application/user/logout'); ?>">Đăng xuất</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--End header-->
+<!--Wrapper-->
+<div id="wrapper">
+    <div class="content">
+        <div class="sidebar">
+            <div class="item main-menu">
+                <h3 class="title">Trình đơn chính</h3>
+                <div class="itemContent">
+                    <ul class="menu">
+                        <li><a href="<?php echo $this->basePath(); ?>">Trang chủ</a></li>
+                        <li><a href="<?php echo $this->basePath('manager/canbo'); ?>">Quản lý cán bộ</a></li>
+                        <li><a href="<?php echo $this->basePath('manager/cocau'); ?>">Quản lý cơ cấu</a></li>
+                        <li><a href="<?php echo $this->basePath('manager/search'); ?>">Tra cứu</a></li>
+                        <li><a href="<?php echo $this->basePath('manager/baocao'); ?>">Báo cáo thống kê</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="item configure-menu">
+                <h3 class="title">Cấu hình hệ thống</h3>
+                <div class="itemContent">
+                    <ul class="menu">
+                        <li><a href="<?php echo $this->basePath('admin/user'); ?>">Tài khoản</a></li>
+                        <li>Bảo trì</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="item information-menu">
+                <h3 class="title">Thông tin hệ thống</h3>
+                <div class="itemContent">
+                    <ul>
+                        <li>Số lượng cán bộ: 1500</li>
+                        <li>Online: 5</li>
+                        <li>Số lượng đơn vị: 100</li>
+                        <li>Bản sao lưu: 20</li>
+                        <li>Dung lượng dữ liệu: 20%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <?php echo $this->content; ?>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!--End wrapper-->
+<!--Footer-->
+<div id="footer">
+    <div class="content">
+        <div class="author">
+            <a class="logo" href="#"></a>
+        </div>
+
+        <div class="copyright">
+            <p>Hệ thống Quản lý Cán bộ Thành Đoàn TPHCM</p>
+            <p>Copyright &#169 2013</p>
+            <p>Xây dựng bởi Đoàn trường ĐH Công nghệ Thông tin - ĐHQG-HCM</p>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+</div>
+<!--End footer-->
+<div id="totopbutton">K
+</div>
+<script src="<?php echo $templateURL;?>js/animation.js"></script>
+</body>
+</html>

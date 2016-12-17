@@ -1,0 +1,22 @@
+<div class="block">
+    <h2 class="title">Thông tin loại hình ban</h2>
+    <div class="block-content">
+        <table id="danhsach">
+            <tr>
+                <td>Tên Loại Hình Ban</td>
+                <td><?php echo $this->data['Ten_Loai_Hinh_Ban'] ?></td>
+            </tr>
+            <tr>
+                <td>Kiểu Loại Hình Ban</td>
+                <td><?php echo $this->data['Kieu_Loai_Hinh_Ban'] ?></td>
+            </tr>
+            <tr>
+                <td>Mô Tả</td>
+                <td><?php echo $this->data['Mo_Ta'] ?></td>
+            </tr>
+        </table>
+        <button type="button" onclick="tableToExcel('danhsach', 'Download')">Xuất thông tin</button>
+        <a href="<?php echo $this->basePath('manager/cocau/chinhsualoaihinhban/') . $this->data['Ma_Loai_Ban']; ?>" class="button">Chỉnh sửa thông tin</a>
+        <a href="<?php echo $this->basePath('manager/cocau/loaihinhban/'); ?>" class="button">Xem danh sách</a>
+    </div>
+</div>

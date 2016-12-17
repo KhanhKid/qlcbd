@@ -1,0 +1,442 @@
+<style>
+    .custom-combobox {
+        position: relative;
+        display: inline-block;
+        margin-right: 30px;
+    }
+    .custom-combobox-toggle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-left: -1px;
+        padding: 0;
+        /* support: IE7 */
+        *height: 1.7em;
+        *top: 0.1em;
+    }
+    .custom-combobox-input {
+        margin: 0;
+        padding: 0.3em;
+    }
+
+    .ui-autocomplete {
+        max-height: 200px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    #overlay {
+        color: #000;
+    }
+    #overlay h2{
+        margin-left: 20px;
+    }
+</style>
+
+
+<?php
+//tool
+function formatDate($date){
+    return $date = (null==$date)?null:date('d/m/Y', strtotime($date));
+}
+?>
+<div class="block">
+    <h2 class="title">Quản lý luân chuyển của cán bộ</h2>
+    <div class="block-content">
+        <p>Họ tên cán bộ: <?=$this->canbo['Ho_Ten_CB']?></p>
+        <p>Ngày sinh: <?=$this->canbo['Ngay_Sinh']?></p>
+        <p>CMND: <?=$this->canbo['So_CMND']?></p>
+        <fieldset>
+            <legend>Công tác hiện tại của cán bộ</legend>
+            <div class="content">
+                <table>
+                    <th>Thời gian tiếp nhận</th>
+                    <th>Bộ phận</th>
+                    <th>Đơn vị</th>
+                    <th>Chức vụ</th>
+                    <th>Dạng công tác</th>
+                    <th>Chuyển đến từ bộ phận</th>
+                    <th>Từ Đơn vị</th>
+                    <th>Với Chức vụ</th>
+                    <th>(rời khỏi)</th>
+                    <?php
+                    if($this->congtachientai){
+                        foreach($this->congtachientai as $value){
+                            echo '<tr'; 
+                            if($value['La_Cong_Tac_Chinh']) echo ' class="main-job">';
+                            else echo '>';
+                            echo '<td class="date_transfer" >',formatDate($value['Ngay_Gia_Nhap']),'</td>
+                                <input class="banID_transfer" type="hidden" value="',$value['Ma_Ban'],'"/>
+                                <td>',$value['Ten_Ban'],'</td>
+                                <td>',$value['Ten_Đon_Vi'],'</td>
+                                <td>',$value['Ten_Chuc_Vu'],'</td>
+                                <td>',(1==$value['La_Cong_Tac_Chinh'])?'công tác chính':'kiêm nhiệm','</td>
+                                <td>',$value['Ten_Ban_TD'],'</td>
+                                <td>',$value['Ten_Don_Vi_TD'],'</td>
+                                <td>',$value['Ten_Chuc_Vu_TD'],'</td>
+                                <td>
+                                    <input type="text" class="ngaythang" name = "ngayroikhoi"  size="10" value="',formatDate($value['Ngay_Roi_Khoi']),'" />
+                                    <button type="button" onclick="editCell(this)" class="edit"/>
+                                </td>
+                                <td>
+
+                                    <button type="button" onclick="deleteRow(this)" class="delete"/>
+                                </td>
+                            </tr>';
+                        }
+                    }
+                    ?>
+                </table>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Cập nhật chức vụ cán bộ</legend>
+            <div class="content">
+            <form method="POST">
+                <div class="group">
+                    <span>Ngày chuyển</span>
+                    <input type="text" id="ngaychuyendi" class="ngaythang" name="ngaydi" value="<?=date('d/m/Y')?>"/>
+                </div>
+
+                <div class="group">
+                    <span>Chuyển đến đơn vị</span>
+                    <select id="donvi" class="combobox" name="donvi" >
+
+                        <?php
+                        //Load "Don Vi" list for Dropbox
+                        foreach($this->dsDonvi as $donvi){
+                            echo '<option value="', $donvi['Ma_ĐV'],'">', $donvi['Ten_Đon_Vi'],'</option>';
+                        }
+                        //Move to out 
+                        ?>
+                    </select>
+                </div>
+
+                <div class="group">
+                    <span>Bộ phận chuyển đến</span>
+                    <select id="banden" name="banden" >
+
+                        <?php
+                        //Load "Don Vi" list for Dropbox
+                        foreach($this->dsBanThuocThanhDoan as $element){
+                            echo '<option value="', $element['Ma_Ban'],'">', $element['Ten_Ban'],'</option>';
+                        }
+
+                        ?>
+                    </select>
+                </div>
+
+                <div class="group">
+                    <span>Bổ nhiệm chức vụ</span>
+                    <select id="chucvu" name="chucvu" >
+                        <?php
+                        foreach ($this->dsChucvu as $element) {
+
+                            echo '<option value="', $element['Ma_Chuc_Vu'], '">',$element['Ten_Chuc_Vu'], '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="clear"></div>
+                <div class="group">
+                    <span>Lý do chuyển đến</span>
+                    <textarea name="lydo" maxlength="254"> </textarea>
+                </div>
+                <div class="clear"></div>
+                <div class="group">
+                    <span>Chuyển từ bộ phận</span>
+                    <select name="thongtindi" >
+                        <option value=''>(từ bên ngoài)</option>
+                        <?php
+                        //Load "Don Vi" list for Dropbox
+                        foreach($this->congtachientai as $element){
+                            if(!$element['La_Cong_Tac_Chinh'])
+                            echo '<option value="',$element['Ma_Ban'],' ',formatDate($element['Ngay_Gia_Nhap']),'">',
+                                    '<tr>
+                                            <td>',$element['Ten_Chuc_Vu'],'</td>
+                                            <td> thuộc ',$element['Ten_Ban'],'</td>
+                                            <td>,',$element['Ten_Đon_Vi'],'</td>
+                                    </tr>
+
+                                  </option>';
+                        }
+
+                        ?>
+                    </select>
+                </div>
+                <div class="clear"></div>
+                <p id='message'>
+                    <mark > <?php echo $this->message?> <mark>
+                </p>
+                <br/>
+                <button type="submit" align="right" >Luân chuyển cán bộ này</button>
+            </form>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Luân chuyển cán bộ</legend>
+            <div class="content">
+            <form method="POST">
+                <div class="group">
+                    <span>Ngày chuyển</span>
+                    <input type="text" id="ngaychuyendi" class="ngaythang" name="ngaydi" value="<?=date('d/m/Y')?>"/>
+                </div>
+
+                <div class="group">
+                    <span>Chuyển đến đơn vị</span>
+                    <select id="donvi" class="combobox" name="donvi" >
+
+                        <?php
+                        //Load "Don Vi" list for Dropbox
+                        foreach($this->dsDonvi as $donvi){
+                            echo '<option value="', $donvi['Ma_ĐV'],'">', $donvi['Ten_Đon_Vi'],'</option>';
+                        }
+                        //Move to out 
+                        ?>
+                    </select>
+                </div>
+
+                <div class="group">
+                    <span>Bộ phận chuyển đến</span>
+                    <select id="banden" name="banden" >
+
+                        <?php
+                        //Load "Don Vi" list for Dropbox
+                        foreach($this->dsBanThuocThanhDoan as $element){
+                            echo '<option value="', $element['Ma_Ban'],'">', $element['Ten_Ban'],'</option>';
+                        }
+
+                        ?>
+                    </select>
+                </div>
+
+                <div class="group">
+                    <span>Bổ nhiệm chức vụ</span>
+                    <select id="chucvu" name="chucvu" >
+                        <?php
+                        foreach ($this->dsChucvu as $element) {
+
+                            echo '<option value="', $element['Ma_Chuc_Vu'], '">',$element['Ten_Chuc_Vu'], '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="clear"></div>
+                <div class="group">
+                    <span>Lý do chuyển đến</span>
+                    <textarea name="lydo" maxlength="254"> </textarea>
+                </div>
+                <div class="clear"></div>
+                <div class="group">
+                    <span>Chuyển từ bộ phận</span>
+                    <select name="thongtindi" >
+                        <option value=''>(từ bên ngoài)</option>
+                        <?php
+                        //Load "Don Vi" list for Dropbox
+                        foreach($this->congtachientai as $element){
+                            if($element['La_Cong_Tac_Chinh'])
+                            echo '<option value="',$element['Ma_Ban'],' ',formatDate($element['Ngay_Gia_Nhap']),'">',
+                                    '<tr>
+                                            <td>',$element['Ten_Chuc_Vu'],'</td>
+                                            <td> thuộc ',$element['Ten_Ban'],'</td>
+                                            <td>,',$element['Ten_Đon_Vi'],'</td>
+                                    </tr>
+
+                                  </option>';
+                        }
+
+                        ?>
+                    </select>
+                </div>
+                <div class="clear"></div>
+                <p id='message'>
+                    <mark > <?php echo $this->message?> <mark>
+                </p>
+                <br/>
+                <button type="submit" align="right" >Luân chuyển cán bộ này</button>
+            </form>
+            </div>
+        </fieldset>
+
+
+        <fieldset>
+            <legend>Lịch sử luân chuyển của cán bộ</legend>
+            <div class="content">
+                <table>
+                    <th>Thời gian chuyển đến</th>
+                    <th>Thời gian chuyển đi</th>
+                    <th>Bộ phận</th>
+                    <th>Đơn vị</th>
+                    <th>Chức vụ</th>
+                    <th>Dạng công tác</th>
+                    <th>Chuyển đến từ bộ phận</th>
+                    <th>Từ Đơn vị</th>
+                    <th>Chức vụ trước đó</th>
+                    <?php
+                    if($this->quatrinhluanchuyen){
+                        foreach($this->quatrinhluanchuyen as $value){
+                            echo '<tr>
+                                <td class="date_transfer" >',formatDate($value['Ngay_Gia_Nhap']),'</td>
+                                <td >',formatDate($value['Ngay_Roi_Khoi']),'</td>
+                                <input class="banID_transfer" type="hidden" value="',$value['Ma_Ban'],'"/>
+                                <td>',$value['Ten_Ban'],'</td>
+                                <td>',$value['Ten_Đon_Vi'],'</td>
+                                <td>',$value['Ten_Chuc_Vu'],'</td>
+                                <td>',(1==$value['La_Cong_Tac_Chinh'])?'công tác chính':'kiêm nhiệm','</td>
+                                <td>',$value['Ten_Ban_TD'],'</td>
+                                <td>',$value['Ten_Don_Vi_TD'],'</td>
+                                <td>',$value['Ten_Chuc_Vu_TD'],'</td>
+                                <td><button type="button" onclick="deleteRow(this)" class="delete"/></td>
+                            </tr>';
+                        }
+                    }
+                    ?>
+                </table>
+            </div>
+        </fieldset>
+
+    </div>
+</div>
+
+<script>
+    //==Functions=======================
+    /**
+     *
+     * @param obj
+     */
+    function deleteRow(obj){
+        $('#loading').fadeIn(300);
+        //remind user
+        if(!confirm("Xác nhận xóa dữ liệu?")) return false;//Cancel submit
+
+        //==============
+        obj = $(obj);
+        row_element = obj.parent().parent(); //get row
+
+        //get data of this row
+        var id_transfer     = "<?=$this->id?>";
+        var banID_transfer = row_element.find($('.banID_transfer')).val();
+        var date_transfer   = row_element.find($('.date_transfer')).text();
+
+
+
+        //Ajax
+        Url = "<?php echo $this->basePath('manager/canbo/xoa-luanchuyen'); ?>";
+        $.post(
+            Url,
+            {
+                canbo_id:   id_transfer,
+                ban_id:     banID_transfer,
+                date:       date_transfer
+            },
+            function(data){
+                //$('#message').html(data);
+                row_element.remove();
+                $('#loading').fadeOut(300);
+            }
+        );
+    }
+
+
+    /**
+     *
+     * @param obj
+     */
+    function editCell(obj){
+        //remind user
+        if(!confirm("Xác nhận chuyển cán bộ này đi?")) return false;//Cancel submit
+
+        //==============
+        obj = $(obj);
+        row_element = obj.parent().parent(); //get row
+
+        //get data of this row
+        var id_transfer     = "<?=$this->id?>";
+        var banID_transfer = row_element.find($('.banID_transfer')).val();
+        var joiningDate_transfer   = row_element.find($('.date_transfer')).text();
+
+        var leavingDate_transfer   = row_element.find($('.ngaythang')).val();
+        //alert(leavingDate_transfer);
+
+        //Ajax
+        Url = "<?php echo $this->basePath('manager/canbo/roikhoi-ban'); ?>";
+        var r = $.post(
+            Url,
+            {
+                canbo_id:   id_transfer,
+                ban_id:     banID_transfer,
+                joining_date:   joiningDate_transfer,
+                leaving_date:   leavingDate_transfer
+            },
+            function(data){
+                //alert(data);
+                //$('#message').html(data);
+                alert('chuyển cán bộ đi thành công');
+            }
+        );
+
+
+    }
+
+    /**
+     * load BCH List base on DonVi
+     * @param obj
+     * @param id of Don Vi
+     */
+    function loadBchList(id){
+        $('#loading').fadeIn(300);
+
+        $.ajax(
+            {
+                url : "<?php echo $this->basePath('manager/cocau/get-ban-thuoc-donvi/'); ?>" + id,
+                type: "GET",
+                //dataType: 'json',
+                success:function(returnData)
+                {
+                    var data = JSON.parse(returnData);
+                    console.log(data);
+
+                    var size = data.length;
+                    var html_string = '';
+
+                    if('false'!=data){
+                        $.each(data, function(index, value) {
+                            html_string += '<option value="' + value.Ma_Ban+'">' + value.Ten_Ban+'</option>';
+                        });
+                    }
+
+
+
+                    $('#banden').html(html_string); //add html to tag
+
+
+                    $('#loading').fadeOut(300);
+                }
+            }
+        );
+    }
+
+    //==Execute====================
+    $(function(){
+        //===Event Handling================
+        $('#donvi').combobox(
+            {
+                select: function (event, ui) {
+                    loadBchList($('#donvi option:selected').val());
+                }
+            }
+        );
+
+        //===Set Properties========
+        $('.ngaythang').datepicker({dateFormat: 'dd/mm/yy'});
+        $('.combobox' ).combobox();
+
+
+
+    });
+    //onchange="loadBchList(this,this.find('#donvi option:selected').val())"
+
+</script>

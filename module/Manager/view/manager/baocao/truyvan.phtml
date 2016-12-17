@@ -1,0 +1,366 @@
+﻿<style type="text/css" title="currentStyle">
+    @import "<?php echo ROOT_PATH; ?>public/script/datatable/media/css/demo_page.css";
+    @import "<?php echo ROOT_PATH; ?>public/script/datatable/media/css/demo_table.css";
+    @import "<?php echo ROOT_PATH; ?>public/script/datatable/extras/TableTools/media/css/TableTools.css";
+    @import "<?php echo ROOT_PATH; ?>public/script/datatable/extras/ColReorder/media/css/ColReorder.css";
+    thead input { width: 100% }
+    input.search_init { color: #999 }
+    .div-left{
+        width: 180px;
+        height: 200px;
+        float: left;
+    }
+    .div-left .thongtin{
+        max-height: 200px;
+        max-width: 180px;
+        overflow: auto;
+        border: solid 1px #ccc;
+    }
+    .div-left .thongtin label{
+        width: 100%;
+        display: block;
+    }
+
+    .div-right{
+        width: 460px;
+        float: right;
+    }
+    .div-right .content{
+        width: 100%;
+    }
+    #result{
+        margin-top: 30px !important;
+        width: 100%;
+        min-height: 70px;
+        border: 1px solid #cccccc;
+    }
+    #print{
+        /*display: none;*/
+    }
+
+
+</style>
+<script>
+    var numDieukien = 0;
+    var thongtinhienthi = new Array();
+
+    var thongtintruyvan = <?php echo json_encode($this->thongtintruyvan);?>;
+    var info            = $('#info');
+    console.log(thongtintruyvan);
+
+    var defaultHTML = '';
+    var size    = thongtintruyvan.length;
+    var defaultObj = thongtintruyvan[0];
+
+
+    defaultHTML += '<tr>';
+    defaultHTML += '<td>';
+    defaultHTML += '<select name="truyvan[]" onchange="doiDieuKienTruyVan(this)">';
+    for (i = 0; i < size; i++){
+        defaultHTML += '<option value="' + thongtintruyvan[i].name + '">' + thongtintruyvan[i].text + '</option>';
+    }
+    defaultHTML += '</td>';
+    defaultHTML += '<td class="loaidieukien">';
+    defaultHTML += '<select name="kieusosanh[]" selected><option value="bang">Bằng</option></select>';
+    defaultHTML += '</td>';
+    defaultHTML += '<td class="giatridieukien">';
+    size        = defaultObj.values.length;
+    var values  = defaultObj.values;
+    defaultHTML += '<select name="giatri[]">';
+    for (i = 0; i < size; i++){
+        defaultHTML += '<option value="' + values[i].value + '">' + values[i].text + '</option>';
+    }
+    defaultHTML += '</select>';
+    defaultHTML += '</td>';
+    defaultHTML += '<td>';
+    defaultHTML += '<button type="button" class="delete" title="Xóa" onclick="removeRow(this)"></button>';
+    defaultHTML += '</td>';
+    defaultHTML += '</tr>';
+
+
+    var dieukien = 0;
+
+
+    function loaiDieuKien(type){
+        var html = '';
+        switch (type){
+            case 'select':
+                html = '<select name="kieusosanh[]"><option value="bang">Bằng</option></select>';
+                break;
+            case 'text':
+                html = '<select name="kieusosanh[]"><option value="tuongtu">Tương tự</option><option value="bang">Bằng</option></select>';
+                break;
+            default:
+                html = '<select name="kieusosanh[]"><option value="bang">Bằng</option><option value="nhohon">Nhỏ hơn</option><option value="lonhon">Lớn hơn</option></select>';
+                break;
+        }
+        return html;
+    }
+    function giatriDieuKien(index){
+        var html = '';
+        var obj = thongtintruyvan[index];
+        if (obj.type == 'text' || obj.type == 'number'){
+            html = '<input type="text" name="giatri[]" />';
+        }
+        else if (obj.type == 'date'){
+            html = '<input type="text" class="ngaythang" name="giatri[]" value="<?php echo date('Y-m-d'); ?>" />';
+        }
+        else{
+            html += '<select name="giatri[]">';
+            var size = obj.values.length;
+            console.log(obj);
+            for (i = 0; i < size; i++){
+                html += '<option value="' + obj.values[i].value + '">' + obj.values[i].text + '</option>';
+            }
+            html += '</select>';
+        }
+        return html;
+    }
+
+    function doiDieuKienTruyVan(obj){
+        var obj     = $(obj);
+        var index   = (obj[0].selectedIndex);
+        //alert(loaiDieuKien(thongtintruyvan[index].type));
+        obj.parent().parent().find('.loaidieukien').html(loaiDieuKien(thongtintruyvan[index].type));
+        obj.parent().parent().find('.giatridieukien').html(giatriDieuKien(index));
+        $(".ngaythang").datepicker({dateFormat: 'yy-mm-dd'});
+
+    }
+
+    function kieuTruyVan(type){
+        var html = '';
+        switch (type){
+            case 'select':
+                html = '<select name="kieu[]" disabled="true"><option value="bang">Bằng</option></select>';
+                break;
+            case 'text' :
+                html = '<select name="kieu[]">\
+                            <option value="bang">Bằng</option>\
+                            <option value="tuongtu">Tương tự</option>\
+                        </select>';
+                break;
+            case 'date':
+
+            case 'number':
+                html = '<select name="kieu[]">\
+                            <option value="bang">Bằng</option>\
+                            <option value="lonhon">Lớn hơn</option>\
+                            <option value="nhohon">Nhỏ hơn</option>\
+                        </select>';
+                break
+            default:
+                html = '<select name="kieu[]">\
+                            <option value="bang">Bằng</option>\
+                            <option value="tuongtu">Tương tự</option>\
+                            <option value="lonhon">Lớn hơn</option>\
+                            <option value="nhohon">Nhỏ hơn</option>\
+                        </select>';
+                break;
+        }
+        return html;
+    }
+
+
+
+    function removeRow(obj){
+        dieukien--;
+        obj = $(obj);
+        obj.parent().parent().remove();
+    }
+
+    function checkValue(obj){
+        return true;
+
+    }
+</script>
+<div class="block">
+    <h2 class="title">Báo cáo truy vấn</h2>
+    <div class="block-content">
+        <form method="post" action="gettruyvan" onsubmit="return checkValue()" id="truyvan">
+            <div class="div-left">
+                <label><input type="checkbox" checked="checked" id="selectall" />Thông tin hiển thị: </label>
+                <div class="thongtin">
+                    <?php
+                    foreach ($this->thongtinhienthi as $key => $value){
+                        echo '<label><input class="thongtinhienthi" name="hienthi[]" type="checkbox" checked="checked" value="' , $key , '" text="' , $value['text'] , '" />' , $value['text'] , '</label>';
+                    }
+                    ?>
+                </div>
+
+            </div>
+            <div class="div-right">
+                <fieldset>
+                    <legend>Thông tin truy vấn</legend>
+                    <div class="content">
+                        <table>
+                            <th>Thông tin</th>
+                            <th>Kiểu</th>
+                            <th>Giá trị</th>
+                            <th>Thao tác</th>
+                            <tbody id="info">
+                            </tbody>
+                        </table>
+                    </div>
+                </fieldset>
+                <button type="button" id="add">Thêm điều kiện</button>
+                <button>Thống kê</button>
+            </div>
+
+        </form>
+        <div class="clear"></div>
+        <fieldset id="result">
+            <legend class="counter">Kết quả truy vấn</legend>
+            <div class="content">
+                <div class="loading">
+
+                </div>
+                <div id="data">
+
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+<script>
+
+    $('#add').click(function(){
+        dieukien++;
+        $('#info').append(defaultHTML);
+    });
+
+    $('#selectall').click(function() {
+        var c = this.checked;
+        $(this).parent().parent().find('.thongtinhienthi').prop('checked',c);
+    });
+
+    $("#truyvan").submit(function(e)
+    {
+        var header = new Array();
+        $(".thongtin input[type=checkbox]").each(
+            function() {
+                if (this.checked){
+                    header.push($(this).attr('text'));
+                }
+            }
+        );
+        if (header.length == 0){
+            alert('Vui lòng chọn ít nhất 1 thông tin hiển thị');
+            e.preventDefault();	//STOP default action
+            return;
+        }
+
+        var postData = $(this).serializeArray();
+        var formURL  = $(this).attr("action");
+        var result   = $('#result');
+        var data     = $('#data');
+        result.find('.loading').fadeIn(300);
+        data.hide();
+        data.html('');
+
+        $.ajax(
+            {
+                url : formURL,
+                type: "POST",
+                data : postData,
+                //dataType: 'json',
+                success:function(returnData)
+                {
+                    //console.log(returnData);
+                    //return;
+                    //data.html(returnData);
+                    if(returnData == 'null'){
+                        result.find('.loading').hide();
+                        data.html("Không tìm thấy dữ liệu phù hợp");
+                        data.fadeIn(300);
+                        return;
+                    }
+
+                    returnData = JSON.parse(returnData);
+                    var html = '';
+
+                    html += '<table id="ketquathongke" cellpadding="0" cellspacing="0" border="0" class="display">';
+
+
+                    var size = header.length;
+                    html += '<thead>';
+                    var input = '';
+                    var title = '';
+                    for (i = 0; i < size; i++){
+                        title += '<th>' + header[i] + '</th>';
+                        input += '<td><input type="text" value="" class="search_init" /></td>';
+                    }
+                    html += '<tr>' + input + '</tr>';
+                    html += '<tr>' + title + '</tr>';
+                    html += '</thead>';
+
+
+                    size = returnData.length;
+                    for (i = 0; i < size; i++){
+                        html += '<tr>';
+                        var cols = returnData[i].length;
+                        for (j = 0; j < cols; j++){
+                            html += '<td>' + returnData[i][j] + '</td>';
+                        }
+                        html += '</tr>';
+                    }
+                    //html+='<tr><td><strong>Tổng cộng: </strong></td><td colspan="' + (header.length - 1) + '"><strong>' + returnData.length + '</strong></td></tr>'
+                    html += '</table>';
+                    result.find('.loading').hide();
+                    result.find('.counter').html('Kết quả truy vấn (' + size + ')');
+                    data.html(html);
+                    data.fadeIn(300);
+
+                    var oTable;
+
+                    /* Add the events etc before DataTables hides a column */
+                    $("thead input").keyup( function () {
+                        /* Filter on the column (the index) of this element */
+                        oTable.fnFilter( this.value, oTable.oApi._fnVisibleToColumnIndex(
+                            oTable.fnSettings(), $("thead input").index(this) ) );
+                    } );
+
+                    /*
+                     * Support functions to provide a little bit of 'user friendlyness' to the textboxes
+                     */
+                    $("thead input").each( function (i) {
+                        this.initVal = this.value;
+                    } );
+
+                    $("thead input").focus( function () {
+                        if ( this.className == "search_init" )
+                        {
+                            this.className = "";
+                            this.value = "";
+                        }
+                    } );
+
+                    $("thead input").blur( function (i) {
+                        if ( this.value == "" )
+                        {
+                            this.className = "search_init";
+                            this.value = this.initVal;
+                        }
+                    } );
+
+                    oTable = $('#ketquathongke').dataTable( {
+                        "sDom": 'T<"clear">lfrtip',
+                        "oTableTools": {
+                            //"sSwfPath": "<?php echo ROOT_PATH; ?>public/script/datatable/extras/TableTools/media/as3/lib/AlivePDF.swc",
+                            "sSwfPath": "<?php echo ROOT_PATH; ?>public/script/datatable/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
+                            "aButtons": [
+                                'copy', 'xls'
+                            ]
+                        }
+                        //"sPaginationType": "full_numbers"
+                    } );
+
+                    //console.log(returnData);
+                },
+                error: function(data, errorThrown)
+                {
+                    alert('request failed :'+errorThrown);
+                }
+            });
+        e.preventDefault();	//STOP default action
+    });
+</script>

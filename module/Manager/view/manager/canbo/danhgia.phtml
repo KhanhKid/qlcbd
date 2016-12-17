@@ -1,0 +1,165 @@
+<style>
+    .custom-combobox {
+        position: relative;
+        display: inline-block;
+        margin-right: 30px;
+    }
+    .custom-combobox-toggle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-left: -1px;
+        padding: 0;
+        /* support: IE7 */
+        *height: 1.7em;
+        *top: 0.1em;
+    }
+    .custom-combobox-input {
+        margin: 0;
+        padding: 0.3em;
+    }
+
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+</style>
+
+<div class="block" xmlns="http://www.w3.org/1999/html">
+    <h2 class="title">Đánh giá cán bộ</h2>
+
+    <div class="block-content">
+        <form id ='danhgia' method="post">
+            Ngày đánh giá: <input type="text" id="ngaydanhgia" class ='ngaythang' name="ngaydanhgia"  value="<?php echo date('d/m/Y'); ?>"/>
+            <fieldset>
+                <legend>I. Nội dung Tự nhận xét, đánh giá</legend>
+                <input type="hidden" name="id" />
+                <div class="group">
+                    <span>Cán bộ tự đánh giá</span>
+                    <input type="text" name="hoten_tdg" readonly='readonly' value= "<?php echo $this->canbo_tdg['Ho_Ten_CB']; ?>" />
+                </div>
+                <div class="clear"></div>
+
+                <div class="group">
+                    <span>Ngày sinh</span>
+                    <input type="text" name="ngaysinh_tdg" readonly='readonly' disabled='disabled' value= "<?php echo $this->canbo_tdg['Ngay_Sinh']; ?>" />
+                </div>
+                <div class="clear"></div>
+
+                <div class="group">
+                    <span>CMND</span>
+                    <input type="text" name="cmnd_tdg" readonly='readonly' disabled='disabled' value= "<?php echo $this->canbo_tdg['So_CMND']; ?>" />
+                </div>
+                <div class="clear"></div>
+                <!--
+                <div class="group">
+                    <span>Chức vụ</span>
+                    <input type="hidden" name="chucvu_tdg" readonly='readonly' disabled='disabled' value="" />
+                </div>-->
+                <div class="clear"></div>
+                Đánh giá: </br>
+                <textarea name="noidung_tdg">a. Ưu điểm:.....</textarea>
+                <br/>
+                Xếp lọai:<br/>
+                <?php
+                    foreach($this->mucdohoanthanh as $element)
+                    echo '<label><input type="radio" name="mdht_tdg" value="',$element['Ma_MĐHT'],'" /><label for="xuatsac">',$element['Ten_MĐHT'],'</label><br/>'
+                ?>
+                <br/>
+                2. Nguyện vọng trong năm:
+                <br/>
+                a) Nơi muốn chuyển công tác đến:
+                <br/>
+                - Đơn vị muốn chuyển công tác đến:
+                <select id="donvimuonden" class="combobox" name="donvimuonden"'>
+                    <option value=''>Như trước</option>
+                    <?php
+                    //Load "Don Vi" list for Dropbox
+                    foreach($this->dsDonVi as $donvi){
+                        echo '<option value="', $donvi['Ma_ĐV'],'" size="100">', $donvi['Ten_Đon_Vi'],'</option>';
+                    }
+
+                    ?>
+                </select>
+
+                <br/>
+                - Bộ phận muốn chuyển công tác đến:
+                <select id="banmuonden" class="combobox" name="banmuonden"'>
+                    <option value=''>Như trước</option>
+                    <?php
+                    //Load "Ban" list for Dropbox
+                    foreach($this->dsBan as $element){
+                        echo '<option value="', $element['Ma_Ban'],'" size="100">', $element['Ten_Ban'],'</option>';
+                    }
+
+                ?>
+                </select>
+
+                <br/>
+                b) Ngày muốn luân chuyển: <input type="text" id="ngaymuonchuyen" class ='ngaythang' name="ngaymuonchuyen"  value="<?php echo date('d-m-Y'); ?>"/>
+                <br/>
+                c) Nguyện vọng đào tạo bồi dưỡng:
+                <br/>
+                <textarea name="nguyenvong">+ Chuyên môn nghiệp vụ:......</textarea> <br/>
+            </fieldset>
+
+            <fieldset>
+                <legend>II. Nhận xét của cán bộ khác</legend>
+
+                <div class="group">
+                    <span>Cán bộ đánh giá, nhận xét</span>
+                    <input type="text" name="hoten_nx" readonly='readonly' value= "<?php echo $this->canbo_nx['Ho_Ten_CB']; ?>" />
+                </div>
+                <div class="clear"></div>
+
+                <div class="group">
+                    <span>Ngày sinh: </span>
+                    <input type="text" name="ngaysinh_nx" readonly='readonly'  disabled='disabled' value= "<?php echo $this->canbo_nx['Ngay_Sinh']; ?>" />
+                </div>
+                <div class="clear"></div>
+
+                <div class="group">
+                    <span>CMND: </span>
+                    <input type="text" name="cmnd_nx" readonly='readonly'  disabled='disabled' value= "<?php echo $this->canbo_nx['So_CMND']; ?>" />
+                </div>
+                <div class="clear"></div>
+
+                <!--<div class="group">
+                    <span>Chức vụ</span>
+                    <input type="hidden" name="chucvu_nx" readonly='readonly'  disabled='disabled' value= "<?php /*echo $this->canbo_nx['So_CMND']; */?>" />
+                </div>-->
+                <div class="clear"></div>
+                <input type="hidden" name="id_nx" value="" />
+                Nhận xét, Đánh giá: </br>
+                <textarea name="noidung_nx">1. Mặt mạnh:.....</textarea>
+                <br/>
+                Xếp lọai:<br/>
+                <?php
+                foreach($this->mucdohoanthanh as $element)
+                    echo '<label><input type="radio" name="mdht_nx" checked value="',$element['Ma_MĐHT'],'" />',$element['Ten_MĐHT'],'</label><br/>'
+                ?>
+                <br/>
+                <br/>
+                Chiều hướng phát triển:<br/>
+                <?php
+                foreach($this->chieuhuongphattrien as $element)
+                    echo '<label><input type="radio" checked name="chieuhuongphattrien" value="',$element['Ma_CHPT'],'" />',$element['Ten_CHPT'],'</label><br/>'
+                ?>
+                <br/>
+                Định hướng thời gian tới: <br/>
+                <textarea name="dinhhuong">+ Quy hoạch:......</textarea> <br/>
+            </fieldset>
+            <p>
+                <mark> <?php echo $this->message?> <mark>
+            </p>
+
+            <button type="submit">Lưu Đánh giá</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
+</script>

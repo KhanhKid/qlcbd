@@ -1,0 +1,116 @@
+<?php
+//tool
+function formatDate($date){
+    return $date = (null==$date)? '../../....':date('d-m-Y', strtotime($date));
+}
+?>
+<div class="block">
+    <h2 class="title">Quản lý công tác nước ngoài</h2>
+    <div class="block-content">
+        <p>Họ tên cán bộ: <?=$this->canbo['Ho_Ten_CB']?></p>
+        <p>Ngày sinh: <?=$this->canbo['Ngay_Sinh']?></p>
+        <p>CMND: <?=$this->canbo['So_CMND']?></p>
+        <fieldset>
+            <legend>Tóm tắt quá trình công tác nước ngoài</legend>
+            <div class="content">
+                <table>
+                    <th>Thời gian</th>
+                    <th>Địa Điểm</th>
+                    <th>Nội Đung</th>
+                    <th>Cấp Cử Đi</th>
+                    <th>Kinh Phí (đài thọ, tự túc, hỗ trợ một phần)</th>
+                    <?php
+                    if($this->congtacnuocngoai){
+                        foreach($this->congtacnuocngoai as $value){
+                            echo '<tr>
+                                <input class ="stt_ctnn" type="hidden" value="',$value['Ma_CTNN'],'"/>
+                                <td>',formatDate($value['Tu_Ngay']),' đến ',formatDate($value['Đen_Ngay']),'</td>
+                                <td>',$value['Đia_Điem'],'</td>
+                                <td>',$value['Noi_Dung'],'</td>
+                                <td>',$value['Cap_Cu_Đi'],'</td>
+                                <td>',$value['Kinh_Phi'],'</td>
+                                <td>
+                                    <td><button type="button" onclick="deleteRow(this)" class="delete"/></td>
+                                </td>
+                            </tr>';
+                        }
+                    }
+                    ?>
+                </table>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Thêm Công Tác Nước Ngoài</legend>
+            <div class="content">
+            <form method="POST">
+                <div class="group">
+                    <span>Ngày đi</span>
+                    <input type="text" id="ngaydi" class="ngaythang" name="ngaydi" value="<?=date('d/m/Y')?>"/>
+                </div>
+                <div class="group">
+                    <span>Ngày về</span>
+                    <input type="text" id="ngayve" class="ngaythang" name="ngayve" value="<?=date('d/m/Y')?>"/>
+                </div>
+                <div class="clear"></div>
+                <div class="group">
+                    <span>Địa điểm</span>
+                    <input type="text" name="điaiem"/>
+                </div>
+
+
+
+                <div class="group">
+                    <span>Cấp cử đi</span>
+                    <input type="text" name="capcudi"/>
+                </div>
+                <div class="clear"></div>
+                <div class="group">
+                    <span>Kinh Phí (đài thọ, tự túc, hỗ trợ một phần): </span>
+                    <input type="text" name="kinhphi"/>
+                </div>
+
+                <div class="group">
+                    <span>Nội dung</span>
+                    <textarea type="text" name="noidung" > </textarea>
+                </div>
+
+                <div class="clear"></div>
+
+                <p>
+                    <mark> <?php echo $this->message?> <mark>
+                </p>
+                <br/>
+                <button type="submit" align="right" name="them">Thêm Công Tác Mới</button>
+            </form>
+            </div>
+        </fieldset>
+
+    </div>
+</div>
+
+<script>
+    $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
+
+    //==============================
+    function deleteRow(obj){
+        obj = $(obj);
+        var row_element = obj.parent().parent(); //get row
+
+        //get data of this row
+        var id_ctnn = "<?=$this->id?>";
+        var stt_ctnn = row_element.find($('.stt_ctnn')).val();
+
+
+        //Ajax
+        Url = "<?php echo $this->basePath('manager/canbo/xoa-congtacnuocngoai'); ?>"+'?id='+id_ctnn+'&stt='+stt_ctnn;
+        $.get(
+            Url,
+            function(){
+                row_element.remove();
+            }
+        );
+
+
+    }
+</script>

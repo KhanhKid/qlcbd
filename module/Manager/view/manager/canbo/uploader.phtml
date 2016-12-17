@@ -1,0 +1,40 @@
+<div class="block">
+    <h2 class="title">Đăng ảnh đại diện</h2>
+    <div class="block-content">
+        <span class="alert"></span>
+        <form id="file-input" enctype="multipart/form-data" method="post">
+            <input type="file" name="filename" title="">
+            <br/><button>Upload</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $( "#file-input" ).submit(function(e){
+        $('#loading').fadeIn(300);
+        var formData = new FormData(this);
+        $.ajax({
+            url: "<?php echo $this->basePath('manager/canbo/uploadavatar/') . $this->id; ?>",
+            type: 'POST',
+            data:  formData,
+            mimeType:"multipart/form-data",
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data, textStatus, jqXHR)
+            {
+                if (data == 'true'){
+                 $('.alert').html('Upload thành công')
+                }
+                else{
+                    $('.alert').html('Upload không thành công')
+                }
+                $('#loading').fadeOut(300);
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+            }
+        });
+        e.preventDefault(); //Prevent Default action.
+    });
+</script>

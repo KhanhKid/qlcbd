@@ -1,0 +1,158 @@
+<style>
+    #add{
+        margin-top: 10px;
+        cursor: pointer;
+    }
+    #add:hover{
+        background-color: #39a0b9;
+        color: #fff;
+    }
+
+    #daotaoboiduong{
+        float: left;
+        min-width: 0 !important;
+        margin-top: 10px;
+        height: 26px;
+    }
+</style>
+<div class="block">
+<h2 class="title">Quản lý lương cán bộ</h2>
+<div class="block-content">
+<form method="post">
+<fieldset>
+    <legend>Thông Tin Cán Bộ</legend>
+    <div class="content">
+        Họ Tên:
+        <input type="text" name="cmnd" value="<?=$this->canbo['Ho_Ten_CB']?>" />
+
+        Ngày sinh:
+        <input type="text" name="cmnd" value="<?=$this->canbo['Ngay_Sinh']?>" />
+        <br/>
+        Số CMND:
+        <input type="text" name="cmnd" value="<?=$this->canbo['So_CMND']?>" />
+    </div>
+</fieldset>
+
+
+
+<fieldset>
+    <legend>Thông Tin Lương</legend>
+    <div class="content">
+        <table>
+            <th>Tháng, Năm</th>
+            <th>Ngạch Lương</th>
+            <th>Bậc Lương</th>
+            <th>Hệ Số Lương</th>
+            <?php
+            if($this->quatrinhluong){
+                foreach($this->quatrinhluong as $value){
+                    echo '<tr>
+                                            <td>',$value['Thoi_Gian_Nang_Luong'],'</td>
+                                            <td>',$value['Ma_So_Ngach'],'</td>
+                                            <td>',$value['Bac_Luong'],'</td>
+                                            <td>',$value['He_So_Luong'],'</td>
+                                        </tr>';
+                }
+
+            }
+            ?>
+        </table>
+
+
+    </div>
+</fieldset>
+
+
+<fieldset>
+    <legend>Nâng lương</legend>
+    <div class="content"  style="display: none;">
+        <div class="group">
+            <span>Nhận thông báo tuyển dụng</span>
+            <input type="text" id="ngay_tbtd" class="ngaythang" name="ngaytuyendung"/>
+        </div>
+        <div class="group">
+            <span>Ngày vào biên chế</span>
+            <input type="text" id="ngay_bienche" class="ngaythang" name="ngaybienche"/>
+        </div>
+        <div class="group">
+            <span>Thời gian nâng bậc lương</span>
+            <input type="text" id="ngay_nangbac" class="ngaythang" name="ngaynangbac"/>
+        </div>
+        <div class="group">
+            <span>Ngạch lương</span>
+            <select id="mangach" name="mangach">
+                <?php
+                foreach ($this->dsNgachLuong as $ngach) {
+
+                    echo '<option value="', $ngach->maSoNgach(), '">', $ngach->maSoNgach(), ' - ', $ngach->tenNgach(), '</option>';
+                }
+                ?>
+            </select>
+        </div>
+        <div class="clear"></div>
+        <div class="group">
+            <span>Bậc lương</span>
+            <input type="text" name="bacluong"/>
+        </div>
+
+        <div class="group">
+            <span>Hệ số lương</span>
+            <input type="text" name="hesoluong"/>
+        </div>
+
+        <div class="group">
+            <span>Hệ số phụ cấp</span>
+            <input type="text" name="phucap"/>
+        </div>
+
+        <div class="group">
+            <span>Phụ cấp vượt bậc</span>
+            <input type="text" name="vuotbac"/> (%)
+        </div>
+
+        <div class="clear"></div>
+        <div class="group">
+            <span>Mức lương khoán</span>
+            <input type="text" name="mucluongkhoan"/> (VNĐ/Tháng)
+        </div>
+        <br/>
+
+    </div>
+</fieldset>
+    <button type="submit" align="right">Tiến hành nâng lương</button>
+
+
+
+
+
+
+
+</form>
+</div>
+</div>
+
+<script>
+    var input   = $('#input-content');
+    var html    = '';
+    html        = '<tr>\
+                        <td><input type="text" name="tentruong[]" /></td>\
+                        <td><input type="text" name="nganhhoc[]" /></td>\
+                        <td><input type="text" name="thoigianhoc[]" /></td>\
+                        <td><input type="text" name="hinhthuchoc[]" /></td>\
+                        <td><input type="text" name="vanbang[]" /></td>\
+                        <td><button type="button" onclick="deleteContent(this);">Xóa</button></td>\
+                   </tr>';
+    $(function() {
+        $(".ngaythang").datepicker();
+        $('#add').click(function(){
+            number = $('#daotaoboiduong').val();
+            for (i = 0; i < number; i++){
+                input.append(html);
+            }
+        });
+    });
+    function deleteContent(obj){
+        obj = $(obj);
+        obj.parent().parent().remove();
+    }
+</script>

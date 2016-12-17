@@ -1,0 +1,12 @@
+<div class="block">
+    <h2 class="title">Tài khoản</h2>
+    <div class="block-content">
+    <?php
+    if(null==$this->userInfo){
+        echo 'Bạn chưa đăng nhập vào hệ thống';
+    }else{
+        echo 'Xin chào ',$this->userInfo->Username,'! Bạn đang đăng nhập với quyền ',$this->userInfo->Role_Name,'.';
+    }
+    ?>
+    </div>
+</div>

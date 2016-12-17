@@ -1,0 +1,112 @@
+<style type="text/css" title="currentStyle">
+    @import "<?php echo ROOT_PATH; ?>public/script/datatable/media/css/demo_page.css";
+    @import "<?php echo ROOT_PATH; ?>public/script/datatable/media/css/demo_table.css";
+    @import "<?php echo ROOT_PATH; ?>public/script/datatable/extras/TableTools/media/css/TableTools.css";
+    @import "<?php echo ROOT_PATH; ?>public/script/datatable/extras/ColReorder/media/css/ColReorder.css";
+    thead input { width: 100% }
+    input.search_init { color: #999 }
+</style>
+
+<div class="block">
+    <h2 class="title">Thông tin cán bộ</h2>
+    <div class="block-content">
+        <fieldset>
+            <legend>Danh sách cán bộ</legend>
+            <div class="content">
+                <a href="them" class="button">Thêm cán bộ</a>
+                <a href="portrait-multiuploader" class="button">Đăng ảnh đại diện</a>
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="thongtincanbo">
+                    <thead>
+                    <tr>
+                        <td><input type="text" value="" class="search_init" /></td>
+                        <td><input type="text" value="" class="search_init" /></td>
+                        <td><input type="text" value="" class="search_init" /></td>
+                        <td><input type="text" value="" class="search_init" /></td>
+                        <td style="width: 160px !important;"></td>
+                    </tr>
+                    <tr>
+                        <th>Họ tên</th>
+                        <th>Ngày sinh</th>
+                        <th>Chức vụ</th>
+                        <th>Đơn vị</th>
+                        <th>Thao tác</th>
+                    </tr>
+
+                    </thead>
+                    <?php
+                    if($this->dsCanBo){
+                        foreach($this->dsCanBo as $element){
+                            echo '<tr>
+                                        <td>',$element['Ho_Ten_CB'], '</td>
+                                        <td>',$element['Ngay_Sinh'], '</td>
+                                        <td>',$element['Ten_Chuc_Vu'], '</td>
+                                        <td>',$element['Ten_Đon_Vi'], '</td>
+                                        <td>
+                                            <a href="lylich/' . $element['Ma_Can_Bo'] . '" class="view" title="Xem lý lịch"></a>
+                                            <a href="bosung/' . $element['Ma_Can_Bo'] . '" class="edit" title="Bổ sung lý lịch"></a>
+                                            <a href="danhgia/' .$element['Ma_Can_Bo'] . '" class="rate" title="Đánh giá cán bộ"></a>
+                                            <a href="luanchuyen/' . $element['Ma_Can_Bo'] . '" class="refresh" title="Luân Chuyển"></a>
+                                            <a href="luong/' . $element['Ma_Can_Bo'] . '" class="upgrade" title="Nâng Lương"></a>
+                                            <a href="congtacnuocngoai/' . $element['Ma_Can_Bo'] . '" class="travel" title="Công tác nước ngoài"></a>
+                                        </td>
+                                      </tr>';
+                        }
+                    }
+                    ?>
+                </table>
+                <div class="clear"></div>
+
+            </div>
+        </fieldset>
+    </div>
+</div>
+<script>
+    $(document).ready( function () {
+        var oTable;
+
+        /* Add the events etc before DataTables hides a column */
+        $("thead input").keyup( function () {
+            /* Filter on the column (the index) of this element */
+            oTable.fnFilter( this.value, oTable.oApi._fnVisibleToColumnIndex(
+                oTable.fnSettings(), $("thead input").index(this) ) );
+        } );
+
+        /*
+         * Support functions to provide a little bit of 'user friendlyness' to the textboxes
+         */
+        $("thead input").each( function (i) {
+            this.initVal = this.value;
+        } );
+
+        $("thead input").focus( function () {
+            if ( this.className == "search_init" )
+            {
+                this.className = "";
+                this.value = "";
+            }
+        } );
+
+        $("thead input").blur( function (i) {
+            if ( this.value == "" )
+            {
+                this.className = "search_init";
+                this.value = this.initVal;
+            }
+        } );
+
+        oTable = $('#thongtincanbo').dataTable( {
+            "sDom": 'T<"clear">lfrtip',
+            "oTableTools": {
+                "sSwfPath": "<?php echo ROOT_PATH; ?>public/script/datatable/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
+                "aButtons": [
+
+                ]
+            }
+            //"sPaginationType": "full_numbers"
+        } );
+    } );
+
+
+</script>
+
+

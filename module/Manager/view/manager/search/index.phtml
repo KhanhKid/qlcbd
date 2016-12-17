@@ -1,0 +1,46 @@
+<div class="block">
+    <h2 class="title">Tra cứu nhanh</h2>
+    <div class="block-content">
+        <form method="post">
+            Nhập tên cán bộ:
+            <input name="ten" value="<?=$this->TenCanBo?>" />
+            <div class="clear"></div>
+            <button type="submit">Tìm kiếm</button>
+        </form>
+        <div class="clear"></div>
+        <?php if ($this->TenCanBo != '') : ?>
+        <div class="search-result">
+            <?php if ($this->TimThay) : ?>
+                <table>
+                    <th>Họ tên</th>
+                    <th>Ngày sinh</th>
+                    <th>Giới tính</th>
+                    <th>Thao tác</th>
+                    <?php
+                        foreach ($this->dsCanBo as $CanBo){
+                            if ($CanBo['Gioi_Tinh'] == 0)
+                                $gioitinh = "Nam";
+                            else
+                                $gioitinh = "Nữ";
+                            echo '<tr>
+                                    <td>' . $CanBo['Ho_Ten_Khai_Sinh'] . '</td>
+                                    <td>' . date('d/m/Y', strtotime($CanBo['Ngay_Sinh'])) . '</td>
+                                    <td>' . $gioitinh . '</td>
+                                    <td>
+                                        <a target=_blank href="' . $this->basePath('manager/canbo/lylich/') . $CanBo['Ma_CB']. '" class="view" title="Xem lý lịch"></a>
+                                        <a target=_blank href="' . $this->basePath('manager/canbo/danhgia/') . $CanBo['Ma_CB']. '" class="rate" title="Đánh giá"></a>
+                                    </td>
+                                  </tr>';
+                        }
+                    ?>
+                </table>
+            <?php
+                endif;
+                if (!$this->TimThay):
+            ?>
+                Không tìm thấy kết quả nào
+            <?php endif;?>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>

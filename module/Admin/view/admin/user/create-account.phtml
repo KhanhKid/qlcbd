@@ -1,0 +1,124 @@
+<style>
+    .custom-combobox {
+        position: relative;
+        display: inline-block;
+        margin-right: 30px;
+    }
+    .custom-combobox-toggle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-left: -1px;
+        padding: 0;
+        /* support: IE7 */
+        *height: 1.7em;
+        *top: 0.1em;
+    }
+    .custom-combobox-input {
+        margin: 0;
+        padding: 0.3em;
+    }
+
+    .ui-autocomplete {
+        max-height: 200px !important;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .custom-combobox span.ui-icon{
+        min-width: 0 !important;
+    }
+</style>
+<div class="block">
+    <h2 class="title">Tạo Tài Khoản</h2>
+    <div class="block-content">
+        <fieldset>
+            <legend>Tạo tài khoản mới</legend>
+            <div class="content">
+                <form method="post">
+                    <span>Tên đăng nhập: </span>
+                    <input class="username" type="text" name="username" size='30' required="required"/> (*)<br/>
+                    <span>Mật khẩu: </span>
+                    <input class="password" type="password" name="password" size='30' required="required"/> (*) Chú ý: Mật khẩu sẽ đã được mã hóa.<br/>
+
+                    <span>Quyền hạn: </span>
+                    <select id="role" name="role">
+                        <option value=''>(không cấp quyền hệ thống)</option>
+                        <?php
+                        foreach($this->role_list as $value){
+                            echo '<option value="',$value['Role_Name'],'" >',$value['Role_Display_Name'],'</option>';
+                        }
+                        ?>
+                    </select>
+                    <br/>
+                    <span>Cấp tài khoản cho Cán bộ: </span>
+                    <table>
+                        <tr>
+
+
+                        <td>
+                            Họ tên:
+                        </td>
+                        <td>
+                            <select id="macanbo" name="macanbo">
+                                <option value=''>(không cấp cho cán bộ)</option>
+                                <?php
+                                foreach($this->dsCanbo as $value){
+                                    echo '<option value="',$value['Ma_Can_Bo'],'" >',$value['Ho_Ten_CB'],'</option>';
+                                }
+                                ?>
+                            </select>
+                        </td>
+                        </tr>
+                        <tr>
+                            <td>Ngày sinh</td>
+                            <td id="ngaysinh">../../....</td>
+                        </tr>
+                        <tr>
+                            <td>CMND</td>
+                            <td id="cmnd">............</td>
+                        </tr>
+
+                    </table>
+
+                    <br/>
+                    <span>Mã hóa: </span> <keygen name='sercurity' challenge='challenge' keytype='rsa'/> <br/>
+                    <button type="submit" class="login-button">Tạo tài khoản</button>
+
+
+                </form>
+
+                <p>
+                    <mark> <?php echo $this->message?> <mark>
+                </p>
+            </div>
+        </fieldset>
+    </div>
+</div>
+<script>
+    $('#macanbo').combobox({
+        select: function (event, ui) {
+            var id = $(this).val();
+            $('#loading').fadeIn(300);
+            $.ajax(
+                {
+                    url : "<?php echo $this->basePath('manager/canbo/xemlylichcanbo/'); ?>" + id,
+                    type: "POST",
+                    data : "",
+                    //dataType: 'json',
+                    success:function(returnData)
+                    {
+                        var data = JSON.parse(returnData);
+                        console.log(data);
+                        $('#cmnd').html(data.So_CMND);
+                        $('#ngaysinh').html(data.Ngay_Sinh);
+                        $('#loading').fadeOut(300);
+                    },
+                    error: function(data, errorThrown)
+                    {
+                        alert('request failed :'+errorThrown);
+                    }
+                });
+        }
+    });
+</script>

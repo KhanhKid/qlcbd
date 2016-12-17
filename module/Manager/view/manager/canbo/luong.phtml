@@ -1,0 +1,266 @@
+<div class="block">
+    <h2 class="title">Quản lý lương cán bộ</h2>
+    <div class="block-content">
+
+        <fieldset>
+            <legend>Cán Bộ Nâng Lương</legend>
+            <div class="content">
+                <form id='nangluong_form' name="nangluong_form" method="post">
+                    <fieldset>
+                        <legend>Thông Tin</legend>
+                        <div class="content">
+                            <p type="text" name="cmnd">Họ Tên: <?=$this->canbo['Ho_Ten_CB']?> </p>
+                            <p type="text" name="cmnd">Ngày sinh: <?=$this->canbo['Ngay_Sinh']?> </p>
+                            <p type="text" name="cmnd">Số CMND: <?=$this->canbo['So_CMND']?> </p>
+                        </div>
+                    </fieldset>
+
+
+
+                    <fieldset>
+                        <legend>Thông Tin Lương</legend>
+                        <div class="content">
+                            <div class="group">
+                                <span>Nhận thông báo tuyển dụng</span>
+                                <p type="text" id="ngay_tbtd" class="ngaythang" name="ngaytuyendung"><?=$this->canbo['Ngay_Tuyen_Dung']?></p>
+                            </div>
+                            <div class="group">
+                                <span>Ngày vào biên chế</span>
+                                <p type="text" id="ngay_bienche" class="ngaythang" name="ngaybienche"/><?=$this->canbo['Ngay_Bien_Che']?></p>
+                            </div>
+                            <br/>
+                            <table>
+                                <th>Tháng, Năm</th>
+                                <th>Ngạch Lương</th>
+                                <th>Bậc Lương</th>
+                                <th>Hệ Số Lương</th>
+                                <th>Hệ Số phụ cấp</th>
+                                <th>Vượt khung</th>
+                                <th>Lương Khoán</th>
+
+                                <?php
+                                $maSoNgach = 0;
+
+                                if($this->quatrinhluong){
+                                    foreach($this->quatrinhluong as $value){
+                                        echo '<tr>
+                                            <input class ="id_salary" type="hidden" value="',$value['Ma_CB'],'"/>
+                                            <td class="date_salary" >',$value['Thoi_Gian_Nang_Luong'],'</td>
+                                            <td>',$value['Ma_So_Ngach'],'</td>
+                                            <td>',$value['Bac_Luong'],'</td>
+                                            <td>',$value['He_So_Luong'],'</td>
+                                            <td>',$value['He_So_Phu_Cap'],'</td>
+                                            <td>',$value['Phu_Cap_Vuot_Khung'],'</td>
+                                            <td>',$value['Muc_Luong_Khoang'],'</td>
+                                            <td>
+                                                <td><button type="button" onclick="deleteRow(this)" class="delete"/></td>
+                                            </td>
+                                        </tr>';
+
+                                        $maSoNgach = $value['Ma_So_Ngach'];
+                                    }
+                                }
+
+
+                                ?>
+                            </table>
+
+
+                        </div>
+                    </fieldset>
+
+
+                    <fieldset>
+                        <legend>Nâng lương</legend>
+                        <div class="content">
+
+                            <div class="group">
+                                <span>Thời gian nâng lương</span>
+                                <input type="text" id="ngay_nangbac" class="ngaythang" name="ngaynangluong" value="<?=date('d/m/Y')?>"/>
+                            </div>
+                            <div class="group">
+                                <span>Ngạch lương</span>
+                                <select id="mangach" name="mangach">
+                                    <option value=''>(lương không theo nghạch)</option>
+                                    <?php
+                                    foreach ($this->dsNgachLuong as $ngach) {
+                                        $selectedString = ($ngach->maSoNgach() == $maSoNgach) ? 'selected = "selected"' : '';
+                                        echo '<option ', $selectedString ,' value="', $ngach->maSoNgach(), '">', $ngach->maSoNgach(), ' - ', $ngach->tenNgach(), '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="group">
+                                <span>Bậc lương</span>
+                                <input type="text" name="bacluong"/>
+                            </div>
+
+                            <div class="group">
+                                <span>Hệ số lương</span>
+                                <input type="text" name="hesoluong"/>
+                            </div>
+
+                            <div class="group">
+                                <span>Phụ cấp vượt khung</span>
+                                <input type="text" name="phucapvuotkhung"/> (%)
+                            </div>
+
+                            <div class="group">
+                                <span>Hệ số phụ cấp</span>
+                                <input type="text" name="hesophucap"/>
+                            </div>
+
+
+
+                            <div class="clear"></div>
+                            <div class="group">
+                                <span>Mức lương khoán</span>
+                                <input type="text" name="mucluongkhoan"/> (VNĐ/Tháng)
+                            </div>
+                            <br/>
+
+                        </div>
+                    </fieldset>
+                    <p>
+                        <mark> <?php echo $this->message?> <mark>
+                    </p>
+                    <button type="submit" align="right" name="nangluong">Tiến hành nâng lương</button>
+
+                </form>
+        </fieldset>
+
+        <fieldset>
+            <legend>Danh Sách Cán Bộ Đã Đến Hạn Nâng Lương Hiện Tại</legend>
+            <div class="content">
+            <form id='xemds' name="xemds" method="post" >
+            <span>Ngày xét:
+            <input type="text" id="ngayxet" class="ngaythang" name="ngayxet" value="<?=date('d/m/Y')?>"/>
+            <p>Điều kiện (thời hạn nâng lương):
+            <input type="number" id="sonam" name="sonam" value="2" /> năm
+            </p>
+            <button type="button" onclick="getDsCannangluong()">Xem</button>
+            </span>
+
+                <table>
+                    <th>Họ Tên</th>
+                    <th>Ngày Nâng Lương</th>
+                    <th>Ngạch Lương</th>
+                    <th>Bậc Lương</th>
+                    <th>Hệ số Lương</th>
+                    <th>Hệ Số phụ cấp</th>
+                    <th>Vượt khung</th>
+                    <th>Lương Khoán</th>
+                    <tbody id="dscannangluong">
+                    <?php
+                    if($this->dscannangluong){
+                        foreach($this->dscannangluong as $value){
+                            echo '<tr>
+                                <td>',$value['Ho_Ten_CB'],'</td>
+                                <td>',$value['Thoi_Gian_Nang_Luong'],'</td>
+                                <td>',$value['Ma_So_Ngach'],'</td>
+                                <td>',$value['Bac_Luong'],'</td>
+                                <td>',$value['He_So_Luong'],'</td>
+                                <td>',$value['He_So_Phu_Cap'],'</td>
+                                <td>',$value['Phu_Cap_Vuot_Khung'],'</td>
+                                <td>',$value['Muc_Luong_Khoang'],'</td>
+                                <td>
+                                    <a href="',$this->basePath('manager/canbo/luong/'),$value['Ma_CB'] . '" class="upgrade" title="Nâng lương"></a>
+                                </td>
+                              </tr>';
+                        }
+
+
+                    }
+                    ?>
+                    </tbody>
+                </table>
+
+
+            </div>
+            </form>
+        </fieldset>
+
+
+    </div>
+</div>
+
+<script>
+    //========================================================
+    /**
+     *
+     * @param obj
+     */
+    function deleteRow(obj){
+        obj = $(obj);
+        row_element = obj.parent().parent(); //get row
+
+        //get data of this row
+        id_salary = "<?=$this->id?>";
+        date_salary = row_element.find($('.date_salary')).text();
+
+
+
+        //Ajax
+        Url = "<?php echo $this->basePath('manager/canbo/xoa-luong'); ?>";
+        $.post(
+            Url,
+            {
+                id:     id_salary,
+                date:   date_salary
+            },
+            function(){
+                row_element.remove();
+            }
+        );
+    }
+
+    function getDsCannangluong(){
+        //
+        //alert($('#sonam').val() );
+
+        //Ajax
+        var url = "<?php echo $this->basePath('manager/canbo/get-ds-cannangluong'); ?>"
+        $.post(
+            url,
+            {
+                ngayxet:    $('#ngayxet').val(),
+                sonam:      $('#sonam').val()
+            },
+            function(data){
+                var data = JSON.parse(data);
+                //console.log(data);
+
+                var html = '';
+                if('false'!=data){
+                    $.each(data,function(index, value){
+                        html += '<tr>'
+                            +'<td>'+value.Ho_Ten_CB+'</td>'
+                            +'<td>'+value.Thoi_Gian_Nang_Luong+'</td>'
+                            +'<td>'+value.Ma_So_Ngach+'</td>'
+                            +'<td>'+value.Bac_Luong+'</td>'
+                            +'<td>'+value.He_So_Luong+'</td>'
+                            +'<td>'+value.He_So_Phu_Cap+'</td>'
+                            +'<td>'+value.Phu_Cap_Vuot_Khung+'</td>'
+                            +'<td>'+value.Muc_Luong_Khoang+'</td>'
+                            +'<td>'
+                            +'<a href="'+ "<?=$this->basePath('manager/canbo/luong/')?>" + value.Ma_CB + '" class="upgrade" title="Nâng lương"></a>'
+                            +'</td>'
+                            +'</tr>';
+
+
+                    });
+                }
+
+                $('#dscannangluong').html(html);
+
+            }
+        );
+    }
+
+    //==Execute==============================================
+    $(function() {
+        $(".ngaythang").datepicker({dateFormat:'dd/mm/yy'});
+    });
+
+</script>

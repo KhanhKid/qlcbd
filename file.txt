@@ -1,0 +1,254 @@
+Zend\Db\Adapter\Driver\Pdo\Statement Object
+(
+    [pdo:protected] => PDO Object
+        (
+        )
+
+    [profiler:protected] => 
+    [driver:protected] => Zend\Db\Adapter\Driver\Pdo\Pdo Object
+        (
+            [connection:protected] => Zend\Db\Adapter\Driver\Pdo\Connection Object
+                (
+                    [driver:protected] => Zend\Db\Adapter\Driver\Pdo\Pdo Object
+ *RECURSION*
+                    [profiler:protected] => 
+                    [driverName:protected] => mysql
+                    [connectionParameters:protected] => Array
+                        (
+                            [driver] => Pdo
+                            [dsn] => mysql:dbname=qlcbd;host=localhost
+                            [driver_options] => Array
+                                (
+                                    [1002] => SET NAMES 'UTF8' 
+                                    [19] => 2
+                                    [3] => 2
+                                )
+
+                            [username] => root
+                            [password] => 
+                        )
+
+                    [resource:protected] => PDO Object
+                        (
+                        )
+
+                    [inTransaction:protected] => 
+                )
+
+            [statementPrototype:protected] => Zend\Db\Adapter\Driver\Pdo\Statement Object
+                (
+                    [pdo:protected] => 
+                    [profiler:protected] => 
+                    [driver:protected] => Zend\Db\Adapter\Driver\Pdo\Pdo Object
+ *RECURSION*
+                    [sql:protected] => 
+                    [isQuery:protected] => 
+                    [parameterContainer:protected] => 
+                    [parametersBound:protected] => 
+                    [resource:protected] => 
+                    [isPrepared:protected] => 
+                )
+
+            [resultPrototype:protected] => Zend\Db\Adapter\Driver\Pdo\Result Object
+                (
+                    [statementMode:protected] => forward
+                    [resource:protected] => 
+                    [options:protected] => 
+                    [currentComplete:protected] => 
+                    [currentData:protected] => 
+                    [position:protected] => -1
+                    [generatedValue:protected] => 
+                    [rowCount:protected] => 
+                )
+
+            [features:protected] => Array
+                (
+                )
+
+        )
+
+    [sql:protected] => 
+    [isQuery:protected] => 
+    [parameterContainer:protected] => Zend\Db\Adapter\ParameterContainer Object
+        (
+            [data:protected] => Array
+                (
+                    [sohieu] => 
+                    [hoten] => NGUYỄN THANH ĐOÀN
+                    [gioitinh] => 0
+                    [ngaysinh] => 1978-10-12
+                    [ngaygianhap] => 1970-01-01
+                    [ngaytuyendung] => 1970-01-01
+                    [ngaybienche] => 1970-01-01
+                    [ngaynangbac] => 1970-01-01
+                    [mangach] => 00000
+                    [bacluong] => 6-Sep
+                    [hesoluong] => 3.99
+                    [phucap] => 
+                    [vuotkhung] => 
+                    [mucluongkhoan] => 0
+                    [cmnd] => 123123123123
+                    [ngaycapCMND] => 1970-01-01
+                    [noicapCMND] => 
+                    [tengoikhac] => Không
+                    [noisinh] => Tiền Giang
+                    [quequan] => Tiền Giang
+                    [noiohiennay] => 52/2D Vạn Hạnh, Trung Chánh, Hóc Môn, TP. HCM
+                    [dienthoai] => 0983.850585
+                    [dantoc] => 0
+                    [tongiao] => 0
+                    [thanhphangiadinh] => Nông dân
+                    [capuyhientai] => Đảng ủy viên Đảng ủy cơ quan Thành Đoàn, Phó Bí thư Đảng ủy Bộ phận khối phong trào Thành Đoàn, Bí thư chi bộ Trường học
+                    [capuykiem] => Không
+                    [chucdanh] => 
+                    [nghenghieptruocdo] => Sinh viên
+                    [coquantuyendung] => Thành Đoàn TPHCM
+                    [ngaythamgiacachmang] => 1970-01-01
+                    [ngayvaodang] => 2002-03-14
+                    [ngayvaodangchinhthuc] => 2003-03-14
+                    [ngaythamgiactxh] => 26/3/1994 (Đoàn TNCS Hồ Chí Minh) 
+                    [ngaynhapngu] => 1970-01-01
+                    [ngayxuatngu] => 1970-01-01
+                    [quanhamchucvu] => Không
+                    [chuyenmon] => Thạc sỹ Kinh tế chính trị
+                    [hocham] => Không
+                    [trinhdochuyenmon] => 12.00
+                    [lyluanchinhtri] => 2.00
+                    [giaoducphothong] => 12/12
+                    [ngoaingu] => C Anh văn
+                    [danhhieu] => Không
+                    [sotruong] => Phong trào
+                    [congvieclaunhat] => Cán bộ Đoàn - Hội, công tác chính trị sinh viên 
+                    [tinhtrangsuckhoe] => Tốt
+                    [chieucao] => 1m65
+                    [cannang] => 65kg
+                    [nhommau] => O
+                    [thuongbinhloai] => Không
+                    [dacdiemlichsu] => Không
+                    [lamviecchedocu] => Không
+                    [quanhenuocngoai] => Không
+                    [thannhannuocngoai] => Không
+                    [luongnam] => 
+                    [nguonthunhapkhac] => 0
+                    [loainhaduoccap] => Không
+                    [dientichnhaduoccap] => 0
+                    [loainhatuxay] => Chung cư
+                    [dientichnhatuxay] => 72.00
+                    [dientichdatduoccap] => 0
+                    [dientichdattumua] => 0.00
+                    [dientichdatsx] => 0
+                    [giadinhlietsy] => 0
+                )
+
+            [positions:protected] => Array
+                (
+                    [0] => sohieu
+                    [1] => hoten
+                    [2] => gioitinh
+                    [3] => ngaysinh
+                    [4] => ngaygianhap
+                    [5] => ngaytuyendung
+                    [6] => ngaybienche
+                    [7] => ngaynangbac
+                    [8] => mangach
+                    [9] => bacluong
+                    [10] => hesoluong
+                    [11] => phucap
+                    [12] => vuotkhung
+                    [13] => mucluongkhoan
+                    [14] => cmnd
+                    [15] => ngaycapCMND
+                    [16] => noicapCMND
+                    [17] => tengoikhac
+                    [18] => noisinh
+                    [19] => quequan
+                    [20] => noiohiennay
+                    [21] => dienthoai
+                    [22] => dantoc
+                    [23] => tongiao
+                    [24] => thanhphangiadinh
+                    [25] => capuyhientai
+                    [26] => capuykiem
+                    [27] => chucdanh
+                    [28] => nghenghieptruocdo
+                    [29] => coquantuyendung
+                    [30] => ngaythamgiacachmang
+                    [31] => ngayvaodang
+                    [32] => ngayvaodangchinhthuc
+                    [33] => ngaythamgiactxh
+                    [34] => ngaynhapngu
+                    [35] => ngayxuatngu
+                    [36] => quanhamchucvu
+                    [37] => chuyenmon
+                    [38] => hocham
+                    [39] => trinhdochuyenmon
+                    [40] => lyluanchinhtri
+                    [41] => giaoducphothong
+                    [42] => ngoaingu
+                    [43] => danhhieu
+                    [44] => sotruong
+                    [45] => congvieclaunhat
+                    [46] => tinhtrangsuckhoe
+                    [47] => chieucao
+                    [48] => cannang
+                    [49] => nhommau
+                    [50] => thuongbinhloai
+                    [51] => dacdiemlichsu
+                    [52] => lamviecchedocu
+                    [53] => quanhenuocngoai
+                    [54] => thannhannuocngoai
+                    [55] => luongnam
+                    [56] => nguonthunhapkhac
+                    [57] => loainhaduoccap
+                    [58] => dientichnhaduoccap
+                    [59] => loainhatuxay
+                    [60] => dientichnhatuxay
+                    [61] => dientichdatduoccap
+                    [62] => dientichdattumua
+                    [63] => dientichdatsx
+                    [64] => giadinhlietsy
+                )
+
+            [errata:protected] => Array
+                (
+                )
+
+        )
+
+    [parametersBound:protected] => 
+    [resource:protected] => PDOStatement Object
+        (
+            [queryString] => INSERT into can_bo (Ho_Ten_CB, Ngay_Gia_Nhap, Ngay_Tuyen_Dung, Ngay_Bien_Che)
+                            VALUE (:hoten, :ngaygianhap, :ngaytuyendung, :ngaybienche);
+                select LAST_INSERT_ID() into @ma_cb_moi;
+
+                insert Into qua_trinh_luong (Ma_CB, Thoi_Gian_Nang_Luong, Ma_So_Ngach, Bac_Luong, He_So_Luong, Phu_Cap_Vuot_Khung, He_So_Phu_Cap, Muc_Luong_Khoang)
+                            VALUEs (@ma_cb_moi, :ngaynangbac, :mangach, :bacluong, :hesoluong, :vuotkhung, :phucap, :mucluongkhoan);
+
+                Insert Into ly_lich (Ma_CB, So_Hieu_CB, Ho_Ten_Khai_Sinh, Ngay_Sinh, Gioi_Tinh, So_CMND, Ngay_Cap_CMND, Noi_Cap_CMND, Ten_Goi_Khac,
+                                     Noi_Sinh, Que_Quan, Noi_O_Hien_Nay, Đien_Thoai, Dan_Toc, Ton_Giao, Thanh_Phan_Gia_Đinh_Xuat_Than,
+                                     Cap_Uy_Hien_Tai, Cap_Uy_Kiem, Chuc_Danh, Nghe_Nghiep_Truoc_Đo, Co_Quan_Tuyen_Dung, Ngay_Tham_Gia_CM, Ngay_Vao_Đang, Ngay_Chinh_Thuc, Ngay_Tham_Gia_Cac_To_Chuc_Chinh_Tri_Xa_Hoi,
+                                     Ngay_Nhap_Ngu, Ngay_Xuat_Ngu, Quan_Ham_Chuc_Vu_Cao_Nhat,
+                                     Trinh_Đo_Hoc_Van, Chuyen_Nganh, Hoc_Ham, Cap_Đo_TĐCM, Cap_Đo_CTLL,  Ngoai_Ngu,
+                                     Danh_Hieu_Đuoc_Phong, So_Truong_Cong_Tac, Cong_Viec_Lam_Lau_Nhat,
+                                     Tinh_Trang_Suc_Khoe, Chieu_Cao, Can_Nang, Nhom_Mau,
+                                     Loai_Thuong_Binh, Gia_Đinh_Liet_Sy,
+                                     Đac_Điem_Lich_Su, Lam_Viec_Trong_Che_Đo_Cu, Co_Than_Nhan_Nuoc_Ngoai, Tham_Gia_Cac_To_Chuc_Nuoc_Ngoai,
+                                     Luong_Thu_Nhap_Nam, Nguon_Thu_Khac, Loai_Nha_Đuoc_Cap, Dien_Tich_Nha_Đuoc_Cap, Loai_Nha_Tu_Xay, Dien_Tich_Nha_Tu_Xay,
+                                     Dien_Tich_Đat_O_Đuoc_Cap, Dien_Tich_Đat_O_Tu_Mua, Dien_Tich_Đat_San_Xuat)
+                              VALUEs (@ma_cb_moi,:sohieu, :hoten, :ngaysinh, :gioitinh, :cmnd, :ngaycapCMND, :noicapCMND, :tengoikhac,
+                               :noisinh, :quequan, :noiohiennay, :dienthoai, :dantoc, :tongiao, :thanhphangiadinh,
+                               :capuyhientai, :capuykiem, :chucdanh, :nghenghieptruocdo, :coquantuyendung, :ngaythamgiacachmang, :ngayvaodang, :ngayvaodangchinhthuc, :ngaythamgiactxh,
+                               :ngaynhapngu, :ngayxuatngu, :quanhamchucvu,
+                               :giaoducphothong, :chuyenmon, :hocham, :trinhdochuyenmon, :lyluanchinhtri,  :ngoaingu,
+                               :danhhieu, :sotruong, :congvieclaunhat,
+                               :tinhtrangsuckhoe, :chieucao, :cannang, :nhommau,
+                               :thuongbinhloai, :giadinhlietsy,
+                               :dacdiemlichsu, :lamviecchedocu, :quanhenuocngoai, :thannhannuocngoai,
+                               :luongnam, :nguonthunhapkhac, :loainhaduoccap, :dientichnhaduoccap, :loainhatuxay, :dientichnhatuxay,
+                               :dientichdatduoccap, :dientichdattumua, :dientichdatsx);
+                
+        )
+
+    [isPrepared:protected] => 1
+)

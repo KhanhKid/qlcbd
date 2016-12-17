@@ -1,0 +1,34 @@
+<div class="block">
+    <h2 class="title">Kiến nghị, đề xuất</h2>
+    <div class="block-content">
+        (Cán bộ gửi đề nghị để được xem xét thực hiện. Có thể gửi kèm các tài liệu cần thiết để làm minh chứng.)
+        <br/>
+        <br/>
+    <form method="post" enctype="multipart/form-data">
+        Tựa đề:
+        <br/>
+        <input type="text" name="tenkiennghi" required="required"/>
+        <br/>
+        Nội dung đề nghị:
+        <br/>
+        <textarea name="noidung" required="required" maxlength="65,535"></textarea>
+        <br/>
+        <p>
+            File đính kèm: <input type="file" name="filedinhkem" id="filedinhkem">(max size = 1MB)
+        </p>
+        <input type="button" id="removeFile" value="Xóa File">
+        <br/>
+        <p>
+            <mark> <?php echo $this->message?> <mark>
+        </p>
+        <br/>
+        <input type="submit" value="Gửi">
+    </form>
+
+    </div>
+</div>
+<script type="text/javascript">
+    $("#removeFile").click(function(event) {
+        $("#filedinhkem").val("");
+    });
+</script>

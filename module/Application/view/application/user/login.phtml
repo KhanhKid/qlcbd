@@ -1,0 +1,47 @@
+<script>
+    function login(form) {
+        form = $(form);
+        var username    = form.find("#username");
+        var password   = form.find("#password");
+
+        if (!username.val()) {
+            username.effect('highlight', {color: '#ffd5ad'}, 600)
+                .effect('highlight', {color: '#ffd5ad'}, 600);
+            username.focus();
+            return false;
+        }
+        if (!password.val()) {
+            password.effect('highlight', {color: '#ffd5ad'}, 600)
+                .effect('highlight', {color: '#ffd5ad'}, 600);
+            password.focus();
+            return false;
+        }
+        password.attr("readonly", true);
+        username.attr("readonly", true);
+        form.find(".submit").attr("disabled", true);
+
+        return true;
+    }
+
+</script>
+<div id="login">
+    <h3 class="title">Đăng nhập</h3>
+    <form class="login" method="post" onsubmit="return login(this);">
+        <div class="group">
+            <span>Tên đăng nhập: </span>
+            <input class="username" id="username" type="text" name="username" />
+        </div>
+        <div class="clear"></div>
+        <div class="group">
+            <span>Mật khẩu: </span>
+            <input class="password" id="password" type="password" name="password" />
+        </div>
+        <input type="checkbox" name="remember" id="remember" checked='checked'/><label for="remember">Ghi nhớ</label><br/>
+        <button type="submit" class="login-button">Đăng nhập</button>
+        <div class="clear"></div>
+    </form>
+</div>
+
+<script>
+    $('#username').focus();
+</script>

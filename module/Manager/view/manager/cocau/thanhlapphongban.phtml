@@ -1,0 +1,283 @@
+<style>
+    .custom-combobox {
+        position: relative;
+        display: inline-block;
+        margin-right: 30px;
+    }
+    .custom-combobox-toggle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-left: -1px;
+        padding: 0;
+        /* support: IE7 */
+        *height: 1.7em;
+        *top: 0.1em;
+    }
+    .custom-combobox-input {
+        margin: 0;
+        padding: 0.3em;
+    }
+
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+</style>
+
+<script>
+
+    /**
+     *auto fill name of new BCH
+     */
+    function autofillBchName(){
+        $('#tengoiban').val($('#loaiban option:selected').text() + ' ' + $('#donvitructhuoc option:selected').text());
+    }
+
+
+    var dsCanBoHtml = '';
+    var dsChucVuHtml = '';
+    $(function() {
+        $(".ngaythang").datepicker({dateFormat: 'dd-mm-yy'});
+        $(".xemlylich").click(function(){
+            $('#overlay').fadeIn(500);
+        });
+        //set combobox
+        $( ".combobox" ).combobox();
+        $('.combobox1').combobox({
+            select: function (event, ui) {
+                autofillBchName();
+                var id = $(this).val();
+            }
+        });
+    });
+    //Load html cho dsCanBo
+    var dsCanBo = <?php echo json_encode($this->dsCanBo);?>;
+    var dsChucVu = <?php echo json_encode($this->dsChucVu); ?>;
+
+    dsCanBoHtml = '<select class="combobox hotencombobox" name="hoten[]">';
+    var size = dsCanBo.length;
+    for (i = 0; i < size; i++)
+    {
+        dsCanBoHtml += '<option value="' + dsCanBo[i].Ma_Can_Bo + '">'+ dsCanBo[i].Ho_Ten_CB +'</option>';
+    }
+    dsCanBoHtml += '</select>';
+
+    dsChucVuHtml = '<select class="combobox chucvucombobox" name="chucvu[]">';
+    size =  dsChucVu.length;
+
+    for (i = 0; i < size; i++)
+    {
+        dsChucVuHtml += '<option value="' + dsChucVu[i].Ma_Chuc_Vu + '">' + dsChucVu[i].Ten_Chuc_Vu + '</option>';
+    }
+
+    dsChucVuHtml += '</select>';
+
+</script>
+
+<div class="block">
+    <h2 class="title">Thành Lập, Cập Nhật Phòng/Ban</h2>
+    <div class="block-content">
+        <button type="button" id="resetform">Nhập mới</button>
+        <br><br>
+        <form method="post">
+            <input type="hidden" id="maban" name="maban" value="">
+
+            Đơn vị trực thuộc:
+            <select id='donvitructhuoc' class="combobox1" name="donvitructhuoc">
+                <?php
+                //Load "Don Vi" list for Dropbox
+                foreach($this->dsDonVi as $donvi){
+                    echo '<option value="', $donvi['Ma_ĐV'],'">', $donvi['Ten_Đon_Vi'],'</option>';
+                }
+
+                ?>
+            </select><br/>
+            Loại Hình:
+            <select id="loaiban" name="loaiban" onchange="autofillBchName()">
+                <?php
+                //Load "Loai Ban  (lãnh đạo)"  list for Dropbox
+                foreach($this->dsLoaiBan as $loaiban){
+                    echo '<option value="', $loaiban['Ma_Loai_Ban'],'">', $loaiban['Ten_Loai_Hinh_Ban'],'</option>';
+                }
+
+                ?>
+            </select><br/>
+            Tên gọi: <input type="text" id = 'tengoiban' name="tengoiban" size="50" /><br/>
+
+            Ngày thành lập:
+            <input class ='ngaythang' id="ngaythanhlap" name="ngaythanhlap" type="text" value="<?php echo date('d-m-Y'); ?>" /> (*)<br/>
+
+            Mô tả: <textarea name="mota"></textarea>
+            <script>
+                CKEDITOR.replace( 'mota', {
+                    toolbar: 'Basic'
+                });
+            </script>
+
+            Danh sách Thành viên:
+            <table id="danhsachBCH">
+                <tr>
+                    <th>Họ và tên</th>
+                    <!--<th>Ngày sinh</th>
+                    <th>Giới tính</th>-->
+                    <th>Chức vụ</th>
+                    <th>Thao tác</th>
+                </tr>
+                <tr>
+                    <td>
+                        <script>
+                            document.write(dsCanBoHtml);
+                        </script>
+                    </td>
+                    <!--<td><input type="text" name="ngaysinh[]" class="ngaythang" disabled="true" /></td>
+                    <td>
+                        <select name="gioitinh[]" disabled="true">
+                            <option value="0">Nam</option>
+                            <option value="1">Nữ</option>
+                        </select>
+                    </td>-->
+                    <td>
+                        <script>
+                            document.write(dsChucVuHtml);
+                        </script>
+                    </td>
+                    <td><button class="xemlylich" type="button" onclick="">Xem lý lịch</button><button type="button" onclick="deleteRow(this)">Xóa</button> </td>
+                </tr>
+            </table>
+
+            <button type="button" id="add">Thêm cán bộ</button>
+            <br/>
+            <br/>
+            <button type="submit" class="changelable-submitbutton">Thành Lập Phòng/Ban</button>
+        </form>
+        <br><br><br>
+        <fieldset>
+            <legend>Danh sách các phòng/ban hiện tại - nhấp vào để thay đổi</legend>
+            <div class="content">
+                <div class="block-content" id="js-hire-tree">
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+
+<script>
+    //==event handling===
+
+    //
+    $('#nhiemky').change(function(){
+        autofillBchName();
+    });
+
+    //reset form 
+    $("#resetform").click(function() {
+        // form
+        $(".changelable-submitbutton").text('Thanh Lập Phòng/Ban');
+        $("#maban").val('');
+        $("#donvitructhuoc").val('');
+        $("#loaiban").val('');
+        $("#tengoiban").val('');
+        $("#ngaythanhlap").val('');
+        $("#mota").val('');
+        $("#danhsachBCH").html('<tr><th>Họ và tên</th><th>Chức vụ</th><th>Thao tác</th></tr>');
+    });
+
+    //add new "can bo"
+    $("#add").click(function(){
+        newElement = '<tr>\
+                        <td>' + dsCanBoHtml + '</td>\
+                        <td>' + dsChucVuHtml + '</td>\
+                        <td><button class="xemlylich" type="button">Xem lý lịch</button><button type="button" onclick="deleteRow(this)">Xóa</button> </td>\
+                     </tr>';
+        $('#danhsachBCH').append(newElement);
+        $(".ngaysinh").datepicker();
+
+        $(".xemlylich").click(function(){
+            $('#overlay').fadeIn(500);
+        });
+        //set combobox
+        $( ".combobox" ).combobox();
+    });
+
+    /**
+     *
+     * @param obj
+     */
+    function deleteRow(obj){
+        obj = $(obj);
+        element = obj.parent().parent();
+        element.remove();
+    }
+
+</script>
+
+
+<script>
+
+    
+    $('#js-hire-tree')
+    // listen for event
+    .on('activate_node.jstree', function (e, data) {
+        var id = data.node.id;
+
+        // Set form data
+        $.ajax({url: "<?php echo $this->basePath('manager/cocau/thongtinban/'); ?>"+id, success: function(result){
+            var banJSON = JSON.parse(result);
+            $("#resetform").click();
+            $(".changelable-submitbutton").text('Cập Nhật Phòng/Ban');
+            // Set form element value
+            $("#maban").val(banJSON.Ma_Ban);
+            $("#donvitructhuoc").val(banJSON.Ma_Don_Vi);
+            $("#loaiban").val(banJSON.Ma_Loai_Ban);
+            $("#tengoiban").val(banJSON.Ten_Ban);
+            $("#ngaythanhlap").val(banJSON.Ngay_Thanh_Lap);
+            $("#mota").val(banJSON.Mo_Ta);
+           
+            var dsCanBo = banJSON.canboban; 
+            for(var i=0; i<dsCanBo.length; i++) {
+
+                var dsCanBoHtmlEdited = dsCanBoHtml;
+                var dsChucVuHtmlEdited = dsChucVuHtml;
+ 
+                // set value
+                newElement = '<tr>\
+                        <td id="canbo'+i+'">' + dsCanBoHtmlEdited + '</td>\
+                        <td id="chucvu'+i+'">' + dsChucVuHtmlEdited + '</td>\
+                        <td><button class="xemlylich" type="button">Xem lý lịch</button><button type="button" onclick="deleteRow(this)">Xóa</button> </td>\
+                </tr>';
+
+                $('#danhsachBCH').append(newElement);
+                $('#canbo'+i+' .hotencombobox option[value="' + dsCanBo[i].Ma_CB + '"]').attr('selected', 'selected');
+                $('#chucvu'+i+' .chucvucombobox option[value="' + dsChucVu[i+1].Ma_Chuc_Vu + '"]').attr('selected', 'selected');
+                $(".ngaysinh").datepicker();
+
+                $(".xemlylich").click(function(){
+                    $('#overlay').fadeIn(500);
+                });
+                //set combobox
+                $( ".combobox" ).combobox();
+            }
+        }});
+    })
+    .jstree({
+        'core' : {
+            'data' : [
+                {
+                    'text': 'THÀNH ĐOÀN',
+                    'state' : {
+                        'opened' : true,
+                        'selected' : false
+                    },
+                    'children' : <?php echo json_encode($this->jsTreeData); ?>
+                }
+                //jsTreeData
+            ]
+        }
+
+    });
+</script>
+<link rel="stylesheet" href="<?php echo ROOT_PATH . 'public/script/themes/default/style.min.css'; ?>" type="text/css">

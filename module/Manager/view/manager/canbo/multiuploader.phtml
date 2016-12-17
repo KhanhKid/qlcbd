@@ -1,0 +1,19 @@
+<div class="block">
+    <h2 class="title">Đăng ảnh đại diện</h2>
+    <div class="block-content">
+        <span class="alert">
+            <?php
+                if ($this->flag == 'true'){
+                    echo 'Đăng ảnh thành công';
+                }
+                else if ($this->flag == 'false'){
+                    echo 'Đăng ảnh thất bại';
+                }
+            ?>
+        </span>
+        <form id="file-input" enctype="multipart/form-data" method="post">
+            <input type="file" name="filename[]" multiple title="">
+            <br/><button>Đăng ảnh</button>
+        </form>
+    </div>
+</div>

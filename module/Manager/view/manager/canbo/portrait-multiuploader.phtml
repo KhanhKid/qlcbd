@@ -1,0 +1,24 @@
+<div class="block">
+    <h2 class="title">Tải ảnh chân dung lý lịch</h2>
+    <div class="block-content">
+        <div>
+            Tải bộ ảnh chân dung cán bộ, có thể chọn nhiều ảnh cho tất cả các cán bộ. <br/>
+            Lưu ý: đặt tên ảnh theo CMND của cán bộ, định dạng jpg. VD: 352219588.jpg
+        </div>
+        <br/>
+        <span class="alert">
+            <?php
+                if ($this->flag == 'true'){
+                    echo 'Đăng ảnh thành công';
+                }
+                else if ($this->flag == 'false'){
+                    echo 'Đăng ảnh thất bại';
+                }
+            ?>
+        </span>
+        <form id="file-input" enctype="multipart/form-data" method="post">
+            <input type="file" name="filename[]" multiple title="">
+            <br/><button>Đăng ảnh</button>
+        </form>
+    </div>
+</div>

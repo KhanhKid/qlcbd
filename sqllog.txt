@@ -1,0 +1,5 @@
+SELECT `Ma_ĐV`, `Ky_Hieu_ĐV`, `Ten_Đon_Vi`, `Ma_Khoi`, `Ma_Truong_ĐV`, `Ma_Ban_Chap_Hanh`, DATE_FORMAT(`Ngay_Thanh_Lap`,'%d/%m/%Y') AS Ngay_Thanh_Lap,
+                       `Chuc_Nang_ĐV` , `Đia_Chi`, `Email`, `So_Đien_Thoai`, `Mo_Ta`, `Trang_Thai`
+                FROM `đon_vi`
+                WHERE `Ma_ĐV` = :maDonVi
+                LIMIT 1;

@@ -1,0 +1,14 @@
+<div class="block">
+    <h2 class="title">Restore</h2>
+    <div class="block-content">
+        <?php
+        if ($this->flag == true)
+            print_r($this->file)
+        ?>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="fileinput"/><br/>
+            <button type="submit">Restore</button>
+        </form>
+
+    </div>
+</div>

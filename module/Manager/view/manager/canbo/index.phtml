@@ -1,0 +1,164 @@
+<style>
+    .custom-combobox {
+        position: relative;
+        display: inline-block;
+        margin-right: 30px;
+    }
+    .custom-combobox-toggle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-left: -1px;
+        padding: 0;
+        /* support: IE7 */
+        *height: 1.7em;
+        *top: 0.1em;
+    }
+    .custom-combobox-input {
+        margin: 0;
+        padding: 0.3em;
+    }
+
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .metro .custom-combobox {
+        -webkit-transform: initial !important;
+        transform: initial !important;
+        position: absolute;
+        //visibility: hidden;
+        top: 35px;
+        z-index: 100;
+        left: -25px;
+        font-size: 10px;
+    }
+
+    .metro .custom-combobox-input {
+    }
+
+    .metro .custom-combobox-toggle {
+        right: 0px;
+        width: 20px;
+        height: 18px;
+    }
+
+    .custom-combobox .custom-combobox-input {
+        width: 150px;   
+    }
+
+    .metro>li:hover .custom-combobox .custom-combobox-input {
+    }
+
+    .metro>li:hover .custom-combobox {
+        box-shadow: 1px 5px 10px rgba(0,0,0,0.3);
+    }
+</style>
+<script>
+    var dsCanBoHtml = '';
+    //Load html cho dsCanBo
+    var dsCanBo = <?php echo json_encode($this->dsCanBo);?>;
+
+    dsCanBoHtml = '<select class="combobox hotencombobox" name="hoten[]">';
+    var size = dsCanBo.length;
+    for (i = 0; i < size; i++)
+    {
+        dsCanBoHtml += '<option value="' + dsCanBo[i].Ma_Can_Bo + '">'+ dsCanBo[i].Ho_Ten_CB +'</option>';
+    }
+    dsCanBoHtml += '</select>';
+</script>
+
+<div class="block">
+    <h2 class="title">Quản lý cán bộ</h2>
+    <div class="block-content">
+        <ul class="metro">
+            <li title="Quản lý thông tin cán bộ">
+                <a href="<?php echo $this->basePath('manager/canbo/thongtin'); ?>">
+                    Thông tin cán bộ
+                    <span class="icon information"></span>
+                </a>
+            </li>
+            <li title="Đánh giá cán bộ">
+                <script>
+                    document.write(dsCanBoHtml);
+                </script>
+                <a href="<?php echo $this->basePath('manager/canbo/danhgia'); ?>">
+                    Đánh giá cán bộ
+                    <span class="icon rating"></span>
+                </a>
+            </li>
+            <li title="Luân chuyển cán bộ">
+                <script>
+                    document.write(dsCanBoHtml);
+                </script>
+                <a href="<?php echo $this->basePath('manager/canbo/luanchuyen'); ?>">
+                    Luân chuyển CB
+                    <span class="icon canbothanhdoan"></span>
+                </a>
+            </li>
+            <li title="Lương cán bộ">
+                <script>
+                    document.write(dsCanBoHtml);
+                </script>
+                <a href="<?php echo $this->basePath('manager/canbo/luong'); ?>">
+                    Lương Cán Bộ
+                    <span class="icon luong"></span>
+                </a>
+            </li>
+            <li title="Quá trình đi nước ngoài">
+                <script>
+                    document.write(dsCanBoHtml);
+                </script>
+                <a href="<?php echo $this->basePath('manager/canbo/congtacnuocngoai'); ?>">
+                    Đi nước ngoài
+                    <span class="icon congtacnuocngoai"></span>
+                </a>
+            </li>
+
+            <li title="Phản hồi các kiến nghị">
+                <a href="<?php echo $this->basePath('manager/canbo/giaiquyetkiennghi'); ?>">
+                    Phản hồi kiến nghị
+                    <span class="icon phanhoi"></span>
+                    <h2 class="subtitle">
+
+                        <?php
+
+                        if ($this->soluongKienNghi != '0')
+                            echo '(' , $this->soluongKienNghi , ')';
+                        ?>
+                    </h2>
+                </a>
+            </li>
+            <li title="Cựu cán bộ">
+                <a href="<?php echo $this->basePath('manager/canbo/canbocu'); ?>">
+                    Cựu cán bộ
+                    <span class="icon cuucanbo"></span>
+                </a>
+            </li>
+        </ul>
+
+
+    </div>
+</div>
+<link rel="stylesheet" href="<?php echo ROOT_PATH . 'public/script/themes/default/style.min.css'; ?>" type="text/css">
+<script>
+    //set combobox
+    $( ".combobox" ).combobox({
+        select: function (event, ui) {
+            window.location.href = $(this).siblings('a').attr('href') + '/' + this.value;
+        },
+    });
+
+    $(".custom-combobox-input").focus( function () {
+        this.value = '';
+    });
+
+    $(".custom-combobox").hide();
+
+    $(".metro>li").hover(function() {
+        $('.custom-combobox').hide();
+        $(this).find('.custom-combobox').toggle();
+    });
+</script>

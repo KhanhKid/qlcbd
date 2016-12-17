@@ -1,0 +1,69 @@
+<?php
+//tool
+function formatDate($date){
+    return $date = (null==$date)? '../../....':date('d-m-Y', strtotime($date));
+}
+?>
+
+<div class="block">
+<h2 class="title">Lịch sử đơn vị</h2>
+<div class="block-content">
+    <fieldset>
+        <legend>Lịch sử sử dụng cán bộ của đơn vị</legend>
+        <div class="content">
+            <form method="post">
+
+            <p>
+            <span>Ngày xét: từ
+                <input type="text" id="tungay" class="ngaythang" name="tungay" value="<?=date('d/m/Y')?>"/>
+            </span>
+            <span>đến
+                <input type="text" id="denngay" class="ngaythang" name="denngay" value="<?=date('d/m/Y')?>"/>
+            </span>
+            </p>
+            <span>Đơn vị trực thuộc:
+            <select id="donvitructhuoc" class="combobox1" name="donvi" onchange="getTenBCH()">
+                <?php
+                //Load "Don Vi" list for Dropbox
+                foreach($this->dsDonVi as $donvi){
+                    echo '<option value="', $donvi['Ma_ĐV'],'">', $donvi['Ten_Đon_Vi'],'</option>';
+                }
+
+                ?>
+            </select>
+            </span>
+            <button type="submit" class="view" style="margin-top: 4px; "></button>
+            <table>
+                <th>Ngày</th>
+                <th>Họ Tên</th>
+                <th>Chuyển Đến Bộ phận</th>
+                <th>Đơn vị</th>
+                <th>Đã chuyển đi ngày</th>
+
+
+                <?php
+                if($this->quatrinhluanchuyen){
+                    foreach($this->quatrinhluanchuyen as $value){
+                        echo '<tr>
+                                <td>',formatDate($value['Ngay_Gia_Nhap']),'</td>
+                                <td>',$value['Ten_Ban'],'</td>
+                                <td>',$value['Ten_Đon_Vi'],'</td>
+                                <td>',$value['Ten_Chuc_Vu'],'</td>
+                                <td>',$value['Ngay_Roi_Khoi'],'</td>
+                            </tr>';
+                    }
+                }
+                ?>
+            </table>
+
+        </div>
+    </form>
+    </fieldset>
+
+</div>
+</div>
+
+<script>
+    $(".ngaythang").datepicker({dateFormat:'dd-mm-yy'});
+
+</script>

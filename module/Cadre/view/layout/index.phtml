@@ -1,0 +1,114 @@
+﻿<?php
+    $templateURL = $this->basePath('template/');
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hệ thống quản lý cán bộ Đoàn TPHCM</title>
+    <script src="<?php echo $templateURL;?>js/jquery-1.9.1.js"></script>
+    <script src="<?php echo $templateURL;?>js/jqueryui/js/jquery-ui-1.10.3.custom.js"></script>
+    <script src="<?php echo $templateURL;?>js/jspdf.min.js"></script>
+    <?php echo $this->headScript() ?>
+    <?php $uri = $this->serverUrl(true); ?>
+        <link rel="stylesheet" href="<?php echo $templateURL;?>js/font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <link rel="stylesheet" href="<?php echo $templateURL;?>js/jqueryui/css/qlcbd-theme/jquery-ui-1.10.3.custom.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo $templateURL;?>css/style.css" type="text/css">
+</head>
+<body>
+    <div id="loading"></div>
+    <!--Header-->
+    <div id="header" class="no-print">
+        <div class="content">
+            <div class="title">
+                <a class="logo" href="<?php echo $this->basePath(); ?>">Hệ thống Quản lý cán bộ</a>
+            </div>
+            <div class="navigation">
+                <ul class="menu">
+                    <li class="first"><a href="<?php echo $this->basePath('application/user/account'); ?>">Tài khoản: <?=(new \Zend\Authentication\AuthenticationService)->getIdentity()->Username?></a></li>
+                    <li class="last"><a href="<?php echo $this->basePath('application/user/logout'); ?>">Đăng xuất</a></li>
+                </ul>
+
+            </div>
+            <ul class="submenu">
+                <?php
+                if ((new \Zend\Authentication\AuthenticationService)->getIdentity()->Role_Name == 'manager' | (new \Zend\Authentication\AuthenticationService)->getIdentity()->Role_Name == 'admin')
+                {
+                ?>
+                    <li  class="<?php if(strpos($uri, 'cadre/canbo')) echo 'active-submenu'; ?>">
+                        <a href="<?php echo $this->basePath('cadre/canbo'); ?>" title="Dành cho cán bộ thông thường">Cán bộ</a>
+                    </li>
+                    <li  class="<?php if(strpos($uri, 'manager')) echo 'active-submenu'; ?>">
+                        <a href="<?php echo $this->basePath('manager'); ?>" title="Dành cho cán bộ Ban tổ chức">Quản lý cán bộ</a>
+                    </li>
+                <?php
+                }
+
+                if ((new \Zend\Authentication\AuthenticationService)->getIdentity()->Role_Name == 'admin'): ?>
+                    <li  class="<?php if(strpos($uri, 'admin')) echo 'active-submenu'; ?>">
+                        <a href="<?php echo $this->basePath('admin'); ?>" title="Dành cho cán bộ Quản trị hệ thống">Quản trị cao cấp</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </div>
+    <!--End header-->
+    <!--Wrapper-->
+    <div id="wrapper" media="print">
+        <div class="content">
+            <div class="sidebar no-print">
+                <div class="item main-menu">
+                    <h3 class="title"><i class="fa fa-home"></i> Trình đơn chính</h3>
+                    <div class="itemContent">
+                        <ul class="menu">
+                            <li><a href="<?php echo $this->basePath('cadre'); ?>">Trang chủ</a></li>
+                            <li><a href="<?php echo $this->basePath('cadre/canbo/lylich'); ?>">Thông tin cá nhân</a></li>
+                            <li><a href="<?php echo $this->basePath('cadre/user/index'); ?>">Tài khoản</a></li>
+
+
+                            <li><a href="<?php echo $this->basePath('cadre/canbo'); ?>">Công tác</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!--<div class="item configure-menu">
+                    <h3 class="title">Cấu hình hệ thống</h3>
+                    <div class="itemContent">
+                        <ul class="menu">
+                            <li><a href="<?php /*echo $this->basePath('admin/user'); */?>">Tài khoản</a></li>
+                            <li>Bảo trì</li>
+                        </ul>
+                    </div>
+                </div>-->
+
+            </div>
+            <div class="main">
+                <?php
+                    //var_dump((new \Zend\Authentication\AuthenticationService)->getIdentity());
+                    echo $this->content;
+                ?>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <!--End wrapper-->
+    <!--Footer-->
+    <div id="footer">
+        <div class="content">
+            <div class="author">
+                <a class="logo" href="#"></a>
+            </div>
+
+            <div class="copyright">
+                <p>Hệ thống Quản lý Cán bộ Thành Đoàn TPHCM</p>
+                <p>Copyright &#169 2013</p>
+                <p>Xây dựng bởi Đoàn trường ĐH Công nghệ Thông tin - ĐHQG-HCM</p>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+    </div>
+    <!--End footer-->
+
+    <script src="<?php echo $templateURL;?>js/animation.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+select So_Hieu_CB, Ho_Ten_Khai_Sinh, Ten_Goi_Khac, Gioi_Tinh, So_CMND from `ly_lich` where 1

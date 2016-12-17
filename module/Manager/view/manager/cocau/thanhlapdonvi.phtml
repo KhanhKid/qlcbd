@@ -1,0 +1,315 @@
+<?php
+$khoiHTML   = '';
+$dsKhoi     = $this->dsCapKhoi;
+foreach ($dsKhoi as $value){
+    $khoiHTML .= '<option value="' . $value['Ma_Khoi'] . '">' . $value['Ten_Khoi'] . '</option>';
+}
+?>
+<script>
+    var listMaDonVi = <?php echo json_encode($this->listMaDonVi);?>;
+    var listKhoiTrucThuoc    = <?php echo json_encode($dsKhoi);?>;
+</script>
+<style>
+    #dragdrop {
+        width: 100%;
+        height: 70px;
+        color: #ccc;
+        font-size: 1.5em;
+        font-style: italic;
+        border: 2px dashed #ccc;
+        text-align: center;
+    }
+    .thaotac{
+        width: 20px;
+    }
+
+    .custom-combobox {
+        position: relative;
+        display: inline-block;
+        margin-right: 30px;
+    }
+    .custom-combobox-toggle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-left: -1px;
+        padding: 0;
+        /* support: IE7 */
+        *height: 1.7em;
+        *top: 0.1em;
+    }
+    .custom-combobox-input {
+        margin: 0;
+        padding: 0.3em;
+    }
+
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+</style>
+<div class="block">
+    <h2 class="title">Thành lập Đơn vị Đoàn thể</h2>
+    <div class="block-content">
+        <!--<form method="post">
+            Ngày thành lập: <input type="text" name="ngaythanhlap" class="ngaythanhlap" /><br/>
+            Tên đơn vị: <input type="text" name="tendonvi" id="tendonvi" placeholder="Nhập tên" />
+            Mã đơn vị: <input type="text" name="madonvi" id="madonvi" class="madonvi"><br/>
+            Khối trực thuộc:
+            <select name="khoitructhuoc">
+                <option value="0">KV Địa bàn dân cư</option>
+                <option value="1">KV Trường học</option>
+            </select>
+            <textarea name="mota"></textarea>
+            <script>
+                CKEDITOR.replace( 'mota', {
+                    toolbar: 'Basic'
+                });
+            </script>
+            <button type="submit">Thành lập</button>
+        </form>-->
+        <form method="post">
+            <table id="thanhlapdonvi">
+                <th>Tên đơn vị</th>
+                <th>Mã đơn vị</th>
+                <th>Ngày thành lập</th>
+                <th>Khối trực thuộc</th>
+                <th>Mô tả</th>
+                <tbody id="info">
+
+                </tbody>
+
+            </table>
+            <button id="add" type="button">Thêm</button><button type="submit">Thành lập</button>
+        </form>
+        <div class="clear"></div>
+        <div id="dragdrop">
+            <span id="caption">Thả tệp chứa danh sách tại đây</span>
+        </div>
+
+        <table id="danhsach">
+            <th>Tên đơn vị</th>
+            <th>Ngày thành lập</th>
+            <th>Mô tả</th>
+            <th>Tác vụ</th>
+            <?php
+            foreach ($this->listThongTin as $value){
+                echo '<tr>
+                        <td>'. $value['Ten_Đon_Vi'] .'</td>
+                        <td>'. date('d/m/Y',strtotime($value['Ngay_Thanh_Lap'])) .'</td>
+                        <td>', $value['Mo_Ta'] ,'</td>
+                        <td width=60>
+                            <a class="view" href="'. $this->basePath('manager/cocau/thongtindonvi/') . $value['Ma_ĐV'] .'" title="Xem thông tin"></a>','
+                            <a class="edit" href="'. $this->basePath('manager/cocau/chinhsuadonvi/') . $value['Ma_ĐV'] .'" title="Chỉnh sửa thông tin"></a>
+                        </td>
+                      </tr>'; 
+            }
+            ?>
+        </table>
+            <button type="button" onclick="tableToExcel('danhsach', 'Download')">Xuất danh sách</button>
+
+    </div>
+</div>
+<script>
+
+
+    var obj = $("#dragdrop");
+    var caption = $('#caption');
+    var counter = 0;
+    obj.on('dragenter', function (e)
+    {
+        e.stopPropagation();
+        e.preventDefault();
+        $(this).css('border', '2px solid #0B85A1');
+        caption.html('Thả tệp');
+    });
+    obj.on('dragover', function (e)
+    {
+        e.stopPropagation();
+        e.preventDefault();
+    });
+    obj.on('drop', function (e)
+    {
+        $(this).css('border', '2px dotted #0B85A1');
+        e.preventDefault();
+        var files = e.originalEvent.dataTransfer.files;
+        handleFileUpload(files,obj);
+    });
+    function handleFileUpload(files,obj)
+    {
+        for (var i = 0; i < files.length; i++)
+        {
+            var fd = new FormData();
+            fd.append('file', files[i]);
+            sendFileToServer(fd);
+
+        }
+    }
+    function sendFileToServer(formData){
+        var area = $('#info');
+        $.ajax({
+            type: "POST",
+            url: "<?php echo $this->basePath('manager/cocau/danhsachdonvi'); ?>",
+            data: formData,
+            contentType : false,
+            processData : false,
+            success: function( data )
+            {
+                if (data == 'Error'){
+
+                    $('#caption').text('Tệp không hợp lệ!');
+                    return;
+                }
+                setTimeout(function(){
+                    $('#caption').html('Thả tệp danh sách vào đây');
+                }, 3000);
+                var obj = $.parseJSON(data);
+                var html = '';
+                var length = obj.length;
+                var count;
+                for (count = 0; count < length; count++){
+                    var madonvi = '';
+                    var arr = obj[count].A.split(' ');
+                    var size = arr.length;
+                    for (i = 0; i < size - 1; i++)
+                    {
+                        madonvi += arr[i].charAt(0);
+                    }
+                    //Kiểm tra nếu từ cuối cùng là số thì lấy hết số
+                    if (arr[size - 1] == parseInt(arr[size - 1])){
+                        madonvi += arr[size - 1];
+                    }
+                    else{
+                        madonvi += arr[size - 1].charAt(0);
+                    }
+
+                    //Loại bỏ dấu
+                    madonvi = locdau(madonvi);
+                    var number = 1;
+                    //Kiểm tra mã đơn vị mới tạo có trùng với danh sách đã có hay chưa?
+                    var tmp = madonvi;
+                    while (listMaDonVi.indexOf(tmp) != -1){
+                        tmp = madonvi + '-' + number;
+                        number++;
+                    }
+
+                    html = '<tr>\ ' +
+                        '       <td><input type="text" name="tendonvi[]" value="' + obj[count].A + '" /></td>\
+                                <td><input type="text" onchange="checkMaDonVi(this)" class="madonvi" name="madonvi[]" value="' + tmp + '" /></td>\
+                                <td><input type="text" class="ngaythanhlap" name="ngaythanhlap[]" value="' + obj[count].B + '" /></td>\
+                                <td><select class="khoitructhuoc-'+ (++counter) + '" name="khoitructhuoc[]"><?php echo $khoiHTML;?></select></td>\
+                                <td><input type="text" name="mota[]" value="' + obj[count].D + '" /></td>\
+                                <td class="thaotac"><span class="delete" onclick="deleteRow(this)" title="Xóa"></span></td>\
+                              </tr>';
+                    area.append(html);
+
+                    //Set selected index
+                    $('.khoitructhuoc-' + counter).find("option").filter(function(){
+                        return ($(this).text() == obj[count].C)
+                    }).prop('selected', true);
+                    $('.khoitructhuoc-' + counter).combobox();
+                    //Cập nhật lại list mã đơn vị
+                    listMaDonVi.push(tmp);
+                }
+                $('.ngaythanhlap').datepicker();
+
+                counter++;
+            }
+        });
+    }
+    $('#add').click(function(){
+        var area = $('#info');
+        var html = '';
+        html = '<tr>\ ' +
+            '       <td><input type="text" onchange="createMaDonVi(this)" name="tendonvi[]" value="" /></td>\
+                                <td><input type="text" onchange="checkMaDonVi(this)" class="madonvi" name="madonvi[]" value="" /></td>\
+                                <td><input type="text" class="ngaythanhlap" name="ngaythanhlap[]" value="" /></td>\
+                                <td><select class="khoitructhuoc-'+ (++counter) + '" name="khoitructhuoc[]"><?php echo $khoiHTML;?></select></td>\
+                                <td><input type="text" name="mota[]" value="" /></td>\
+                                <td class="thaotac"><span class="delete" onclick="deleteRow(this)" title="Xóa"></span></td>\
+                              </tr>';
+        area.append(html);
+        $('.ngaythanhlap').datepicker();
+        $('.khoitructhuoc-' + (counter)).combobox();
+    });
+
+    function createMaDonVi(obj){
+        var madonvi = '';
+        var obj = $(obj);
+        var str = obj.val();
+        var arr = str.split(' ');
+        var length = arr.length;
+        for (i = 0; i < length - 1; i++)
+        {
+            madonvi += arr[i].charAt(0);
+        }
+        //Kiểm tra nếu từ cuối cùng là số thì lấy hết số
+        if (arr[length - 1] == parseInt(arr[length - 1])){
+            madonvi += arr[length - 1];
+        }
+        else{
+            madonvi += arr[length - 1].charAt(0);
+        }
+
+        //Loại bỏ dấu
+        madonvi = locdau(madonvi);
+
+        number = 1;
+        //Kiểm tra mã đơn vị mới tạo có trùng với danh sách đã có hay chưa?
+        tmp = madonvi;
+        while (listMaDonVi.indexOf(tmp) != -1){
+            tmp = madonvi + '-' + number;
+            number++;
+        }
+        listMaDonVi.push(tmp);
+        obj.parent().parent().find('.madonvi').val(tmp);
+    }
+
+
+    function checkMaDonVi(obj){
+        obj = $(obj);
+        value = locdau(obj.val());
+        obj.val(value);
+        if (listMaDonVi.indexOf(value) != -1){
+            alert('Trùng mã đơn vị!\nVui lòng chọn mã khác');
+        }
+    }
+
+    function deleteRow(obj){
+        var obj = $(obj);
+        obj.parent().parent().remove();
+    }
+
+    $('.edit').click(function(){
+        window.location.href = 'chinhsuadonvi/'+ $(this).val();
+    });
+
+    $('.view').click(function(){
+        window.location.href = 'thongtindonvi/'+ $(this).val();
+    });
+
+    function locdau(str) {
+        /* tìm kiếm và thay thế tất cả các nguyên âm có dấu sang không dấu*/
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
+        str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g,"A");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");
+        str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g,"E");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i");
+        str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g,"I");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");
+        str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g,"O");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");
+        str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g,"U");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");
+        str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g,"Y");
+        str = str.replace(/đ/g,"d");
+        str = str.replace(/Đ/g,"D");
+        str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'| |\"|\&|\#|\[|\]|~|$|_/g,"-");
+        /* tìm và thay thế các kí tự đặc biệt trong chuỗi sang kí tự - */
+        str = str.replace(/-+-/g,"-"); //thay thế 2- thành 1-
+        str = str.replace(/^\-+|\-+$/g,"");//cắt bỏ ký tự - ở đầu và cuối chuỗi
+        return str;
+    }
+</script>

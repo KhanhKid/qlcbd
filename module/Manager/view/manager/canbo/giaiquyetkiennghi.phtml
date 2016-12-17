@@ -1,0 +1,267 @@
+<style type="text/css" title="currentStyle">
+    @import "<?php echo ROOT_PATH; ?>public/script/datatable/media/css/demo_page.css";
+    @import "<?php echo ROOT_PATH; ?>public/script/datatable/media/css/demo_table.css";
+    @import "<?php echo ROOT_PATH; ?>public/script/datatable/extras/TableTools/media/css/TableTools.css";
+    @import "<?php echo ROOT_PATH; ?>public/script/datatable/extras/ColReorder/media/css/ColReorder.css";
+    thead input { width: 100% }
+    input.search_init { color: #999 }
+</style>
+<script>
+    function checkInput(){
+        if ($('#begin').val() > $('#end').val()){
+            alert('Ngày bắt đầu không lớn hơn ngày kết thúc');
+            $('#begin').val($('#end').val());
+        }
+    }
+
+    function loadData(begin, end, all){
+        $('#loading').fadeIn(300);
+        var parameter = '';
+        if (begin){
+            parameter += '?begin=' + begin + '&end=' + end;
+        }
+        if (all){
+            parameter += '&all=true'
+        }
+        $.ajax({
+            type: "POST",
+            url: "<?php echo $this->basePath('manager/canbo/kiennghitheongay/'); ?>" + parameter,
+            data: "",
+            contentType : false,
+            processData : false,
+            success: function( data )
+            {
+                var obj = JSON.parse(data);
+                console.log(obj);
+                var size = obj.length;
+                var html = '<table id="kiennghi-1" cellpadding="0" cellspacing="0" border="0" class="display">';
+                html += '<thead>\
+                            <tr>\
+                                <td><input type="text" class="search_init" /></td>\
+                                <td><input type="text" class="search_init" /></td>\
+                                <td><input type="text" class="search_init" /></td>\
+                                <td><input type="text" class="search_init" /></td>\
+                                <td><input type="text" class="search_init" /></td>\
+                                <td><input type="text" class="search_init" /></td>\
+                            </tr>\
+                            <tr>\
+                                <th>Thời gian</th>\
+                                <th>Cán bộ</th>\
+                                <th>CMND</th>\
+                                <th>Tiêu đề</th>\
+                                <th>Nội dung kiến nghị</th>\
+                                <th>Minh chứng</th>\
+                                <th style="width: 60px;"></th>\
+                            </tr>\
+                        </thead>';
+                for (i = 0; i < size; i++){
+                    if (obj[i] == '')
+                    {
+                        break;
+                    }
+                    html += '<tr>';
+                    html += '<td>' + obj[i].Thoi_Gian + '</td>';
+                    html += '<td>' + obj[i].Ten_CB_Kien_Nghi + '</td>';
+                    html += '<td>' + obj[i].So_CMND + '</td>';
+                    html += '<td>' + obj[i].Ten_Kien_Nghi + '</td>';
+                    html += '<td>' + obj[i].Noi_Dung + '</td>';
+                    if (obj[i].File_URL){
+                        html += '<td><a href="<?php echo $this->basePath('manager/canbo/taifileKiennghi/');?>' + obj[i].File_URL.replace('.zip', '') +'" class="download" title="Tải về"></a>';
+                    }
+                    else{
+                        html += '<td>(Không có)</td>'
+                    }
+                    html +='<td>\
+                                <a href="<?php echo $this->basePath('manager/canbo/bosung/');?>'+ obj[i].Ma_Can_Bo +'?time=' + obj[i].Thoi_Gian + '" class="done" title="Giải quyết"></a>\
+                                <a href="<?php echo $this->basePath('manager/canbo/boquaKiennghi/');?>'+ obj[i].Ma_Can_Bo +'?time=' + obj[i].Thoi_Gian + '" class="notallow" title="Bỏ qua"></a>\
+                            </td>';
+
+                    html += '</tr>';
+                }
+                html += '</table>';
+                $('#kiennghi').html(html);
+                loadTable();
+                $('#loading').fadeOut(300);
+            }
+        });
+    }
+
+    function loadTable()
+    {
+        var oTable;
+
+        /* Add the events etc before DataTables hides a column */
+        $("thead input").keyup( function () {
+            /* Filter on the column (the index) of this element */
+            oTable.fnFilter( this.value, oTable.oApi._fnVisibleToColumnIndex(
+                oTable.fnSettings(), $("thead input").index(this) ) );
+        } );
+
+        /*
+         * Support functions to provide a little bit of 'user friendlyness' to the textboxes
+         */
+        $("thead input").each( function (i) {
+            this.initVal = this.value;
+        } );
+
+        $("thead input").focus( function () {
+            if ( this.className == "search_init" )
+            {
+                this.className = "";
+                this.value = "";
+            }
+        } );
+
+        $("thead input").blur( function (i) {
+            if ( this.value == "" )
+            {
+                this.className = "search_init";
+                this.value = this.initVal;
+            }
+        } );
+
+        oTable = $('#kiennghi-1').dataTable( {
+            "sDom": 'T<"clear">lfrtip',
+            "oTableTools": {
+                "sSwfPath": "<?php echo ROOT_PATH; ?>public/script/datatable/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
+                "aButtons": [ 'xls' ]
+            }
+        } );
+    }
+</script>
+
+<div class="block">
+    <h2 class="title">Giải quyết kiến nghị cán bộ</h2>
+    <div class="block-content">
+        <fieldset>
+            <legend>Chọn khoảng thời gian</legend>
+            <div class="content">
+                <form onsubmit="return false">
+                    Bắt đầu: <input onchange="checkInput()" type="text" class="ngaythang" id="begin" value="<?php echo date('Y-m-d'); ?>" />
+                    Kết thúc: <input onchange="checkInput()" type="text" class="ngaythang" id="end" value="<?php echo date('Y-m-d'); ?>" />
+                    <br/><button id="view" type="button">Xem kiến nghị</button>
+                    <button id="viewall" type="button">Xem tất cả</button>
+                </form>
+
+            </div>
+        </fieldset>
+        <fieldset>
+        <legend>Các kiến nghị chưa giải quyết</legend>
+            <div class="content" id="kiennghi">
+
+            </div>
+        </fieldset>
+
+        <!--<fieldset>
+        <legend>Các kiến nghị đã giải quyết</legend>
+            <div class="content" id="kiennghigiaiquyet">
+                <!--<table id="kiennghi-2" cellpadding="0" cellspacing="0" border="0" class="display">
+                    <thead>
+                        <tr>
+                            <td><input type="text" value="" class="search_init" /></td>
+                            <td><input type="text" value="" class="search_init" /></td>
+                            <td><input type="text" value="" class="search_init" /></td>
+                            <td><input type="text" value="" class="search_init" /></td>
+                            <td><input type="text" value="" class="search_init" /></td>
+                            <td></td>
+                            <td></td>
+                            <td style="width: 60px !important;"></td>
+                        </tr>
+                        <tr>
+                            <th>Thời gian</th>
+                            <th>Cán bộ</th>
+                            <th>CMND</th>
+                            <th>Tiêu đề</th>
+                            <th>Nội dung kiến nghị</th>
+                            <th>Minh chứng</th>
+                            <th>Tình trạng</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <?php
+                   /* if($this->dsKienNghiGQ){
+                        $dsKienNghi = array_merge($this->dsKienNghiGQ, $this->dsKienNghiKGQ);
+                        //var_dump($dsKienNghi);exit;
+                        foreach($dsKienNghi as $element){
+                            $file_url_array = explode('/',$element['File_URL']);
+                            echo '<tr>
+                                        <td>',$element['Thoi_Gian'], '</td>
+                                        <td>',$element['Ten_CB_Kien_Nghi'], '</td>
+                                        <td>',$element['So_CMND'], '</td>
+                                        <td>',$element['Ten_Kien_Nghi'], '</td>
+                                        <td>',$element['Noi_Dung'], '</td>
+                                        <td>',(!$element['File_URL'])?'(không có)'
+                                                                    :(' <a href="'.$this->basePath('manager/canbo/taifileKiennghi/'). $element['Ma_Can_Bo'].'-'.strtotime($element['Thoi_Gian'])  .'" class="download" title="Tải về"></a>'),'
+                                        </td>
+                                        <td>',($element['Trang_Thai']==0)?'đã giải quyết':'bỏ qua', '</td>
+                                        <td>
+                                            <a href="', $this->basePath('manager/canbo/xoaKiennghi/'),$element['Ma_Can_Bo'],'-',strtotime($element['Thoi_Gian'])  , '" class="delete" title="Xóa"></a>
+                                        </td>
+                                      </tr>';
+                        }
+                    }
+                    */?>
+                </table>
+            </div>
+            <button type="button" onclick="">Danh sách kiến nghị đã giải quyết</button>
+        </fieldset>-->
+
+    </div>
+</div>
+<script>
+    $(document).ready( function () {
+        var oTable;
+
+        /* Add the events etc before DataTables hides a column */
+        $("thead input").keyup( function () {
+            /* Filter on the column (the index) of this element */
+            oTable.fnFilter( this.value, oTable.oApi._fnVisibleToColumnIndex(
+                oTable.fnSettings(), $("thead input").index(this) ) );
+        } );
+
+        /*
+         * Support functions to provide a little bit of 'user friendlyness' to the textboxes
+         */
+        $("thead input").each( function (i) {
+            this.initVal = this.value;
+        } );
+
+        $("thead input").focus( function () {
+            if ( this.className == "search_init" )
+            {
+                this.className = "";
+                this.value = "";
+            }
+        } );
+
+        $("thead input").blur( function (i) {
+            if ( this.value == "" )
+            {
+                this.className = "search_init";
+                this.value = this.initVal;
+            }
+        } );
+
+        oTable = $('#kiennghi-1').dataTable( {
+            "sDom": 'T<"clear">lfrtip',
+            "oTableTools": {
+                "sSwfPath": "<?php echo ROOT_PATH; ?>public/script/datatable/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
+                "aButtons": [
+                    'xls'
+                ]
+            }
+            //"sPaginationType": "full_numbers"
+        } );
+
+    } );
+    loadData(false,false,false);
+    $('#view').click(function(){
+        var begin   = $('#begin').val();
+        var end     = $('#end').val();
+        loadData(begin, end);
+    });
+    $('#viewall').click(function(){
+        loadData(true, true, true);
+    });
+    $(".ngaythang").datepicker({dateFormat: 'yy-mm-dd'});
+</script>

@@ -1,0 +1,62 @@
+<div class="block">
+    <h2 class="title">Loại Hình Ban</h2>
+    <div class="block-content">
+        <form method="post">
+            <input type="hidden" name="madonvi" value="<?php echo $this->data['Ma_ĐV'];?>">
+            <p>Tên Loại Hình Phòng/Ban: <input type="text" size ='50' name = "tenloaihinh" value="<?php echo $this->data['Ten_Đon_Vi']; ?>" /></p>
+
+            <p>
+                Kiểu Loại Hình Ban:
+                <select name="kieuloaihinh">
+                    <option selected="selected" value=''>(không rõ)</option>
+                    <?php
+                    if($this->dsKieuLoaiHinhBan){
+                        foreach($this->dsKieuLoaiHinhBan as $element){
+                            echo '<option value = "',$element['Ma_KLHB'],' "> ',$element['Ten_KLHB'],'</option>';
+                        }
+                    }
+                    ?>
+                </select>
+            </p>
+            <p>
+                Mô tả:
+                <textarea name="mota"><?php echo $this->data['Mo_Ta']; ?></textarea>
+                <script>
+                    CKEDITOR.replace( 'mota', {
+                        toolbar: 'Basic'
+                    });
+                </script>
+            </p>
+            <button type="submit">Thêm Loại Hình Mới</button>
+        </form>
+        <fieldset>
+            <legend>Danh sách các loại hình phòng/ban</legend>
+            <div class="content">
+                <table>
+                    <th>Tên Loại Hình</th>
+                    <th>Kiểu Loại Hình</th>
+                    <th>Mô tả</th>
+                    <th>Tác vụ</th>
+                    <?php
+                    if($this->dsLoaiHinhBan){
+                        foreach($this->dsLoaiHinhBan as $element){
+                            echo '<tr>
+                                        <td>',$element['Ten_Loai_Hinh_Ban'], '</td>
+                                        <td>',$element['Kieu_Loai_Hinh_Ban'], '</td>
+                                        <td>',$element['Mo_Ta'], '</td>
+                                        <td width=60>
+                                            <a class="view" href="'. $this->basePath('manager/cocau/thongtinloaihinhban/') . $element['Ma_Loai_Ban'] .'" title="Xem thông tin"></a>','
+                                            <a class="edit" href="'. $this->basePath('manager/cocau/chinhsualoaihinhban/') . $element['Ma_Loai_Ban'] .'" title="Chỉnh sửa thông tin"></a>
+                                        </td>
+                                      </tr>';
+                        }
+                    }
+                    ?>
+                </table>
+            </div>
+        </fieldset>
+    </div>
+    <script>
+        $('.ngaythanhlap').datepicker();
+    </script>
+</div>

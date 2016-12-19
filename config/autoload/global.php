@@ -18,8 +18,8 @@ return array(
     'website_db' => array(
         'driver'         => 'Pdo',
         'dsn'            => 'mysql:dbname=qlcbd_website;host=localhost;',
-        'username'       => 'root',
-        'password'       => '',
+        'username'       => 'adminZyYMNQt',
+        'password'       => 'DHD6sbvLCR4G',
         'driver_options' => array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\' ',
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -30,8 +30,8 @@ return array(
     'qlcbd_db' => array(
         'driver'         => 'Pdo',
         'dsn'            => 'mysql:dbname=qlcbd;host=localhost;',
-        'username'       => 'root',
-        'password'       => '',
+        'username'       => 'adminZyYMNQt',
+        'password'       => 'DHD6sbvLCR4G',
         'driver_options' => array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\' ',
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

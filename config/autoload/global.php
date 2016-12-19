@@ -17,9 +17,9 @@ return array(
     //website
     'website_db' => array(
         'driver'         => 'Pdo',
-        'dsn'            => 'mysql:dbname=qlcbd_website;host=localhost;',
-        'username'       => 'adminZyYMNQt',
-        'password'       => 'DHD6sbvLCR4G',
+        'dsn'            => 'mysql:dbname=qlcbd_website;host='.getenv('OPENSHIFT_MYSQL_DB_HOST').';',
+        'username'       => getenv('OPENSHIFT_MYSQL_DB_USERNAME'),
+        'password'       => getenv('OPENSHIFT_MYSQL_DB_PASSWORD'),
         'driver_options' => array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\' ',
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -29,9 +29,9 @@ return array(
     //he thong quan ly
     'qlcbd_db' => array(
         'driver'         => 'Pdo',
-        'dsn'            => 'mysql:dbname=qlcbd;host=localhost;',
-        'username'       => 'adminZyYMNQt',
-        'password'       => 'DHD6sbvLCR4G',
+        'dsn'            => 'mysql:dbname=qlcbd;host='.getenv('OPENSHIFT_MYSQL_DB_HOST').';',
+        'username'       => getenv('OPENSHIFT_MYSQL_DB_USERNAME'),
+        'password'       => getenv('OPENSHIFT_MYSQL_DB_PASSWORD'),
         'driver_options' => array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\' ',
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

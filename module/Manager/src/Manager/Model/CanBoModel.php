@@ -203,7 +203,7 @@ class CanBoModel extends AbstractModel {
 	public function getAllBriefInfo() {
 		//chú ý chuyển đồi format của ngày tháng khi lấy thông tin lên
 		$sql = "SELECT can_bo.Ma_Can_Bo, Ho_Ten_CB, DATE_FORMAT(Ngay_Sinh,'%d/%m/%Y') AS Ngay_Sinh, SO_CMND AS So_CMND
-                from Can_Bo left join Ly_Lich on( can_bo.Ma_Can_Bo = Ly_Lich.Ma_CB)
+                from can_bo left join ly_lich on( can_bo.Ma_Can_Bo = ly_lich.Ma_CB)
                 WHERE (Ngay_Roi_Khoi IS NULL) AND can_bo.DangHoatDong = 1;";
 
 		$parameters = null;
@@ -234,16 +234,16 @@ class CanBoModel extends AbstractModel {
 	 */
 	public function getAllWorkInfo() {
 		$sql = 'SELECT Ten_Đon_Vi, Ten_Ban, Ma_Can_Bo, Ho_Ten_CB, DATE_FORMAT(Ngay_Sinh,"%d/%m/%Y") AS Ngay_Sinh, So_CMND, chuc_vu.Ten_Chuc_Vu
-                FROM can_bo LEFT JOIN ly_lich ON (can_bo.Ma_Can_Bo = ly_lich.Ma_CB)
-                            LEFT JOIN thong_tin_tham_gia_ban ON (thong_tin_tham_gia_ban.Ma_CB = can_bo.Ma_Can_Bo
+                FROM can_bo ca LEFT JOIN ly_lich ly ON (ca.Ma_Can_Bo = ly.Ma_CB)
+                            LEFT JOIN thong_tin_tham_gia_ban ON (thong_tin_tham_gia_ban.Ma_CB = ca.Ma_Can_Bo
                                                                     AND (thong_tin_tham_gia_ban.Ngay_Roi_Khoi IS NULL)
                                                                     AND(thong_tin_tham_gia_ban.La_Cong_Tac_Chinh = 1)
 
                                                                 )
                             LEFT JOIN chuc_vu ON (thong_tin_tham_gia_ban.Ma_CV = chuc_vu.Ma_Chuc_Vu)
                             LEFT JOIN ban ON (thong_tin_tham_gia_ban.Ma_Ban = ban.Ma_Ban)
-                            LEFT JOIN Đon_vi ON (ban.Ma_Đon_Vi =  Đon_vi.Ma_ĐV)
-                WHERE  (can_bo.Ngay_Roi_Khoi IS NULL) AND (can_bo.Trang_Thai = 1) AND can_bo.DangHoatDong = 1
+                            LEFT JOIN đon_vi ON (ban.Ma_Đon_Vi =  đon_vi.Ma_ĐV)
+                WHERE  (ca.Ngay_Roi_Khoi IS NULL) AND (ca.Trang_Thai = 1) AND ca.DangHoatDong = 1
                 GROUP BY Ma_Can_Bo';
 
 		//query
@@ -259,7 +259,7 @@ class CanBoModel extends AbstractModel {
 	public function getDSCanBoNgungCongTac() {
 		//chú ý chuy?n ??i format c?a ngày tháng khi l?y thông tin lên
 		$sql = "SELECT can_bo.Ma_Can_Bo, Ho_Ten_CB, DATE_FORMAT(Ngay_Sinh,'%d/%m/%Y') AS Ngay_Sinh, SO_CMND AS So_CMND, Ngay_Roi_Khoi, Tham_Gia_CLBTT, Trang_Thai
-                from Can_Bo left join Ly_Lich on( can_bo.Ma_Can_Bo = Ly_Lich.Ma_CB)
+                from can_bo left join ly_lich on( can_bo.Ma_Can_Bo = ly_lich.Ma_CB)
                 WHERE (Ngay_Roi_Khoi IS NOT NULL) OR (Trang_Thai <> 1)";
 
 		$parameters = null;
@@ -302,10 +302,10 @@ class CanBoModel extends AbstractModel {
 		$thongTinLuong[0]['Thoi_Gian_Nang_Luong'] = $this->formatDateForDB($thongTinLuong[0]['Thoi_Gian_Nang_Luong']);
 
 		//
-		$sql = 'Insert Into Can_Bo (Ho_Ten_CB, Ngay_Gia_Nhap,  Ngay_Tuyen_Dung, Ngay_Bien_Che ) VALUE (:Ho_Ten, :Ngay_Gia_Nhap, :ngaytuyendung, :ngaybienche);
+		$sql = 'Insert Into can_bo (Ho_Ten_CB, Ngay_Gia_Nhap,  Ngay_Tuyen_Dung, Ngay_Bien_Che ) VALUE (:Ho_Ten, :Ngay_Gia_Nhap, :ngaytuyendung, :ngaybienche);
                 SELECT LAST_INSERT_ID() into @ma_cb_moi;
                 Insert Into Qua_Trinh_Luong (Ma_CB, Thoi_Gian_Nang_Luong, Ma_So_Ngach, Bac_Luong) VALUEs (@ma_cb_moi, :ngaynangluong1, :masongach1, :bacluong1);
-                Insert Into Ly_Lich (Ma_CB, Ngay_Sinh, Gioi_Tinh) VALUE (@ma_cb_moi, :ngaysinh, :Gioi_Tinh);';
+                Insert Into ly_lich (Ma_CB, Ngay_Sinh, Gioi_Tinh) VALUE (@ma_cb_moi, :ngaysinh, :Gioi_Tinh);';
 
 		//Các Quá Trình L??ng
 
@@ -729,7 +729,7 @@ class CanBoModel extends AbstractModel {
 	}
 
 	public function getTrinhDoChuyenMonList() {
-		$sql = 'SELECT `Cap_Đo_TĐCM`,`Ten_TĐCM`,`Ten_TĐCM` FROM `trinh_Đo_chuyen_mon`;';
+		$sql = 'SELECT `Cap_Đo_TĐCM`,`Ten_TĐCM`,`Ten_TĐCM` FROM `trinh_đo_chuyen_mon`;';
 
 		//get data to array
 		$data = $this->query($sql, null);
@@ -738,7 +738,7 @@ class CanBoModel extends AbstractModel {
 	}
 
 	public function getTrinhDoLLCTList() {
-		$sql = 'SELECT * FROM `trinh_Đo_ly_luan_chinh_tri`;';
+		$sql = 'SELECT * FROM `trinh_đo_ly_luan_chinh_tri`;';
 
 		//get data to array
 		$data = $this->query($sql, null);
@@ -753,7 +753,7 @@ class CanBoModel extends AbstractModel {
 	 */
 	public function getLyLichCanBo($maCanBo) {
 		// (backup code)
-		$sql = 'SELECT can_bo.Ma_Can_Bo, Đon_vi.Ten_Đon_Vi, can_bo.Ho_Ten_CB,can_bo.Ma_Quan_Ly, ly_lich.So_Hieu_CB, can_bo.Ngay_Tuyen_Dung, can_bo.Ngay_Bien_Che, can_bo.Ngay_Roi_Khoi, can_bo.Trang_Thai, can_bo.Tham_Gia_CLBTT,
+		$sql = 'SELECT can_bo.Ma_Can_Bo, đon_vi.Ten_Đon_Vi, can_bo.Ho_Ten_CB,can_bo.Ma_Quan_Ly, ly_lich.So_Hieu_CB, can_bo.Ngay_Tuyen_Dung, can_bo.Ngay_Bien_Che, can_bo.Ngay_Roi_Khoi, can_bo.Trang_Thai, can_bo.Tham_Gia_CLBTT,
                        ly_lich.Ho_Ten_Khai_Sinh, Ten_Goi_Khac, Gioi_Tinh,Cap_Uy_Hien_Tai, Cap_Uy_Kiem, cvchinh.Ten_Chuc_Vu as Chuc_Vu_Chinh, Chuc_Danh as Chuc_Danh, Phu_Cap_Chuc_Vu,
                        Ngay_Sinh, Noi_Sinh, Que_Quan,Noi_O_Hien_Nay, Đien_Thoai,
                        ly_lich.Ton_Giao AS Ma_Ton_Giao, ton_giao.Ten_Ton_Giao as Ton_Giao, ly_lich.Dan_Toc AS Ma_Dan_Toc, dan_toc.Ten_Dan_Toc as Dan_Toc,Thanh_Phan_Gia_Đinh_Xuat_Than,
@@ -762,7 +762,7 @@ class CanBoModel extends AbstractModel {
                        Ngay_Vao_Đang, Ngay_Chinh_Thuc,
                        Ngay_Tham_Gia_Cac_To_Chuc_Chinh_Tri_Xa_Hoi,
                        Ngay_Nhap_Ngu, Ngay_Xuat_Ngu, Quan_Ham_Chuc_Vu_Cao_Nhat,
-                       Trinh_Đo_Hoc_Van, ly_lich.Cap_Đo_TĐCM, trinh_Đo_chuyen_mon.Ten_TĐCM as Trinh_Đo_Chuyen_Mon, Chuyen_Nganh, Hoc_Ham, ly_lich.Cap_Đo_CTLL, trinh_Đo_ly_luan_chinh_tri.Ten_CTLL, Ngoai_Ngu,
+                       Trinh_Đo_Hoc_Van, ly_lich.Cap_Đo_TĐCM, trinh_đo_chuyen_mon.Ten_TĐCM as Trinh_Đo_Chuyen_Mon, Chuyen_Nganh, Hoc_Ham, ly_lich.Cap_Đo_CTLL, trinh_đo_ly_luan_chinh_tri.Ten_CTLL, Ngoai_Ngu,
                        Cong_Tac_Chinh_Đang_Lam, qua_trinh_luong.Thoi_Gian_Nang_Luong, qua_trinh_luong.Ma_So_Ngach, qua_trinh_luong.Bac_Luong, qua_trinh_luong.He_So_Luong, qua_trinh_luong.He_So_Phu_Cap, qua_trinh_luong.Muc_Luong_Khoang, qua_trinh_luong.Phu_Cap_Vuot_Khung,
                        Danh_Hieu_Đuoc_Phong, So_Truong_Cong_Tac, Cong_Viec_Lam_Lau_Nhat, Khen_Thuong, Ky_Luat, Khen_Thuong,
                        Tinh_Trang_Suc_Khoe, Tien_Su_Benh, Chieu_Cao, Can_Nang, Nhom_Mau, So_CMND , Ngay_Cap_CMND, Noi_Cap_CMND,
@@ -775,14 +775,14 @@ class CanBoModel extends AbstractModel {
                             LEFT JOIN chuc_vu as cvchinh ON (can_bo.Ma_CV_Chinh = cvchinh.Ma_Chuc_Vu)
                             LEFT JOIN dan_toc ON (ly_lich.Dan_Toc = dan_toc.Ma_Dan_Toc)
                             LEFT JOIN ton_giao ON (ly_lich.Ton_Giao = ton_giao.Ma_Ton_Giao)
-                            LEFT JOIN trinh_Đo_chuyen_mon ON (ly_lich.Cap_Đo_TĐCM = trinh_Đo_chuyen_mon.Cap_Đo_TĐCM)
-                            LEFT JOIN trinh_Đo_ly_luan_chinh_tri ON (ly_lich.Cap_Đo_CTLL = trinh_Đo_ly_luan_chinh_tri.Cap_Đo_LLCT)
+                            LEFT JOIN trinh_đo_chuyen_mon ON (ly_lich.Cap_Đo_TĐCM = trinh_đo_chuyen_mon.Cap_Đo_TĐCM)
+                            LEFT JOIN trinh_đo_ly_luan_chinh_tri ON (ly_lich.Cap_Đo_CTLL = trinh_đo_ly_luan_chinh_tri.Cap_Đo_LLCT)
                             LEFT JOIN qua_trinh_luong ON (can_bo.Ma_Can_Bo = qua_trinh_luong.Ma_CB AND qua_trinh_luong.thoi_gian_nang_luong >= (SELECT MAX(qtl2.Thoi_Gian_Nang_Luong)
                                                                                                                                                 FROM qua_trinh_luong qtl2
                                                                                                                                                 WHERE qtl2.Ma_CB = qua_trinh_luong.Ma_CB
                                                                                                                                                )
                                                            )
-                            LEFT JOIN Đon_vi ON (can_bo.Ma_ĐVCT_Chinh = Đon_vi.Ma_ĐV)
+                            LEFT JOIN đon_vi ON (can_bo.Ma_ĐVCT_Chinh = đon_vi.Ma_ĐV)
                 WHERE (can_bo.Ma_Can_Bo = :macb)
 
                 LIMIT 1;';
@@ -817,7 +817,7 @@ class CanBoModel extends AbstractModel {
 	public function getDaoTaoBoiDuong($maCanBo) {
 		//sql
 		$sql = 'SELECT Ma_ĐTBD, Ten_Truong, Nganh_Hoc, Thoi_Gian_Hoc, TG_Ket_Thuc,Hinh_Thuc_Hoc, Van_Bang_Chung_Chi
-                FROM Đao_tao_boi_duong WHERE ma_cb = :macb;';
+                FROM đao_tao_boi_duong WHERE ma_cb = :macb;';
 
 		//parameter
 		$parameters = array(
@@ -859,7 +859,7 @@ class CanBoModel extends AbstractModel {
 	public function getDacDiemLichSu($maCanBo) {
 		//sql
 		$sql = 'SELECT *
-                FROM Đac_Điem_lich_su WHERE ma_cb = :macb;';
+                FROM đac_điem_lich_su WHERE ma_cb = :macb;';
 
 		//parameter
 		$parameters = array(
@@ -1596,7 +1596,7 @@ class CanBoModel extends AbstractModel {
 		//init
 		$sql = 'SELECT Ma_CB
                 FROM thong_tin_tham_gia_ban
-                WHERE Ma_Ban IN (SELECT Ma_Ban_Chap_Hanh FROM Đon_vi WHERE Ma_ĐV = 0)
+                WHERE Ma_Ban IN (SELECT Ma_Ban_Chap_Hanh FROM đon_vi WHERE Ma_ĐV = 0)
                      AND Ngay_Roi_Khoi IS NULL;';
 
 		$parameters = null;
@@ -1709,7 +1709,7 @@ class CanBoModel extends AbstractModel {
 		$sql = 'SELECT thong_tin_tham_gia_ban.Ngay_Gia_Nhap, ban.Ma_Ban, ban.Ten_Ban, đon_vi.Ten_Đon_Vi, chuc_vu.Ten_Chuc_Vu, thong_tin_tham_gia_ban.La_Cong_Tac_Chinh, thong_tin_tham_gia_ban.Ngay_Roi_Khoi,
                       ban_truocdo.Ma_Ban AS Ma_Ban_TD, ban_truocdo.Ten_Ban AS Ten_Ban_TD, dv_truocdo.Ten_Đon_Vi AS Ten_Don_Vi_TD, cv_truocdo.Ten_Chuc_Vu AS Ten_Chuc_Vu_TD
                 FROM thong_tin_tham_gia_ban LEFT JOIN ban ON (thong_tin_tham_gia_ban.Ma_Ban = ban.Ma_Ban)
-                    LEFT JOIN đon_vi ON (ban.Ma_Đon_Vi = Đon_vi.Ma_ĐV)
+                    LEFT JOIN đon_vi ON (ban.Ma_Đon_Vi = đon_vi.Ma_ĐV)
                     LEFT JOIN chuc_vu ON (thong_tin_tham_gia_ban.Ma_CV = chuc_vu.Ma_Chuc_Vu)
 
                     LEFT JOIN thong_tin_tham_gia_ban tttgb_truocdo ON (thong_tin_tham_gia_ban.Ma_CB = tttgb_truocdo.Ma_CB
@@ -1748,7 +1748,7 @@ class CanBoModel extends AbstractModel {
 		$sql = 'SELECT thong_tin_tham_gia_ban.Ngay_Gia_Nhap, ban.Ma_Ban, ban.Ten_Ban, đon_vi.Ten_Đon_Vi, chuc_vu.Ten_Chuc_Vu, thong_tin_tham_gia_ban.La_Cong_Tac_Chinh, thong_tin_tham_gia_ban.Ngay_Roi_Khoi,
                       ban_truocdo.Ma_Ban AS Ma_Ban_TD, ban_truocdo.Ten_Ban AS Ten_Ban_TD, dv_truocdo.Ten_Đon_Vi AS Ten_Don_Vi_TD, cv_truocdo.Ten_Chuc_Vu AS Ten_Chuc_Vu_TD
                 FROM thong_tin_tham_gia_ban LEFT JOIN ban ON (thong_tin_tham_gia_ban.Ma_Ban = ban.Ma_Ban)
-                    LEFT JOIN đon_vi ON (ban.Ma_Đon_Vi = Đon_vi.Ma_ĐV)
+                    LEFT JOIN đon_vi ON (ban.Ma_Đon_Vi = đon_vi.Ma_ĐV)
                     LEFT JOIN chuc_vu ON (thong_tin_tham_gia_ban.Ma_CV = chuc_vu.Ma_Chuc_Vu)
 
                     LEFT JOIN thong_tin_tham_gia_ban tttgb_truocdo ON (thong_tin_tham_gia_ban.Ma_CB = tttgb_truocdo.Ma_CB

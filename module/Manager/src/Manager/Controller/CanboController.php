@@ -26,14 +26,19 @@ class CanboController extends AbstractActionController {
 	}
 
 	public function indexAction() {
+
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
 		$headScript = $helper->get('headscript');
 		$headScript->appendFile(ROOT_PATH . 'public/template/js/combobox.js');
+
 		//init view
 		$this->layout('layout/home');
 		$view                    = array(); //to view
 		$view['soluongKienNghi'] = $this->canboModel->getSoLuongKienNghi()[0]['counter']; //load "danh sach Cán Bộ" from database, với thông tin công tác
+
 		$view['dsCanBo']         = $this->canboModel->getAllBriefInfo(); //load "danh sach Cán Bộ" from database
+		
+		//echo '<pre>',var_dump($view),'</pre>';die();
 		return new ViewModel($view);
 	}
 
@@ -66,10 +71,11 @@ class CanboController extends AbstractActionController {
 
 		//get parameter from request
 		$curId = $this->params('id');
-		$curId = (null != $curId) ? $curId : $idCBNX; //from GET or from Auth
+		$curId = (!is_null($curId)) ? $curId : $idCBNX; //from GET or from Auth
 
 		//get info from model
 		$view['canbo_tdg'] = $this->canboModel->getBriefInfo($curId);
+
 		$view['message']   = ''; //nothing
 
 		//process request: when save this "đánh giá"
@@ -125,7 +131,6 @@ class CanboController extends AbstractActionController {
 			}
 
 		}
-
 		//view-model
 		$view['canbo_nx']            = $this->canboModel->getBriefInfo($idCBNX);
 		$view['mucdohoanthanh']      = $this->canboModel->getAllMucDoHoanThanh();

@@ -10,7 +10,7 @@ class UserModel  extends  AbstractModel
 {
     public function fetchAll()
     {
-        $sql = 'SELECT * FROM User LEFT JOIN can_bo ON (user.Identifier_Info = canbo.Ma_Can_Bo) WHERE can_bo.DangHoatDong = 1;';
+        $sql = 'SELECT * FROM user LEFT JOIN can_bo ON (user.Identifier_Info = canbo.Ma_Can_Bo) WHERE can_bo.DangHoatDong = 1;';
         $result = null;
         try{
             $sm = $this->adapter->createStatement($sql,null);
@@ -82,7 +82,7 @@ class UserModel  extends  AbstractModel
     }
 
     public function getRoleList(){
-        $sql = 'select Role_Name,Role_Display_Name from Role';
+        $sql = 'select Role_Name,Role_Display_Name from role';
         $result = null;
         try{
             $sm = $this->adapter->createStatement($sql,null);
@@ -113,7 +113,7 @@ class UserModel  extends  AbstractModel
 
 
 
-        $sql = 'insert into User (Username, Password, Password_Key, Role_Name, Identifier_Info)
+        $sql = 'insert into user (Username, Password, Password_Key, Role_Name, Identifier_Info)
                           values (:username, :password, :passwordKey, :role, :identifierInfo)';
         $parameters = array(
             'username' => $username,
@@ -192,7 +192,7 @@ class UserModel  extends  AbstractModel
         //echo $password; exit;
 
 
-        $sql = 'UPDATE User SET Password = :password, Password_Key = :passwordKey
+        $sql = 'UPDATE user SET Password = :password, Password_Key = :passwordKey
                 WHERE UserID = :userid';
         $parameters = array(
             'userid'        => $userid,

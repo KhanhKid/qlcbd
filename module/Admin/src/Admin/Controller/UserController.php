@@ -233,12 +233,9 @@ class UserController extends AbstractActionController
                 //throw $exc;
                 $view['message'] = 'Không thực hiện được [lỗi dữ liệu: trùng tài khoản,...]';
             }
-
-
-
         }
 
-
+        
 
         //init view
         $view['user'] =  $userModel->getInfo($userid);

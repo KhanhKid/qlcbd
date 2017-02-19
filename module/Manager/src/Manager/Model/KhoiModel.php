@@ -40,7 +40,7 @@ class KhoiModel extends  AbstractModel
      */
     public function getBriefInfo(){
         //init
-        $sql = 'SELECT Ma_Khoi, Ten_Khoi FROM Khoi;';
+        $sql = 'SELECT Ma_Khoi, Ten_Khoi FROM khoi;';
         $parameters = null;
 
         //process database

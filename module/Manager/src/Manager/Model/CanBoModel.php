@@ -639,7 +639,7 @@ class CanBoModel extends AbstractModel {
 	 * @return array
 	 */
 	public function getChucVuList() {
-		$sql    = 'select Ma_Chuc_Vu, Ten_Chuc_Vu from Chuc_Vu';
+		$sql    = 'select Ma_Chuc_Vu, Ten_Chuc_Vu from chuc_vu';
 		$result = null;
 
 		//
@@ -979,7 +979,7 @@ class CanBoModel extends AbstractModel {
 	public function getQuanHeGiaDinh($maCanBo, $benvo) {
 		//sql (CRAZY)
 		$sql = 'SELECT Ma_Quan_He, Quan_He, `Ho_Ten`, `Nam_Sinh`, `Thong_Tin_So_Luoc`
-                FROM thanh_vien_gia_Đinh
+                FROM thanh_vien_gia_đinh
                 WHERE ma_cb = :macb
                  AND  Ben_Vo = :benvo ; ';
 
@@ -1018,7 +1018,7 @@ class CanBoModel extends AbstractModel {
 
 	public function deleteQuanHeGiaDinh($maCanbo, $stt) {
 		//
-		$sql = 'DELETE FROM `thanh_vien_gia_Đinh`
+		$sql = 'DELETE FROM `thanh_vien_gia_đinh`
                 WHERE `Ma_CB`= :maCanbo AND `Ma_Quan_He`=:stt;';
 
 		$parameters = array(
@@ -1241,7 +1241,7 @@ class CanBoModel extends AbstractModel {
 	public function getAllMucDoHoanThanh() {
 		//chú ý chuy?n ??i format c?a ngày tháng khi l?y thông tin lên
 		$sql = "select *
-                from muc_Đo_hoan_thanh;";
+                from muc_đo_hoan_thanh;";
 		$parameters = null;
 
 		$result = null;
@@ -1440,7 +1440,7 @@ class CanBoModel extends AbstractModel {
 
 		//format date to database
 		//query
-		$sql = 'INSERT INTO `Đao_tao_boi_duong`(`Ma_CB`, `Ten_Truong`, `Nganh_Hoc`, `Thoi_Gian_Hoc`, `TG_Ket_Thuc`, `Hinh_Thuc_Hoc`, `Van_Bang_Chung_Chi`)
+		$sql = 'INSERT INTO `đao_tao_boi_duong`(`Ma_CB`, `Ten_Truong`, `Nganh_Hoc`, `Thoi_Gian_Hoc`, `TG_Ket_Thuc`, `Hinh_Thuc_Hoc`, `Van_Bang_Chung_Chi`)
                                         VALUES (:maCB, :tentruong, :nganhhoc, :tungay, :denngay, :hinhthuc, :vanbang);';
 
 		//parameter
@@ -1462,7 +1462,7 @@ class CanBoModel extends AbstractModel {
 
 	public function deleteDaoTaoBoiDuong($maCanbo, $madtbd) {
 		//
-		$sql = 'DELETE FROM `Đao_tao_boi_duong`
+		$sql = 'DELETE FROM `đao_tao_boi_duong`
                     WHERE `Ma_CB`=:maCanbo AND `Ma_ĐTBD`=:madtbd;';
 
 		$parameters = array(
@@ -1526,7 +1526,7 @@ class CanBoModel extends AbstractModel {
 		$ngaysinh = $this->formatDateForDB($ngaysinh);
 
 		//query
-		$sql = 'INSERT INTO `thanh_vien_gia_Đinh`(`Ma_CB`, `Ben_Vo`, `Quan_He`, `Ho_Ten`, `Nam_Sinh`, `Thong_Tin_So_Luoc`)
+		$sql = 'INSERT INTO `thanh_vien_gia_đinh`(`Ma_CB`, `Ben_Vo`, `Quan_He`, `Ho_Ten`, `Nam_Sinh`, `Thong_Tin_So_Luoc`)
                                         VALUES (:maCB, :benvo, :quanhe, :hoten, :ngaysinh, :thongtin);';
 
 		//parameter
@@ -1576,7 +1576,7 @@ class CanBoModel extends AbstractModel {
 		//var_dump($parameters);exit;
 
 		//sql
-		$sql = 'INSERT INTO `Đanh_gia_can_bo`(`Ma_CB_Tu_Đanh_Gia`, `Ngay_Đanh_Gia`, `Noi_Dung_Tu_Đanh_Gia`, `Ma_MĐHT_Tu_Đanh_Gia`, `Ma_ĐV_Muon_Đen`, `Ma_Ban_Muon_Đen`, `Thoi_Gian_Muon_Chuyen`, `Nguyen_Vong_Đao_Tao`,
+		$sql = 'INSERT INTO `đanh_gia_can_bo`(`Ma_CB_Tu_Đanh_Gia`, `Ngay_Đanh_Gia`, `Noi_Dung_Tu_Đanh_Gia`, `Ma_MĐHT_Tu_Đanh_Gia`, `Ma_ĐV_Muon_Đen`, `Ma_Ban_Muon_Đen`, `Thoi_Gian_Muon_Chuyen`, `Nguyen_Vong_Đao_Tao`,
                                               `Ma_CB_Đanh_Gia`, `Noi_Dung_Đanh_Gia`, `Ma_MĐHT`, `Ma_CHPT`, `Đinh_Huong`)
                                       VALUES (:id,:ngaydanhgia,:noidung_tdg, :mdht_tdg,:donvimuonden,:banmuonden, :ngaymuonchuyen,:nguyenvong,
                                               :id_nx,:noidung_nx,:mdht_nx,:chieuhuongphattrien,:dinhhuong)';

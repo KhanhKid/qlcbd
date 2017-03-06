@@ -466,7 +466,7 @@ function formatDate($date){
                                     <td>',$value['Ten_Truong'],'</td>
                                     <td>',$value['Nganh_Hoc'],'</td>
                                     <td>',$value['Hinh_Thuc_Hoc'],'</td>
-                                    <td>',formatDate($value['Thoi_Gian_Hoc']),'</td>
+                                    <td>',$value['Thoi_Gian_Hoc'],'</td>
                                     <td>',$value['TG_Ket_Thuc'],'</td>
                                     <td>',$value['Van_Bang_Chung_Chi'],'</td>
                                     <td>
@@ -601,7 +601,7 @@ function formatDate($date){
     </fieldset>
 
     <fieldset>
-        <legend>Hoàn cảnh kinh tế gia đình</legend>
+        <legend>Quá trình tăng lương</legend>
         <div class="content">
             Qúa trình lương trước đây:
             <table>
@@ -675,10 +675,17 @@ function formatDate($date){
                                                 <option value="1"   <?=($this->lylich['Trang_Thai']==1)?'selected="selected"':''?> > Đang công tác </option>
                                                 <option value="0"   <?=($this->lylich['Trang_Thai']==0)?'selected="selected"':''?> > Không còn công tác </option>
                                                 <option value="-1"  <?=($this->lylich['Trang_Thai']==-1)?'selected="selected"':''?> > Đã mất </option>
+                                                <option value="2"  <?=($this->lylich['Trang_Thai']==2)?'selected="selected"':''?> > Đơn vị khác </option>
+                                                <option value="3"  <?=($this->lylich['Trang_Thai']==3)?'selected="selected"':''?> > Tại gia </option>
                                              </select>
                                              </span>
 
-            <span>- Tham gia CLB Truyền Thống: </span> <span > <input type="checkbox"  name="thamgia_clbtt" <?=($this->lylich['Tham_Gia_CLBTT']==1)?' checked = "checked" ':''?> value='1' />   </span>
+            <span>- Tham gia CLB Truyền Thống: </span>
+            <input type="text" name="thamgia_clbtt" value="<?php echo date('d/m/Y',strtotime($this->lylich['Tham_Gia_CLBTT']))?>">
+            <br>
+            <span>- Số thẻ hội viên: </span>
+            <input type="text" name="sothehoivien" value="<?php echo $this->lylich['So_The_HoiVien']?>">
+            </span>
         </div>
     </fieldset>
     <p>

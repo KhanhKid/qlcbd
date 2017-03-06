@@ -589,13 +589,14 @@ class CanboController extends AbstractActionController {
 				$parameters['Cap_Do_CTLL']          = ('' == $parameters['Cap_Do_CTLL']) ? null : $parameters['Cap_Do_CTLL'];
 				$parameters['Cap_Do_TDCM']          = ('' == $parameters['Cap_Do_TDCM']) ? null : $parameters['Cap_Do_TDCM'];
 				$parameters['giadinhlietsy']        = (isset($parameters['giadinhlietsy'])) ? '1' : '0'; //Checkbox "giadinhlietsy"
-				$parameters['thamgia_clbtt']        = (isset($parameters['thamgia_clbtt'])) ? '1' : '0'; //Checkbox "thamgia_clbtt"
+				$parameters['thamgia_clbtt']        = ('' == $parameters['thamgia_clbtt']) ? null : $parameters['thamgia_clbtt']; 
+				$parameters['sothehoivien']        = ('' == $parameters['sothehoivien']) ? null : $parameters['sothehoivien']; 
 				//var_dump($parameters);exit;
 
 				//to model
 				try {
 					$canboModel->bosungThongTin($curId,
-						$parameters['hoten'], $parameters['ngaygianhap'], $parameters['ngaytuyendung'], $parameters['ngaybienche'], $parameters['ngayroikhoi'], $parameters['trangthai'], $parameters['thamgia_clbtt'],
+						$parameters['hoten'], $parameters['ngaygianhap'], $parameters['ngaytuyendung'], $parameters['ngaybienche'], $parameters['ngayroikhoi'], $parameters['trangthai'], $parameters['thamgia_clbtt'], $parameters['sothehoivien'],
 						$parameters['sohieu'], $parameters['hotenkhaisinh'], $parameters['tengoikhac'], $parameters['gioitinh'], $parameters['capuyhientai'], $parameters['capuykiem'], $parameters['chucdanh'], $parameters['phucapchucvu'],
 						$parameters['ngaysinh'], $parameters['noisinh'], $parameters['cmnd'], $parameters['ngaycapCMND'], $parameters['noicapCMND'],
 						$parameters['quequan'], $parameters['noiohiennay'], $parameters['dantoc'], $parameters['tongiao'], $parameters['dienthoai'], $parameters['ngaythamgiacm'],

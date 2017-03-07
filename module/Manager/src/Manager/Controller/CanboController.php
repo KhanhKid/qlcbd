@@ -19,6 +19,7 @@ class CanboController extends AbstractActionController {
 	public $canboModel;
 	public $banModel;
 	public $logModel;
+	public $DotDanhGiaModel;
 
 	public function __contructor() {
 		//$this->canboModel = new CanBoModel();
@@ -75,49 +76,23 @@ class CanboController extends AbstractActionController {
 
 		//get info from model
 		$view['canbo_tdg'] = $this->canboModel->getBriefInfo($curId);
-
+		$view['canbo_tdgID'] = $curId;
+        $DotDanhGiaModel = $this->getServiceLocator()->get('Manager\Model\DotDanhGiaModel');
+		$view['listDot'] = $DotDanhGiaModel->getAllDot();
 		$view['message']   = ''; //nothing
 
+		
 		//process request: when save this "đánh giá"
 		if ($this->getRequest()->isPost()) {
 			$parameters = $this->getRequest()->getPost();
-
-			//process null value
-			if ('' == $parameters['banmuonden']) {
-				$parameters['donvimuonden'] = null;
-			}
-
-			if ('' == $parameters['banmuonden']) {
-				$parameters['banmuonden'] = null;
-			}
-
-			$maCB = ('' == $parameters['id']) ? $curId : $parameters['id'];
-			if ('' == $parameters['id_nx']) {
-				$parameters['id_nx'] = 0;
-			}
-
-			//var_dump($parameters);
-			//var_dump($maCB);
-			//exit;
 			//save "đánh giá"
+			$maCB = ('' == $parameters['id']) ? $curId : $parameters['id'];
+				if ('' == $parameters['id_nx']) {
+					$parameters['id_nx'] = 0;
+			}
 			if ($maCB != null) {
 				$this->canboModel->themDanhGia(
-					$maCB,
-					$parameters['ngaydanhgia'],
-					$parameters['noidung_tdg'],
-					$parameters['mdht_tdg'],
-					$parameters['donvimuonden'],
-					$parameters['banmuonden'],
-					$parameters['ngaymuonchuyen'],
-					$parameters['nguyenvong'],
-
-					$parameters['id_nx'],
-					$parameters['noidung_nx'],
-					$parameters['mdht_nx'],
-					$parameters['chieuhuongphattrien'],
-					$parameters['dinhhuong']
-				);
-
+					$maCB,$parameters['dot_danh_gia'], $parameters['noi_dung_danh_gia'], $parameters['mdht_tdg'],  $parameters['luu_y'],$idCBNX);
 				$view['message'] = 'Lưu đánh giá thành công';
 
 				//log
@@ -132,15 +107,25 @@ class CanboController extends AbstractActionController {
 
 		}
 		//view-model
-		$view['canbo_nx']            = $this->canboModel->getBriefInfo($idCBNX);
+		// $view['canbo_nx']            = $this->canboModel->getBriefInfo($idCBNX);
 		$view['mucdohoanthanh']      = $this->canboModel->getAllMucDoHoanThanh();
-		$view['chieuhuongphattrien'] = $this->canboModel->getAllChieuHuongPhatTrien();
+		// $view['chieuhuongphattrien'] = $this->canboModel->getAllChieuHuongPhatTrien();
 
-		$view['dsDonVi'] = $this->donviModel->getBriefInfoList(); //load "danh sach Don Vi" from database
-		$view['dsBan']   = $this->banModel->getDSBanHoatDong();
+		// $view['dsDonVi'] = $this->donviModel->getBriefInfoList(); //load "danh sach Don Vi" from database
+		// $view['dsBan']   = $this->banModel->getDSBanHoatDong();
 		//$view['chieuhuongphattrien']    = $this->banModel->getDSBanThuoc($maDonvi);
 
 		return $view;
+	}
+	public function danhgianamAction() {
+		//load from model
+		$danhgia = $this->canboModel->getDanhGia((int)$_POST['canbo_tdgID'],(int)$_POST['dotdanhgia']);
+
+		//to View
+		echo json_encode($danhgia);
+
+		//do not view
+		return $this->response;
 	}
 
 	/**

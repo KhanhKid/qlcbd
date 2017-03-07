@@ -352,11 +352,17 @@ function formatDate($date){
                 <fieldset>
                     <legend>Thông Tin Cựu Cán Bộ</legend>
                     <div class="content">
-                        <span>- Ngày rời khỏi: </span> <span> <?=formatDate($this->lylich['Ngay_Roi_Khoi'])?> ;</span>
+                        <span>- Ngày rời khỏi: </span> <span> <?php if($this->lylich['Ngay_Roi_Khoi'] != "1970-01-01") echo formatDate($this->lylich['Ngay_Roi_Khoi'])?> ;</span>
                         <br/>
-                        <span>- Còn sống: </span> <input disabled type="checkbox" <?=($this->lylich['Trang_Thai']!=-1)?'checked':''?>/>
+                        <span>- Tình trang hiện tại: </span> <input disabled type="checkbox" <?=($this->lylich['Trang_Thai']!=-1)?'checked':''?>/>
                         </br>
-                        <span>- Tham gia CLB Truyền Thống: </span> <input disabled type="checkbox" <?=($this->lylich['Tham_Gia_CLBTT']==1)?'checked':''?>/>
+
+                        <span>- Tham gia CLB Truyền Thống: </span>
+                        <input type="text" disabled name="thamgia_clbtt" value="<?php if($this->lylich['Ngay_Roi_Khoi'] != "1970-01-01") echo date('d/m/Y',strtotime($this->lylich['Tham_Gia_CLBTT']))?>">
+                        <br>
+                        <span>- Số thẻ hội viên: </span>
+                        <input type="text" disabled name="sothehoivien" value="<?php echo $this->lylich['So_The_HoiVien']?>">
+                        </span>
                     </div>
                 </fieldset>
             </div>

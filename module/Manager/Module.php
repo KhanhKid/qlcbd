@@ -148,6 +148,12 @@ class Module
                     $model = new Model\CanBoModel($adapter);
                     return $model;
                 },
+                //Can Bo
+                'Manager\Model\DotDanhGiaModel' => function ($sm){
+                    $adapter = $sm->get('QlcbdAdapter');
+                    $model = new Model\DotDanhGiaModel($adapter);
+                    return $model;
+                },
                 //Admin
                 'Admin\Model\LogModel' => function ($sm){
                     $adapter = $sm->get('QlcbdAdapter');

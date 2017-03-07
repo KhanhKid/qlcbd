@@ -18,8 +18,7 @@ class CanBoModel extends AbstractModel {
 		);
 
 		return $this->executeNonQuery($sql, $parameters);
-	}
-
+	} 
 	public function giaNhapBan($Ma_Can_Bo, $Ma_Ban_Den, $Ngay_Gia_Nhap, $ma_chuc_vu_moi, $lydo = null) {
 
 		// FormatDate
@@ -243,7 +242,7 @@ class CanBoModel extends AbstractModel {
                             LEFT JOIN chuc_vu ON (thong_tin_tham_gia_ban.Ma_CV = chuc_vu.Ma_Chuc_Vu)
                             LEFT JOIN ban ON (thong_tin_tham_gia_ban.Ma_Ban = ban.Ma_Ban)
                             LEFT JOIN đon_vi ON (ban.Ma_Đon_Vi =  đon_vi.Ma_ĐV)
-                WHERE  (ca.Ngay_Roi_Khoi IS NULL) AND (ca.Trang_Thai = 1) AND ca.DangHoatDong = 1
+                WHERE  (ca.Ngay_Roi_Khoi IS NULL OR ca.Ngay_Roi_Khoi = "1970-01-01") AND (ca.Trang_Thai = 1) AND ca.DangHoatDong = 1
                 GROUP BY Ma_Can_Bo';
 
 		//query
@@ -1550,41 +1549,53 @@ class CanBoModel extends AbstractModel {
 	 * thêm m?t cán b? m?i
 	 * @param $thongtin m?ng các thông tin c?a cán b? m?i
 	 */
-	public function themDanhGia($id, $ngaydanhgia, $noidung_tdg, $mdht_tdg, $donvimuonden, $banmuonden, $ngaymuonchuyen, $nguyenvong,
-		$id_nx, $noidung_nx, $mdht_nx, $chieuhuongphattrien, $dinhhuong) {
-		//convert datatime format
-		$ngaydanhgia    = $this->formatDateForDB($ngaydanhgia);
-		$ngaymuonchuyen = $this->formatDateForDB($ngaymuonchuyen);
-
+	public function themDanhGia($canbo_id,$dot_danh_gia, $noi_dung_danh_gia, $ma_xep_loai_finish, $luu_y,$manager_id) {
 		//parameter
 		$parameters = array(
-			'id'                  => $id,
-			'ngaydanhgia'         => $ngaydanhgia,
-			'noidung_tdg'         => $noidung_tdg,
-			'mdht_tdg'            => $mdht_tdg,
-			'donvimuonden'        => $donvimuonden,
-			'banmuonden'          => $banmuonden,
-			'ngaymuonchuyen'      => $ngaymuonchuyen,
-			'nguyenvong'          => $nguyenvong,
-
-			'id_nx'               => $id_nx,
-			'noidung_nx'          => $noidung_nx,
-			'mdht_nx'             => $mdht_nx,
-			'chieuhuongphattrien' => $chieuhuongphattrien,
-			'dinhhuong'           => $dinhhuong,
+			'canbo_id'                  => $canbo_id,
+			'dot_danh_gia'                  => $dot_danh_gia,
+			'noi_dung_danh_gia'         => $noi_dung_danh_gia,
+			'ma_xep_loai_finish'        => $ma_xep_loai_finish,
+			'luu_y'        				=> $luu_y,
+			'manager_id'        				=> $manager_id,
 		);
+		$sqlCheckExist = "SELECT * FROM `đanh_gia_can_bo` WHERE canbo_id = $canbo_id and dot_danh_gia = $dot_danh_gia ";
 
-		//var_dump($parameters);exit;
-
+		$checkExist = $this->query($sqlCheckExist);
+		if($checkExist[0]){
+			//parameter
+			$parameters = array(
+				'noi_dung_danh_gia'         => $noi_dung_danh_gia,
+				'ma_xep_loai_finish'        => $ma_xep_loai_finish,
+				'luu_y'        				=> $luu_y,
+				'manager_id'        				=> $manager_id,
+			);
+			$sql = "UPDATE `đanh_gia_can_bo` SET `noi_dung_danh_gia` = :noi_dung_danh_gia, `luu_y` = :luu_y,`ma_xep_loai_finish` = :ma_xep_loai_finish, `manager_id` = :manager_id WHERE `canbo_id` = $canbo_id and `dot_danh_gia`	 = $dot_danh_gia;";
+		}else{
+			//parameter
+			$parameters = array(
+				'canbo_id'                  => $canbo_id,
+				'dot_danh_gia'                  => $dot_danh_gia,
+				'noi_dung_danh_gia'         => $noi_dung_danh_gia,
+				'ma_xep_loai_finish'        => $ma_xep_loai_finish,
+				'luu_y'        				=> $luu_y,
+				'manager_id'        				=> $manager_id,
+			);
+			$sql = 'INSERT INTO `đanh_gia_can_bo` (`canbo_id`,`dot_danh_gia`, `noi_dung_danh_gia`, `ma_xep_loai_finish`, `luu_y`,`manager_id`) VALUES (:canbo_id,:dot_danh_gia,:noi_dung_danh_gia,:ma_xep_loai_finish, :luu_y,:manager_id)';
+		}
 		//sql
-		$sql = 'INSERT INTO `đanh_gia_can_bo`(`Ma_CB_Tu_Đanh_Gia`, `Ngay_Đanh_Gia`, `Noi_Dung_Tu_Đanh_Gia`, `Ma_MĐHT_Tu_Đanh_Gia`, `Ma_ĐV_Muon_Đen`, `Ma_Ban_Muon_Đen`, `Thoi_Gian_Muon_Chuyen`, `Nguyen_Vong_Đao_Tao`,
-                                              `Ma_CB_Đanh_Gia`, `Noi_Dung_Đanh_Gia`, `Ma_MĐHT`, `Ma_CHPT`, `Đinh_Huong`)
-                                      VALUES (:id,:ngaydanhgia,:noidung_tdg, :mdht_tdg,:donvimuonden,:banmuonden, :ngaymuonchuyen,:nguyenvong,
-                                              :id_nx,:noidung_nx,:mdht_nx,:chieuhuongphattrien,:dinhhuong)';
+		
 
 		//execute query
 		$result = $this->executeNonQuery($sql, $parameters);
+		return $result;
 
+	}
+
+	// get danh gia ton tai
+	public function getDanhGia($canbo_id,$dot_danh_gia) {
+		$sql = "SELECT * FROM `đanh_gia_can_bo` WHERE canbo_id = $canbo_id and dot_danh_gia = $dot_danh_gia ";
+		$result = $this->query($sql);
 		return $result;
 
 	}

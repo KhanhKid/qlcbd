@@ -29,7 +29,6 @@ class CanboController extends AbstractActionController
 
     }
 
-
     public function danhgiaAction()
     {
 
@@ -37,6 +36,37 @@ class CanboController extends AbstractActionController
         $headScript = $helper->get('headscript');
 
         $headScript->appendFile(ROOT_PATH . 'public/script/ckeditor/ckeditor.js');
+        //get current CanBoID
+        $auth   = (new AuthenticationService());
+        $canboID = $auth->getIdentity()->Identifier_Info;
+
+
+        //get info from model
+        $canboModel = $this->getServiceLocator()->get('Manager\Model\CanBoModel');
+        $DotDanhGiaModel = $this->getServiceLocator()->get('Manager\Model\DotDanhGiaModel');
+
+        $DotDanhGiaModel = $this->getServiceLocator()->get('Manager\Model\DotDanhGiaModel');
+        $view['listDot'] = $DotDanhGiaModel->getAllDot();
+
+        $view['mucdohoanthanh']      = $canboModel->getAllMucDoHoanThanh();
+
+        $test = $DotDanhGiaModel->checkDanhGia();
+
+        if ($this->getRequest()->isPost()) {
+            $infoDanhGia = $canboModel->getDanhGia($canboID,(int)$_POST['dot_danh_gia']);
+            if(!$infoDanhGia[0]){
+                $parameters = $this->getRequest()->getPost();
+                $canboModel->themDanhGia(
+                    $canboID,$parameters['dot_danh_gia'],"", $parameters['mdht_tdg'],"",0);
+                $view['message'] = 'Lưu đánh giá thành công';
+                
+            }else{
+                $view['message'] = 'Bạn đã thực hiện đánh giá';
+            }
+
+        }
+        return $view;
+
     }
 
 

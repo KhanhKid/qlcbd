@@ -102,9 +102,8 @@ jQuery(document).ready(function($) {
     });
     loadData()
     function loadData() {
-        
         dotdanhgia = $("#dot_danh_gia").val();
-        canbo_tdgID = <?php echo $canbo_tdgID?>;
+        canbo_tdgID = <?php echo $canboID?>;
         $.ajax({
             url: '<?php echo $this->basePath('manager/canbo/danhgianam'); ?>',
             type: 'POST',
@@ -112,19 +111,10 @@ jQuery(document).ready(function($) {
             data: {canbo_tdgID: canbo_tdgID,dotdanhgia:dotdanhgia},
         })
         .done(function(data) {
-            
-            if(data[0] != false){
-                info = data[0]
-                $("#luu_y").val(info['luu_y'])
-                $("#noi_dung_danh_gia").val(info['noi_dung_danh_gia'])
-                if(info['ma_tu_xep_loai'] != null){
-                        $("#tudanhgia"+info['ma_tu_xep_loai']).prop("checked",true);
-                        $("#danhgia"+info['ma_xep_loai_finish']).prop("checked",true);
-                }
-            }else{
-                $("#luu_y").val("")
-                $("#noi_dung_danh_gia").val("")
-                $(".hoanthanh").prop('checked',false);
+            console.log(data.xeploai)
+            if(data.xeploai != null){
+                $("input[name=mdht_tdg][value=" + data.xeploai + "]").attr('checked', 'checked');
+                $("input[name=mdht_tdg]").attr('disabled', true);
             }
         }) 
     }

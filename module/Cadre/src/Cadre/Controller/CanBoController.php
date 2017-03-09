@@ -49,6 +49,7 @@ class CanboController extends AbstractActionController
         $view['listDot'] = $DotDanhGiaModel->getAllDot();
 
         $view['mucdohoanthanh']      = $canboModel->getAllMucDoHoanThanh();
+        $view['canboID']      = $canboID;
 
         $test = $DotDanhGiaModel->checkDanhGia();
 
@@ -57,7 +58,7 @@ class CanboController extends AbstractActionController
             if(!$infoDanhGia[0]){
                 $parameters = $this->getRequest()->getPost();
                 $canboModel->themDanhGia(
-                    $canboID,$parameters['dot_danh_gia'],"", $parameters['mdht_tdg'],"",0);
+                    $canboID,$parameters['dot_danh_gia'],"", $parameters['mdht_tdg'],NULL,"",0);
                 $view['message'] = 'Lưu đánh giá thành công';
                 
             }else{

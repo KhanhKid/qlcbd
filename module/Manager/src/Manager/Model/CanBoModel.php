@@ -1549,13 +1549,14 @@ class CanBoModel extends AbstractModel {
 	 * thêm m?t cán b? m?i
 	 * @param $thongtin m?ng các thông tin c?a cán b? m?i
 	 */
-	public function themDanhGia($canbo_id,$dot_danh_gia, $noi_dung_danh_gia, $ma_xep_loai_finish, $luu_y,$manager_id) {
+	public function themDanhGia($canbo_id,$dot_danh_gia, $noi_dung_danh_gia, $ma_tu_xep_loai,$ma_xep_loai_finish, $luu_y,$manager_id) {
 		//parameter
 		$parameters = array(
 			'canbo_id'                  => $canbo_id,
 			'dot_danh_gia'                  => $dot_danh_gia,
 			'noi_dung_danh_gia'         => $noi_dung_danh_gia,
 			'ma_xep_loai_finish'        => $ma_xep_loai_finish,
+			'ma_tu_xep_loai'        => $ma_tu_xep_loai,
 			'luu_y'        				=> $luu_y,
 			'manager_id'        				=> $manager_id,
 		);
@@ -1577,15 +1578,19 @@ class CanBoModel extends AbstractModel {
 				'canbo_id'                  => $canbo_id,
 				'dot_danh_gia'                  => $dot_danh_gia,
 				'noi_dung_danh_gia'         => $noi_dung_danh_gia,
-				'ma_xep_loai_finish'        => $ma_xep_loai_finish,
 				'luu_y'        				=> $luu_y,
 				'manager_id'        				=> $manager_id,
 			);
-			$sql = 'INSERT INTO `đanh_gia_can_bo` (`canbo_id`,`dot_danh_gia`, `noi_dung_danh_gia`, `ma_xep_loai_finish`, `luu_y`,`manager_id`) VALUES (:canbo_id,:dot_danh_gia,:noi_dung_danh_gia,:ma_xep_loai_finish, :luu_y,:manager_id)';
+			if(is_null($ma_tu_xep_loai)) {
+				$parameters["ma_xep_loai_finish"] = $ma_xep_loai_finish;
+				$string = 'ma_xep_loai_finish';
+			}
+			else{
+				$parameters["ma_tu_xep_loai"] = $ma_tu_xep_loai;
+				$string = 'ma_tu_xep_loai';
+			}
+			$sql = 'INSERT INTO `đanh_gia_can_bo` (`canbo_id`,`dot_danh_gia`, `noi_dung_danh_gia`, `'.$string.'`, `luu_y`,`manager_id`) VALUES (:canbo_id,:dot_danh_gia,:noi_dung_danh_gia,:'.$string.', :luu_y,:manager_id)';
 		}
-		//sql
-		
-
 		//execute query
 		$result = $this->executeNonQuery($sql, $parameters);
 		return $result;

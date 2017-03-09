@@ -80,7 +80,6 @@ class CanboController extends AbstractActionController {
         $DotDanhGiaModel = $this->getServiceLocator()->get('Manager\Model\DotDanhGiaModel');
 		$view['listDot'] = $DotDanhGiaModel->getAllDot();
 		$view['message']   = ''; //nothing
-
 		
 		//process request: when save this "đánh giá"
 		if ($this->getRequest()->isPost()) {
@@ -92,7 +91,7 @@ class CanboController extends AbstractActionController {
 			}
 			if ($maCB != null) {
 				$this->canboModel->themDanhGia(
-					$maCB,$parameters['dot_danh_gia'], $parameters['noi_dung_danh_gia'], $parameters['mdht_tdg'],  $parameters['luu_y'],$idCBNX);
+					$maCB,$parameters['dot_danh_gia'], $parameters['noi_dung_danh_gia'],NULL, $parameters['mdht_tdg'],  $parameters['luu_y'],$idCBNX);
 				$view['message'] = 'Lưu đánh giá thành công';
 
 				//log
@@ -120,9 +119,13 @@ class CanboController extends AbstractActionController {
 	public function danhgianamAction() {
 		//load from model
 		$danhgia = $this->canboModel->getDanhGia((int)$_POST['canbo_tdgID'],(int)$_POST['dotdanhgia']);
-
+		if(!is_null($danhgia[0]['ma_xep_loai_finish']) && $danhgia[0]['ma_xep_loai_finish'] > 0){
+			$result = array("xeploai" => $danhgia[0]['ma_xep_loai_finish']);
+		}else{
+			$result = array("xeploai" => $danhgia[0]['ma_tu_xep_loai']);
+		}
 		//to View
-		echo json_encode($danhgia);
+		echo json_encode($result);
 
 		//do not view
 		return $this->response;

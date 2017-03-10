@@ -9,23 +9,22 @@
         mywindow.print();
         return true;
     }
-
-
+    
+    
 </script>
 <?php
-//tool
-function formatDate($date){
-    return $date = (null==$date)? '../../....':date('d-m-Y', strtotime($date));
-}
-?>
-
+    //tool
+    function formatDate($date){
+        return $date = (null==$date)? '../../....':date('d-m-Y', strtotime($date));
+    }
+    ?>
 <div class="block">
     <div class="block-content" id="print">
         <?php
-        if (!$this->lylich):
-            echo '<span class="message">Mã cán bộ không hợp lệ</span>';
-        else:
-            ?>
+            if (!$this->lylich):
+                echo '<span class="message">Mã cán bộ không hợp lệ</span>';
+            else:
+                ?>
         <div class="lylich" id="target">
             <div class="donvi">
                 <p>Bộ, Tỉnh: TP. HỒ CHÍ MINH</p>
@@ -36,340 +35,309 @@ function formatDate($date){
             <h3 class="title">SƠ YẾU LÝ LỊCH</h3>
             <div class="content">
                 <?php
-                $avatar = '';
-    /*var_dump(file_exists(ROOT_URL . 'public/pictures/portraits/'.$this->lylich['So_CMND'].'.JPG'));
-    if (file_exists(ROOT_URL . 'public/pictures/portraits/'.$this->lylich['So_CMND'].'.jpg'))
-    {
-        $avatar = $this->basePath('pictures/portraits/'.$this->lylich['So_CMND'].'.jpg');
-    }
-    else{
-        $avatar = $this->basePath('pictures/portraits/default.png');
-    }*/
-    $avatar = $this->basePath('pictures/portraits/'.$this->lylich['So_CMND'].'.jpg');
-    ?>
-    <div class="portrait">
-        <!--<div class="uploader">
-            <form id="file-input" enctype="multipart/form-data" method="post">
-                <input type="file" name="filename">
-                <br/><button>Upload</button>
-            </form>
-        </div>-->
-        <img alt="Ảnh đại diện" src="<?php echo $avatar; ?>" class="avatar"/>
-        <span class="upload"><a href="<?php echo $this->basePath('manager/canbo/portrait-uploader/') . $this->lylich['So_CMND']; ?>">Thay đổi</a></span>
-    </div>
+                    $avatar = '';
+                    $avatar = $this->basePath('pictures/portraits/'.$this->lylich['So_CMND'].'.jpg');
+                    ?>
+                <div class="portrait">
+                    <!--<div class="uploader">
+                        <form id="file-input" enctype="multipart/form-data" method="post">
+                            <input type="file" name="filename">
+                            <br/><button>Upload</button>
+                        </form>
+                        </div>-->
+                    <img alt="Ảnh đại diện" src="<?php echo $avatar; ?>" class="avatar"/>
+                    <span class="upload"><a href="<?php echo $this->basePath('manager/canbo/portrait-uploader/') . $this->lylich['So_CMND']; ?>">Thay đổi</a></span>
+                </div>
+                <p>
+                    1) Họ và tên khai sinh : <span class="underline"><?=$this->lylich['Ho_Ten_CB']?>
+                </p>
+                <p>
+                    2) Tên gọi khác: <span class="underline"><?=$this->lylich['Ten_Goi_Khac']?></span>
+                </p>
+                <p>
+                    3) Sinh ngày: <span class="underline"><?=$this->lylich['Ngay_Sinh']?></span>
+                    <span class="block">Giới tính: <span class="underline"><?php if ($this->lylich['Gioi_Tinh'] == 0) echo 'Nam'; else echo 'Nữ'; ?></span></span>
+                </p>
+                <p>
+                    <span>4) Nơi sinh: <span class="underline"><?=$this->lylich['Noi_Sinh']?></span> </span>
+                </p>
+                <p>
+                    5) Quê quán: 
+                    <span class="underline">
+                        <?=$this->lylich['Que_Quan']?>
+                </p>
+                <p>
+                    6) Dân tộc: <span class="underline"><?=$this->lylich['Dan_Toc']?></span>
+                    <span class="block">7) Tôn giáo: <span class="underline"><?=$this->lylich['Ton_Giao']?></span></span>
+                </p>
+                <p>
+                    8) Nơi đăng ký bộ khẩu thường trú: <span class="underline"></span><!-- 
+                    <span class="block">Điện thoại<span class="underline"><?=$this->lylich['Đien_Thoai']?></span></span> -->
+                </p>
+                <p>
+                    9) Nơi ở hiện nay: <span class="underline"><?=$this->lylich['Noi_O_Hien_Nay']?></span><!-- 
+                    <span class="block">Điện thoại<span class="underline"><?=$this->lylich['Đien_Thoai']?></span></span> -->
+                </p>
+                <p>
+                    10) Nghề nghiệp khi được tuyển dụng: <span class="underline"><?=$this->lylich['Nghe_Nghiep_Truoc_Đo']?></span>
+                </p>
+                <p>
+                    11) Ngày được tuyển dụng: <span class="underline"><?=$this->lylich['Ngay_Tuyen_Dung']?></span>, Cơ quan tuyển dụng<span class="underline"><?=$this->lylich['Co_Quan_Tuyen_Dung']?></span>; <span class="underline"><?=$this->lylich['Đia_Chi_Co_Quan_Tuyen_Dung']?></span>
+                </p>
+                <p>
+                    12) Chức vụ (chức danh) hiện tại: <span class="underline"><?=$this->lylich['Chuc_Danh']?></span>
+                </p>
+                <p>
+                    13) Công việc chính được giao: <span class="underline"></span>
+                </p>
+                <p>
+                    14) Ngạch công chức: <span class="underline">......</span> Mã ngạch:<span class="underline"><?=$this->lylich['Ma_So_Ngach']?></span>
+                </p>
+                <p> 
+                    Bậc lương: <span class="underline"><?=$this->lylich['Bac_Luong']?></span>, Hệ số lương: <span class="underline"><?=$this->lylich['He_So_Luong']?></span>, Ngày hưởng: <span class="underline">.......</span></p>
+                <p>
+                    Phụ cấp chức vụ: <span class="underline"><?=$this->lylich['Phu_Cap_Chuc_Vu'] ?></span>
+                    Phụ cấp khác: <span class="underline"><?=$this->lylich['Phu_Cap_Vuot_Khung'] ?></span>
+                </p>
 
+                <p>
+                    15.1) Giáo dục phổ thông: <span class="underline"><?=$this->lylich['Trinh_Đo_Hoc_Van']?></span>
+                </p>
+                <p>
+                    15.2) Trình độ chuyên môn cao nhất: <span class="underline"> <?=$this->lylich['Trinh_Đo_Chuyen_Mon']?>, <?=$this->lylich['Hoc_Ham']?></span>(TSKH, TS, Ths, cử nhân, kỹ sư, cao đẳng, trung cấp, sơ cấp, chuyên ngành)
+                </p>
+                <p>
+                    15.3) Lý luận chính trị: <span class="underline"><?=$this->lylich['Ten_CTLL']?></span>(Cao cấp, trung cấp, sơ cấp và tương đương)
+                </p>
+                <p>
+                    15.4) Quản lý nhà nước: <span class="underline">.....</span>(chuyên viên cao cấp, chuyên viên chính, chuyên viên, cán sự,........)
+                </p>
+                <p>
+                    15.5) Ngoại ngữ: <span class="underline"><?=$this->lylich['Ngoai_Ngu']?></span>(Tên ngoại ngữ + Trình độ A, B, C, D......) 
+                </p>
+                <p>
+                    15.6) Tin học: <span class="underline"></span>(Tên ngoại ngữ + Trình độ A, B, C, D......) 
+                </p>
+                <p>
+                    16) Ngày vào Đảng Cộng sản Việt Nam: <span class="underline"><?=formatDate($this->lylich['Ngay_Vao_Đang'])?></span>, Ngày chính thức: <span class="underline"><?=formatDate($this->lylich['Ngay_Chinh_Thuc'])?></span>
+                </p>
+                <p>
+                    17) Ngày tham gia các tổ chức chính trị, xã hội: <span class="underline"><?=formatDate($this->lylich['Ngay_Tham_Gia_Cac_To_Chuc_Chinh_Tri_Xa_Hoi'])?> (Ngày tham gia tổ chức: Đoàn, Hội,..... và làm việc gì trong tổ chức đó)
+                </p>
+                <p>
+                    18) Ngày nhập ngũ: <span class="underline"><?php if ($this->lylich['Ngay_Nhap_Ngu'] == '') echo 'Không'; else echo date('d/m/Y', strtotime($this->lylich['Ngay_Nhap_Ngu'])); ?></span>
+                    , Ngày xuất ngũ: <span class="underline"><?php if ($this->lylich['Ngay_Xuat_Ngu'] == '') echo 'Không'; else echo date('d/m/Y', strtotime($this->lylich['Ngay_Xuat_Ngu'])); ?></span>
+                    , Quân hàm, chức vụ cao nhất: <span class="underline"><?php if ($this->lylich['Quan_Ham_Chuc_Vu_Cao_Nhat'] == '') echo 'Không'; else echo $this->lylich['Quan_Ham_Chuc_Vu_Cao_Nhat']; ?></span>
+                </p>
+                <p>
+                    19) Danh hiệu được phong: <span class="underline"><?=$this->lylich['Danh_Hieu_Đuoc_Phong']?></span>
+                </p>
+                <p>
+                    20) Sở trường công tác: <span class="underline"><?=$this->lylich['So_Truong_Cong_Tac']?></span>
+                </p>
+                <p>
+                    21) Khen thưởng: <span class="underline"><?=$this->lylich['Khen_Thuong']?></span>(Hình thức cao nhất, năm nào)
+                </p>
+                <p>
+                    22) Kỷ luật: <span class="underline"><?=$this->lylich['Ky_Luat']?></span>(về đảng, chính quyền, đoàn thể hình thức cao nhất, năm nào)
+                </p>
+                <p>
+                    23) Tình trạng sức khỏe: <span class="underline"><?=$this->lylich['Tinh_Trang_Suc_Khoe']?></span>, Chiều cao: <span class="underline"><?=$this->lylich['Chieu_Cao']?></span>
+                    , Cân nặng: <span class="underline"><?=$this->lylich['Can_Nang']?> kg</span>, Nhóm máu: <span class="underline"><?=$this->lylich['Nhom_Mau']?></span>
+                </p>
+                <p>
+                    24) Là thương binh hạng: <span class="underline"><?php if ($this->lylich['Loai_Thuong_Binh'] == '') echo 'Không'; else echo $this->lylich['Loai_Thuong_Binh']; ?></span>
+                    Là con gia đình chính sách : ...... (Con thương binh, con liệt sĩ, người nhiễm chất độc da cam Dioxin)
+                </p>
+                <p>
+                    25) Số chứng minh nhân dân: <span class="underline"><?=$this->lylich['So_CMND']?></span> (*)
+                    , Ngày cấp: <span class="underline"><?=$this->lylich['Ngay_Cap_CMND']?></span><!-- 
+                    , Nơi cấp: <span class="underline"><?=$this->lylich['Noi_Cap_CMND']?></span> -->
+                </p>
+                <p>
+                    26) Số sổ BHXH <span class="underline">.....</span> (*)
+                </p>
+                <fieldset>
+                    <legend>27) Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị, ngoại ngữ, tin học</legend>
+                    <div class="content">
+                        <table>
+                            <th>Tên trường</th>
+                            <th>Chuyên ngành đào tạo, bồi dưỡng</th>
+                               <th>Từ tháng, năm - đến tháng, năm</th>
+                            <th>Hình thức đào tạo</th>
+                            <th>Văn bằng, chứng chỉ, trình độ gì</th>
+                            <?php
+                                if($this->dao_tao_boi_duong){
+                                    foreach($this->dao_tao_boi_duong as $value){
+                                        echo '<tr>
+                                        <td>',$value['Ten_Truong'],'</td>
+                                        <td>',$value['Nganh_Hoc'],'</td>
+                                        <td>',formatDate($value['Thoi_Gian_Hoc']),' đến ',formatDate($value['TG_Ket_Thuc']),'</td>
+                                        <td>',$value['Hinh_Thuc_Hoc'],'</td>
+                                        <td>',$value['Van_Bang_Chung_Chi'],'</td>
+                                    </tr>';
+                                }
+                                }
+                                
+                                ?>
+                        </table>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>28) Tóm tắt quá trình công tác</legend>
+                    <div class="content">
+                        <p>- Công tác:</p>
+                        <table>
+                            <th>Từ tháng, năm đến tháng, năm</th>
+                            <th>Chức danh, Chức vụ, Đơn vị công tác (đảng, chính quyền, đoàn thể,...)</th>
+                            <?php
+                                if($this->quatrinhcongtac){
+                                    foreach($this->quatrinhcongtac as $value){
+                                        echo '<tr>
+                                        <td>',formatDate($value['Tu_Ngay']),' đến ',formatDate($value['Đen_Ngay']),'</td>
+                                        <td>',$value['So_Luoc'],' tại ',$value['Ban_Den'],'</td>
+                                    </tr>';
+                                }
+                                }
+                                ?>
+                        </table>
+                        <br/>
+                        <p>- Công tác nước ngoài:</p>
+                        <table>
+                            <th>Thời gian</th>
+                            <th>Địa Điểm</th>
+                            <th>Nội Đung</th>
+                            <th>Cấp Cử Đi</th>
+                            <th>Kinh Phí (đài thọ, tự túc, hỗ trợ một phần)</th>
+                            <?php
+                                if($this->congtacnuocngoai){
+                                    foreach($this->congtacnuocngoai as $value){
+                                        echo '<tr>
+                                        <td>',formatDate($value['Tu_Ngay']),' đến ',formatDate($value['Đen_Ngay']),'</td>
+                                        <td>',$value['Đia_Điem'],'</td>
+                                        <td>',$value['Noi_Dung'],'</td>
+                                        <td>',$value['Cap_Cu_Đi'],'</td>
+                                        <td>',$value['Kinh_Phi'],'</td>
+                                    </tr>';
+                                }
+                                }
+                                ?>
+                        </table>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>30)Quan hệ gia đình</legend>
+                    <div class="content">
+                        a) Về bản thân: Cha, Mẹ, Vợ (hoặc chồng), các con, anh chị em ruột
+                        <table>
+                            <th>Quan Hệ</th>
+                            <th>Họ Tên</th>
+                            <th>Năm Sinh</th>
+                            <th>Quê quán, nghề nghiệp, chức danh,...</th>
+                            <?php
+                                if($this->quanhegiadinh){
+                                    foreach($this->quanhegiadinh as $value){
+                                        echo '<tr>
+                                        <td>',$value['Quan_He'],'</td>
+                                        <td>',$value['Ho_Ten'],'</td>
+                                        <td>',$value['Nam_Sinh'],'</td>
+                                        <td>',$value['Thong_Tin_So_Luoc'],'</td>
+                                    </tr>';
+                                }
+                                
+                                }
+                                ?>
+                        </table>
+                        <br/>
+                        b) Về bên vợ (hoặc chồng): Cha, Mẹ, anh chị em ruột
+                        <table>
+                            <th>Quan Hệ</th>
+                            <th>Họ Tên</th>
+                            <th>Năm Sinh</th>
+                            <th>Quê quán, nghề nghiệp, chức danh,...</th>
+                            <?php
+                                if($this->quanhegiadinhvo){
+                                    foreach($this->quanhegiadinhvo as $value){
+                                        echo '<tr>
+                                        <td>',$value['Quan_He'],'</td>
+                                        <td>',$value['Ho_Ten'],'</td>
+                                        <td>',$value['Nam_Sinh'],'</td>
+                                        <td>',$value['Thong_Tin_So_Luoc'],'</td>
+                                    </tr>';
+                                }
+                                
+                                }
+                                ?>
+                        </table>
+                    </div>
+                </fieldset>
 
-    <p>
-        1) Họ tên khai sinh: <span class="underline"><?=$this->lylich['Ho_Ten_CB']?></span>
-        <span class="block">Giới tính: <span class="underline"><?php if ($this->lylich['Gioi_Tinh'] == 0) echo 'Nam'; else echo 'Nữ'; ?></span></span>
-    </p>
-    <p>
-        2) Các tên gọi khác: <span class="underline"><?=$this->lylich['Ten_Goi_Khac']?></span>
-    </p>
-    <p>
-        3) Cấp Ủy hiện tại: <span class="underline"><?=$this->lylich['Cap_Uy_Hien_Tai']?></span>,
-        Cấp Ủy kiêm: <span class="underline"><?=$this->lylich['Cap_Uy_Kiem']?>
-    </p>
-    <p>
-        Chức vụ (chức danh): <span class="underline"><?=$this->lylich['Chuc_Danh']?></span>
-    </p>
-    <p>
-        Phụ cấp chức vụ: <span class="underline"><?=$this->lylich['Phu_Cap_Chuc_Vu'] ?></span>
-    </p>
-    <p>
-        4) Sinh ngày: <span class="underline"><?=$this->lylich['Ngay_Sinh']?></span>
-        <span class="block">5) Nơi sinh: <span class="underline"><?=$this->lylich['Noi_Sinh']?></span> </span>
-    </p>
-    <p>
-        6) Quê quán: <span class="underline"><?=$this->lylich['Que_Quan']?>
-    </p>
-    <p>
-        7) Nơi ở hiện nay: <span class="underline"><?=$this->lylich['Noi_O_Hien_Nay']?></span>
-        <span class="block">Điện thoại<span class="underline"><?=$this->lylich['Đien_Thoai']?></span></span>
-    </p>
-    <p>
-        8) Dân tộc: <span class="underline"><?=$this->lylich['Dan_Toc']?></span>
-        <span class="block">9) Tôn giáo: <span class="underline"><?=$this->lylich['Ton_Giao']?></span></span>
-    </p>
-    <p>
-        10) Thành phần gia đình xuất thân: <span class="underline"><?=$this->lylich['Thanh_Phan_Gia_Đinh_Xuat_Than']?></span>
-    </p>
-    <p>
-        11) Nghề nghiệp bản thân trước khi tuyển dụng: <span class="underline"><?=$this->lylich['Nghe_Nghiep_Truoc_Đo']?></span>
-    </p>
-    <p>
-        12) Ngày được tuyển dụng: <span class="underline"><?=$this->lylich['Ngay_Tuyen_Dung']?></span>, vào cơ quan nào, ở đâu?
-        <span class="underline"><?=$this->lylich['Co_Quan_Tuyen_Dung']?></span>; <span class="underline"><?=$this->lylich['Đia_Chi_Co_Quan_Tuyen_Dung']?></span>
-    </p>
-    <p>
-        13) Ngày vào cơ quan hiện đang công tác: <span class="underline"><?=formatDate($this->lylich['Ngay_Gia_Nhap'])?></span></span>, Ngày tham gia cách mạng: <span class="underline"><?=$this->lylich['Ngay_Tham_Gia_CM']?></span>
-    </p>
-    <p>
-        14) Ngày vào Đảng Cộng sản Việt Nam: <span class="underline"><?=formatDate($this->lylich['Ngay_Vao_Đang'])?></span>,
-        Ngày chính thức:
-        <span class="underline"><?=formatDate($this->lylich['Ngay_Chinh_Thuc'])?></span>
-    </p>
-    <p>
-        15) Ngày tham gia các tổ chức chính trị, xã hội: <span class="underline"><?=formatDate($this->lylich['Ngay_Tham_Gia_Cac_To_Chuc_Chinh_Tri_Xa_Hoi'])?>
-    </p>
-    <p>
-        16) Ngày nhập ngũ: <span class="underline"><?php if ($this->lylich['Ngay_Nhap_Ngu'] == '') echo 'Không'; else echo date('d/m/Y', strtotime($this->lylich['Ngay_Nhap_Ngu'])); ?></span>
-        , Ngày xuất ngũ: <span class="underline"><?php if ($this->lylich['Ngay_Xuat_Ngu'] == '') echo 'Không'; else echo date('d/m/Y', strtotime($this->lylich['Ngay_Xuat_Ngu'])); ?></span>
-        , Quân hàm, chức vụ cao nhất: <span class="underline"><?php if ($this->lylich['Quan_Ham_Chuc_Vu_Cao_Nhat'] == '') echo 'Không'; else echo $this->lylich['Quan_Ham_Chuc_Vu_Cao_Nhat']; ?></span>
-    </p>
-    <p>
-        17) Trình độ học vấn:
-        <ul>
-            <li>Giáo dục phổ thông: <span class="underline"><?=$this->lylich['Trinh_Đo_Hoc_Van']?></span></li>
-            <li>Học hàm, học vị cao nhất: <span class="underline"> <?=$this->lylich['Trinh_Đo_Chuyen_Mon']?>, <?=$this->lylich['Hoc_Ham']?></span></li>
-            <li>Lý luận chính trị: <span class="underline"><?=$this->lylich['Ten_CTLL']?></span></li>
-            <li>Ngoại ngữ: <span class="underline"><?=$this->lylich['Ngoai_Ngu']?></span></li>
-        </ul>
-    </p>
-
-    <p>
-        18) Công tác chính đang làm: <span class="underline"><?=$this->lylich['Cong_Tac_Chinh_Đang_Lam']?></span>
-    </p>
-    <p>
-        19) Ngạch công chức: <span class="underline"><?=$this->lylich['Ma_So_Ngach']?></span>, Bậc lương: <span class="underline"><?=$this->lylich['Bac_Luong']?></span>, Hệ số lương: <span class="underline"><?=$this->lylich['He_So_Luong']?></span>
-    </p>
-
-    <p>
-        20) Danh hiệu được phong: <span class="underline"><?=$this->lylich['Danh_Hieu_Đuoc_Phong']?></span>
-    </p>
-    <p>
-        21) Sở trường công tác: <span class="underline"><?=$this->lylich['So_Truong_Cong_Tac']?></span>
-        , Công việc đã làm lâu nhất: <span class="underline"><?=$this->lylich['Cong_Viec_Lam_Lau_Nhat']?></span>
-    </p>
-
-    <p>
-        22) Khen thưởng: <span class="underline"><?=$this->lylich['Khen_Thuong']?></span>
-    </p>
-    <p>
-        23) Kỷ luật: <span class="underline"><?=$this->lylich['Ky_Luat']?></span>
-    </p>
-    <p>
-        24) Tình trạng sức khỏe: <span class="underline"><?=$this->lylich['Tinh_Trang_Suc_Khoe']?></span>, Cao: <span class="underline"><?=$this->lylich['Chieu_Cao']?></span>
-        , Cân nặng: <span class="underline"><?=$this->lylich['Can_Nang']?></span>, Nhóm máu: <span class="underline"><?=$this->lylich['Nhom_Mau']?></span>
-    </p>
-    <p>
-        25) Số CMND: <span class="underline"><?=$this->lylich['So_CMND']?></span> (*)
-        , Ngày cấp: <span class="underline"><?=$this->lylich['Ngay_Cap_CMND']?></span>
-        , Nơi cấp: <span class="underline"><?=$this->lylich['Noi_Cap_CMND']?></span>
-    </p>
-    <p>
-        Thương binh loại: <span class="underline"><?php if ($this->lylich['Loai_Thuong_Binh'] == '') echo 'Không'; else echo $this->lylich['Loai_Thuong_Binh']; ?></span>
-        , Gia đình liệt sỹ: <input type="checkbox" <?php if($this->lylich['Gia_Đinh_Liet_Sy'] != 0) echo 'checked';?> disabled="true" />
-    </p>
-
-    <fieldset>
-        <legend>26) Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị, ngoại ngữ</legend>
-        <div class="content">
-            <table>
-                <th>Tên trường</th>
-                <th>Ngành học hoặc tên lớp học</th>
-                <th>Thời gian học</th>
-                <th>Hình thức học</th>
-                <th>Văn bằng, chứng chỉ</th>
-                <?php
-                if($this->dao_tao_boi_duong){
-                    foreach($this->dao_tao_boi_duong as $value){
-                        echo '<tr>
-                        <td>',$value['Ten_Truong'],'</td>
-                        <td>',$value['Nganh_Hoc'],'</td>
-                        <td>',formatDate($value['Thoi_Gian_Hoc']),' đến ',formatDate($value['TG_Ket_Thuc']),'</td>
-                        <td>',$value['Hinh_Thuc_Hoc'],'</td>
-                        <td>',$value['Van_Bang_Chung_Chi'],'</td>
-                    </tr>';
-                }
-            }
-
+                <fieldset>
+                    <legend>31) a) Diễn biến quá trình lương của cán bộ, công chức</legend>
+                    <div class="content">
+                        <p><span>- Quá trính lương bản thân</span></p>
+                        <p>
+                            <span>
+                        <table>
+                        <th>Tháng, Năm</th>
+                        <th>Ngạch Lương</th>
+                        <th>Bậc Lương</th>
+                        <th>Hệ Số Lương</th>
+                        <?php
+                            if($this->quatrinhluong){
+                                foreach($this->quatrinhluong as $value){
+                                    echo '<tr>
+                                    <td>',$value['Thoi_Gian_Nang_Luong'],'</td>
+                                    <td>',$value['Ma_So_Ngach'],'</td>
+                                    <td>',$value['Bac_Luong'],'</td>
+                                    <td>',$value['He_So_Luong'],'</td>
+                                </tr>';
+                            }
+                            
+                            }
+                            ?>
+                        </table>
+                        </span>
+                        </p>
+                    </div>
+                </fieldset>
+                <p>
+                    32) Nhận xét, đánh giá của cơ quan, đơn vị quản lý và sử dụng cán bộ, công chức <span class="underline">.....</span> (*)
+                </p>
+                <fieldset>
+                    <table>
+                    <th>Người khai<br>
+                        Tôi xin cam đoan những lời khai trên đây là đúng sự thật<br>
+                        (Ký tên, ghi rõ họ tên)
+                        <br><br><br><br><br>
+                        </th>
+                                            <th>Thủ trưởng cơ quan, đơn vị quản lý và sử dụng CBCC<br>
+                        (Ký tên, đóng dấu)<br><br><br><br><br><br>
+                        </th>
+                    </table>
+                    </div>
+                </fieldset>
+            </div>
+        </div><!-- 
+        <div class="lylich">
+            <div class="content">
+                <p align='middle'>-----------------oOo---------------------</p>
+                <legend>Thông Tin Cựu Cán Bộ</legend>
+                <div class="content">
+                    <span>- Ngày rời khỏi: </span> <span> <?=formatDate($this->lylich['Ngay_Roi_Khoi'])?> ;</span>
+                    <br/>
+                    <span>- Còn sống: </span> <input disabled type="checkbox" <?=($this->lylich['Trang_Thai']!=-1)?'checked':''?>/>
+                    </br>
+                    <span>- Tham gia CLB Truyền Thống: </span> <input disabled type="checkbox" <?=($this->lylich['Tham_Gia_CLBTT']==1)?'checked':''?>/>
+                </div>
+            </div>
+        </div> -->
+        <a href="<?=$this->basePath('manager/canbo/bosung/'),$this->lylich['Ma_Can_Bo']?>" class="button">Bố Sung Thông Tin</a>
+        <a href="javascript:printDiv('print')" class="button">Tải Lý Lịch</a>
+        <?php
+            endif;
             ?>
-        </table>
     </div>
-</fieldset>
-<fieldset>
-    <legend>27) Tóm tắt quá trình công tác</legend>
-    <div class="content">
-        <p>- Công tác:</p>
-        <table>
-            <th>Từ tháng, năm đến tháng, năm</th>
-            <th>Chức danh, Chức vụ, Đơn vị công tác (đảng, chính quyền, đoàn thể,...)</th>
-            <?php
-            if($this->quatrinhcongtac){
-                foreach($this->quatrinhcongtac as $value){
-                    echo '<tr>
-                    <td>',formatDate($value['Tu_Ngay']),' đến ',formatDate($value['Đen_Ngay']),'</td>
-                    <td>',$value['So_Luoc'],' tại ',$value['Ban_Den'],'</td>
-                </tr>';
-            }
-        }
-        ?>
-    </table>
-    <br/>
-    <p>- Công tác nước ngoài:</p>
-    <table>
-        <th>Thời gian</th>
-        <th>Địa Điểm</th>
-        <th>Nội Đung</th>
-        <th>Cấp Cử Đi</th>
-        <th>Kinh Phí (đài thọ, tự túc, hỗ trợ một phần)</th>
-        <?php
-        if($this->congtacnuocngoai){
-            foreach($this->congtacnuocngoai as $value){
-                echo '<tr>
-                <td>',formatDate($value['Tu_Ngay']),' đến ',formatDate($value['Đen_Ngay']),'</td>
-                <td>',$value['Đia_Điem'],'</td>
-                <td>',$value['Noi_Dung'],'</td>
-                <td>',$value['Cap_Cu_Đi'],'</td>
-                <td>',$value['Kinh_Phi'],'</td>
-            </tr>';
-        }
-    }
-    ?>
-</table>
-</div>
-</fieldset>
-<fieldset>
-    <legend>28) Đặc điểm lịch sử bản thân</legend>
-    <div class="content">
-        <span class="bold">a) Khai rõ bị bắt, bị tù, đã khai báo cho ai, những vấn đề gì</span>
-        <span class="underline"><?=$this->lylich['Đac_Điem_Lich_Su']?></span>
-        <br/>
-        <span class="bold">b) Bản thân có làm việc trong chế độ cũ</span>
-        <span class="underline"><?=$this->lylich['Lam_Viec_Trong_Che_Đo_Cu']?></span>
-    </div>
-</fieldset>
-
-
-<fieldset>
-    <legend>29) Quan hệ với nước ngoài</legend>
-    <div class="content">
-        <p>
-            <span class="bold">- Tham gia hoặc có quan hệ với các tổ chức chính trị, kinh tế, xã hội nào ở nước ngoài</span>
-            <span class="underline"><?=$this->lylich['Tham_Gia_Cac_To_Chuc_Nuoc_Ngoai']?></span>
-        </p><br/>
-        <p>
-            <span class="bold">- Có thân nhân ở nước ngoài</span>
-            <span class="underline"><?=$this->lylich['Co_Than_Nhan_Nuoc_Ngoai']?></span>
-        </p>
-    </div>
-</fieldset>
-
-
-<fieldset>
-    <legend>30)Quan hệ gia đình</legend>
-    <div class="content">
-        Bản thân:
-        <table>
-            <th>Quan Hệ</th>
-            <th>Họ Tên</th>
-            <th>Năm Sinh</th>
-            <th>Quê quán, nghề nghiệp, chức danh,...</th>
-            <?php
-            if($this->quanhegiadinh){
-                foreach($this->quanhegiadinh as $value){
-                    echo '<tr>
-                    <td>',$value['Quan_He'],'</td>
-                    <td>',$value['Ho_Ten'],'</td>
-                    <td>',$value['Nam_Sinh'],'</td>
-                    <td>',$value['Thong_Tin_So_Luoc'],'</td>
-                </tr>';
-            }
-
-        }
-        ?>
-    </table>
-    <br/>
-    Bên Vợ/Chồng:
-    <table>
-        <th>Quan Hệ</th>
-        <th>Họ Tên</th>
-        <th>Năm Sinh</th>
-        <th>Quê quán, nghề nghiệp, chức danh,...</th>
-        <?php
-        if($this->quanhegiadinhvo){
-            foreach($this->quanhegiadinhvo as $value){
-                echo '<tr>
-                <td>',$value['Quan_He'],'</td>
-                <td>',$value['Ho_Ten'],'</td>
-                <td>',$value['Nam_Sinh'],'</td>
-                <td>',$value['Thong_Tin_So_Luoc'],'</td>
-            </tr>';
-        }
-
-    }
-    ?>
-</table>
-</div>
-</fieldset>
-
-
-<fieldset>
-    <legend>31) Hoàn cảnh kinh tế gia đình</legend>
-    <div class="content">
-        <p><span>- Quá trính lương bản thân</span></p>
-        <p>
-            <span>
-                <table>
-                    <th>Tháng, Năm</th>
-                    <th>Ngạch Lương</th>
-                    <th>Bậc Lương</th>
-                    <th>Hệ Số Lương</th>
-                    <?php
-                    if($this->quatrinhluong){
-                        foreach($this->quatrinhluong as $value){
-                            echo '<tr>
-                            <td>',$value['Thoi_Gian_Nang_Luong'],'</td>
-                            <td>',$value['Ma_So_Ngach'],'</td>
-                            <td>',$value['Bac_Luong'],'</td>
-                            <td>',$value['He_So_Luong'],'</td>
-                        </tr>';
-                    }
-
-                }
-                ?>
-            </table>
-        </span>
-    </p>
-    <br/>
-    <span>- Nguồn Thu Nhập Chính Gia Đình (hàng năm):<br/>
-        <span> + lương: </span> <span class="underline"><?=$this->lylich['Luong_Thu_Nhap_Nam']?></span> VNĐ/ năm.<br/>
-        <span> + Các nguồn khác: </span> <span class="underline"> <?=$this->lylich['Nguon_Thu_Khac']?> </span>
-        <br/>
-        <br/>
-        - Nhà ở:<br/>
-        + Được cấp, được thuê, loại nhà: <?=$this->lylich['Loai_Nha_Đuoc_Cap']?>,	 tổng diện tích sử dụng <?=$this->lylich['Dien_Tich_Nha_Đuoc_Cap']?>  m<sup>2</sup> <br/>
-        + Nhà tự mua, tự xây, loại nhà: <?=$this->lylich['Loai_Nha_Tu_Xay']?>	tổng diện tích sử dụng <?=$this->lylich['Dien_Tich_Nha_Tu_Xay']?> m<sup>2</sup>
-        <br/>
-        <br/>
-        - Đất ở: + Đất được cấp: <?=$this->lylich['Dien_Tich_Đat_O_Đuoc_Cap']?> m<sup>2</sup>;	+ Đất tự mua: <?=$this->lylich['Dien_Tich_Đat_O_Tu_Mua']?> m<sup>2</sup>
-        <br/>
-        <span>- Đất sản xuất, kinh doanh</span> <span class="underline"><?=$this->lylich['Dien_Tich_Đat_San_Xuat']?></span> m<sup>2</sup>
-
-    </div>
-</fieldset>
-<p align='middle'>-----------------oOo---------------------</p>
-
-<fieldset>
-    <legend>Thông Tin Cựu Cán Bộ</legend>
-    <div class="content">
-        <span>- Ngày rời khỏi: </span> <span> <?=formatDate($this->lylich['Ngay_Roi_Khoi'])?> ;</span>
-        <br/>
-        <span>- Còn sống: </span> <input disabled type="checkbox" <?=($this->lylich['Trang_Thai']!=-1)?'checked':''?>/>
-    </br>
-    <span>- Tham gia CLB Truyền Thống: </span> <input disabled type="checkbox" <?=($this->lylich['Tham_Gia_CLBTT']==1)?'checked':''?>/>
-</div>
-</fieldset>
-</div>
-<a href="<?=$this->basePath('manager/canbo/bosung/'),$this->lylich['Ma_Can_Bo']?>" class="button">Bố Sung Thông Tin</a>
-<a href="javascript:printDiv('print')" class="button">Tải Lý Lịch</a>
-</div>
-<?php
-endif;
-?>
-
-</div>
 </div>
 <script>
     $('.portrait').hover(function(){
@@ -379,28 +347,24 @@ endif;
     });
     //printcontent($('#print').html());
 </script>
-
-
-
 <script language="javascript" type="text/javascript">
     function printDiv(divID) {
         //Get the HTML of div
         var divElements = document.getElementById(divID).innerHTML;
         //Get the HTML of whole page
         var oldPage = document.body.innerHTML;
-
+    
         //Reset the page's HTML with div's HTML only
         document.body.innerHTML = 
           "<html><head><title></title></head><body>" + 
           divElements + "</body>";
-
+    
         //Print Page
         window.print();
-
+    
         //Restore orignal HTML
         document.body.innerHTML = oldPage;
-
+    
       
     }
 </script>
-

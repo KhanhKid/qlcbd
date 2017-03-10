@@ -62,14 +62,14 @@ class Module
                         $role = $auth->getIdentity()->Role_Name;
 
                         //check and do something
-                       /* $acl = $controller->getServiceLocator()->get('acl');
+                       $acl = $controller->getServiceLocator()->get('acl');
                         if(!$acl->isAllowed($role,$resource,$privilege)){
                             //redirect if not permission
                             $controller->redirect()->toRoute($role.'/default', array(
                                 'controller'    => 'user',
                                 'action'    => 'not-permission'
                             ));
-                        }*/
+                        }
                         //======================================================================================================
 
                         //do somethings else (if have permission)

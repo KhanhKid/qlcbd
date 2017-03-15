@@ -315,10 +315,10 @@ class BaocaoController extends AbstractActionController
         $this->layout('layout/home');
         $helper = $this->getServiceLocator()->get('viewhelpermanager');
         $headScript = $helper->get('headscript');
-        $headScript->appendFile(ROOT_PATH . 'public/script/datatable/media/js/jquery.dataTables.js');
-        $headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/TableTools/media/js/ZeroClipboard.js');
-        $headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/TableTools/media/js/TableTools.js');
-        $headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/ColReorder/media/js/ColReorder.js');
+        $headScript->appendFile('/script/datatable/media/js/jquery.dataTables.js');
+        $headScript->appendFile('/script/datatable/extras/TableTools/media/js/ZeroClipboard.js');
+        $headScript->appendFile('/script/datatable/extras/TableTools/media/js/TableTools.js');
+        $headScript->appendFile('/script/datatable/extras/ColReorder/media/js/ColReorder.js');
         $view = array();
 
 
@@ -504,12 +504,12 @@ class BaocaoController extends AbstractActionController
             if (!empty($ketqua)){
                 //Re-index to numberic
                 $trave = array();
+
                 foreach ($ketqua as $item){
                     $tmp = array();
                     foreach ($item as $key => $value){
                         //Chuẩn hóa dữ liệu
-
-                        if (isset ($swicher[$key])){
+                        if (isset($swicher[$key][$value])){
                             $value = $swicher[$key][$value];
                         }
                         else{

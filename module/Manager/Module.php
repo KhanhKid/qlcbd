@@ -65,10 +65,14 @@ class Module
                        $acl = $controller->getServiceLocator()->get('acl');
                         if(!$acl->isAllowed($role,$resource,$privilege)){
                             //redirect if not permission
-                            $controller->redirect()->toRoute($role.'/default', array(
-                                'controller'    => 'user',
-                                'action'    => 'not-permission'
-                            ));
+                            if($controllerName == "Canbo" && $actionName =="bosung"){
+
+                            }else{  
+                                $controller->redirect()->toRoute($role.'/default', array(
+                                    'controller'    => 'user',
+                                    'action'    => 'not-permission'
+                                ));   
+                            }
                         }
                         //======================================================================================================
 
@@ -83,6 +87,7 @@ class Module
                         $controller->donviModel = $controller->getServiceLocator()->get('Manager\Model\DonViModel');
                         $controller->banModel   = $controller->getServiceLocator()->get('Manager\Model\BanModel');
                         $controller->canboModel = $controller->getServiceLocator()->get('Manager\Model\CanBoModel');
+                        $controller->danhsachbanModel = $controller->getServiceLocator()->get('Manager\Model\DanhSachBanModel');
                         $controller->logModel  = $controller->getServiceLocator()->get('Admin\Model\LogModel');
                     }
             },
@@ -160,6 +165,12 @@ class Module
                     $model = new Model\LogModel($adapter);
                     return $model;
                 },
+                //DANH SACH BAN
+                'Manager\Model\DanhSachBanModel' => function ($sm){
+                    $adapter = $sm->get('QlcbdAdapter');
+                    $model = new Model\DanhSachBanModel($adapter);
+                    return $model;
+                }
 
 
             ),

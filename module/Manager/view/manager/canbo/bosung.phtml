@@ -62,7 +62,7 @@
 <?php
 //tool
 function formatDate($date){
-    return $date = (null==$date)?null:date('d/m/Y', strtotime($date));
+    return $date = (null==$date || $date == "1970-01-01")?"":date('d/m/Y', strtotime($date));
 }
 ?>
 <div class="block">
@@ -96,7 +96,7 @@ function formatDate($date){
             </div>
             <div class="group">
                 <span>Giới tính</span>
-                <select name="gioitinh">
+                <select disabled name="gioitinh">
                     <option value="0" <?php if ($this->lylich['Gioi_Tinh']==0) echo 'selected'; ?>>Nam</option>
                     <option value="1" <?php if ($this->lylich['Gioi_Tinh']==1) echo 'selected'; ?>>Nữ</option>
                 </select>
@@ -104,7 +104,7 @@ function formatDate($date){
             <div class="clear"></div>
             <div class="group">
                 <span>Ngày sinh</span>
-                <input type="text" id="ngaysinh" class="ngaythang"  value="<?=formatDate($this->lylich['Ngay_Sinh'])?>" name="ngaysinh"/> (*)
+                <input type="text" disabled id="ngaysinh" class="ngaythang"  value="<?=formatDate($this->lylich['Ngay_Sinh'])?>" name="ngaysinh"/> (*)
             </div>
             <div class="group">
                 <span>Ngày gia nhập</span>
@@ -115,13 +115,22 @@ function formatDate($date){
                 <span>Số hiệu (Mã quản lý hồ sơ)</span>
                 <input type="text" name="sohieu" value="<?=$this->lylich['So_Hieu_CB']?>"/>
             </div>
+            <div class="group">
+                <span>Số quyết định công chức</span>
+                <input type="text" id="soquyetdinhcongchuc" name="soquyetdinhcongchuc"
+                       value="<?=$this->lylich['So_Quyet_Dinh_Cong_Chuc']?>"/>
+            </div>
+            <div class="group">
+                <span>Số hợp đồng</span>
+                <input type="text" name="sohopdong" value="<?=$this->lylich['So_Hop_Dong']?>"/>
+            </div>
         </div>
 
     </fieldset>
 
-
+<!-- 
     <fieldset>
-        <legend>Thông tin lương</legend>
+        <legend>Thông tin tuyển dụng</legend>
         <div class="conten">
             <div class="group">
                 <span>Ngày thông báo tuyển dụng</span>
@@ -133,21 +142,33 @@ function formatDate($date){
             </div>
 
         </div>
-    </fieldset>
+    </fieldset> -->
 
     <fieldset>
         <legend>Lý lịch</legend>
         <div class="content">
             <div class="group">
-            <span>Họ tên khai sinh</span>
+            <span>1) Họ tên khai sinh</span>
             <input type="text" name="hotenkhaisinh" value="<?=$this->lylich['Ho_Ten_Khai_Sinh']?>"/>
             </div>
 
             <div class="group">
-                <span>Tên gọi khác</span>
+                <span>2) Tên gọi khác</span>
                 <input type="text" name="tengoikhac" value="<?=$this->lylich['Ten_Goi_Khac']?>"/>
             </div>
 
+            <div class="group">
+                <span>3) Ngày sinh</span>
+                <input type="text" id="ngaysinh" class="ngaythang"  value="<?=formatDate($this->lylich['Ngay_Sinh'])?>" name="ngaysinh"/> (*)
+            </div>
+            
+            <div class="group">
+                <span>4) Giới tính</span>
+                <select disabled name="gioitinh">
+                    <option value="0" <?php if ($this->lylich['Gioi_Tinh']==0) echo 'selected'; ?>>Nam</option>
+                    <option value="1" <?php if ($this->lylich['Gioi_Tinh']==1) echo 'selected'; ?>>Nữ</option>
+                </select>
+            </div>
             <div class="group">
                 <span>Số CMND</span>
                 <input type="text" name="cmnd" required="required" value="<?=$this->lylich['So_CMND']?>" />
@@ -171,7 +192,7 @@ function formatDate($date){
             </div>
 
             <div class="group">
-                <span>Quê quán</span>
+                <span>5) Quê quán</span>
                 <input type="text" name="quequan" value="<?=$this->lylich['Que_Quan']?>"/>
             </div>
 
@@ -186,7 +207,7 @@ function formatDate($date){
             </div>
 
             <div class="group">
-                <span>Dân tộc</span>
+                <span>6) Dân tộc</span>
                 <select name = 'dantoc'>
                     <option value="">(chưa biết)</option>
                     <?php
@@ -199,7 +220,7 @@ function formatDate($date){
             </div>
 
             <div class="group">
-                <span>Tôn giáo</span>
+                <span>7) Tôn giáo</span>
                 <select name = 'tongiao'>
                     <option value="">(chưa rõ)</option>
                     <?php
@@ -243,13 +264,13 @@ function formatDate($date){
             </div>
 
             <div class="group">
-                <span>Nghề nghiệp trước đó</span>
+                <span>Nghề nghiệp <bR>khi được tuyển dụng</span>
                 <input type="text" name="nghenghieptruocdo" value="<?=$this->lylich['Nghe_Nghiep_Truoc_Đo']?>"/>
             </div>
 
             <div class="group">
                 <span>Ngày được tuyển dụng</span>
-                <input type="text" id="ngaytuyendung_cqnc" class="ngaythang" name="ngaytuyendung_cqnc" value="<?=$this->lylich['Ngay_Đuoc_Tuyen_Dung']?>"/>
+                <input type="text" id="ngaytuyendung_cqnc" class="ngaythang" name="ngaytuyendung_cqnc" value="<?=formatDate($this->lylich['Ngay_Đuoc_Tuyen_Dung'])?>"/>
             </div>
 
             <div class="group">
@@ -609,8 +630,8 @@ function formatDate($date){
                 <th>Ngạch</th>
                 <th>Bậc</th>
                 <th>Hệ số lương</th>
-                <th>Phụ cấp</th>
-                <th>Phụ cấp vượt bậc</th>
+                <th>Phụ cấp chức vụ</th>
+                <th>Phụ cấp thâm niên vượt khung</th>
                 <th>Mức lương khoán</th>
                 <tbody id="input-quatrinhluong">
                 <?php
@@ -681,10 +702,10 @@ function formatDate($date){
                                              </span>
 
             <span>- Tham gia CLB Truyền Thống: </span>
-            <input type="text" name="thamgia_clbtt" value="<?php echo date('d/m/Y',strtotime($this->lylich['Tham_Gia_CLBTT']))?>">
+            <input type="text" name="thamgia_clbtt" value="<?=formatDate($this->lylich['Tham_Gia_CLBTT'])?>">
             <br>
             <span>- Số thẻ hội viên: </span>
-            <input type="text" name="sothehoivien" value="<?php echo $this->lylich['So_The_HoiVien']?>">
+            <input type="text" name="sothehoivien" value="<?=$this->lylich['So_The_HoiVien']?>">
             </span>
         </div>
     </fieldset>

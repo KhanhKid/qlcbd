@@ -79,7 +79,9 @@ class Module
                     $controller->layout('layout/admin');
 
                     //init model
-                    $canboModel = $controller->getServiceLocator()->get('Manager\Model\CanBoModel');
+                    $controller->canboModel = $controller->getServiceLocator()->get('Manager\Model\CanBoModel');
+
+                    $controller->danhsachbanModel = $controller->getServiceLocator()->get('Manager\Model\DanhSachBanModel');
                 }
 
             },100);
@@ -120,6 +122,12 @@ class Module
                     $model = new Model\LogModel($adapter);
                     return $model;
                 },
+                //DANH SACH BAN
+                'Manager\Model\DanhSachBanModel' => function ($sm){
+                    $adapter = $sm->get('QlcbdAdapter');
+                    $model = new \Manager\Model\DanhSachBanModel($adapter);
+                    return $model;
+                }
 
 
 

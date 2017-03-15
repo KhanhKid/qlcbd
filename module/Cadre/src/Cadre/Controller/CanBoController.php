@@ -35,7 +35,7 @@ class CanboController extends AbstractActionController
         $helper = $this->getServiceLocator()->get('viewhelpermanager');
         $headScript = $helper->get('headscript');
 
-        $headScript->appendFile(ROOT_PATH . 'public/script/ckeditor/ckeditor.js');
+        $headScript->appendFile('/script/ckeditor/ckeditor.js');
         //get current CanBoID
         $auth   = (new AuthenticationService());
         $canboID = $auth->getIdentity()->Identifier_Info;

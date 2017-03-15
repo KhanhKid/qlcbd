@@ -26,7 +26,6 @@ class CocauController extends AbstractActionController {
 	public function indexAction() {
 		$this->layout('layout/home');
 	}
-
 	/**
 	 * thành lập đơn vị mới
 	 * @return ViewModel
@@ -57,8 +56,8 @@ class CocauController extends AbstractActionController {
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
 		$headScript = $helper->get('headscript');
 
-		$headScript->appendFile(ROOT_PATH . 'public/script/ckeditor/ckeditor.js');
-		$headScript->appendFile(ROOT_PATH . 'public/template/js/combobox.js');
+		$headScript->appendFile('/script/ckeditor/ckeditor.js');
+		$headScript->appendFile('/template/js/combobox.js');
 
 		$this->layout('layout/home');
 
@@ -114,8 +113,8 @@ class CocauController extends AbstractActionController {
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
 		$headScript = $helper->get('headscript');
 
-		$headScript->appendFile(ROOT_PATH . 'public/script/ckeditor/ckeditor.js');
-		$headScript->appendFile(ROOT_PATH . 'public/template/js/combobox.js');
+		$headScript->appendFile('/script/ckeditor/ckeditor.js');
+		$headScript->appendFile('/template/js/combobox.js');
 		$this->layout('layout/home');
 
 		//to view
@@ -169,7 +168,7 @@ class CocauController extends AbstractActionController {
 		$dsDonVi    = $this->donviModel->getBriefInfoList(); //load "danh sach Don Vi" from database
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
 		$headScript = $helper->get('headscript');
-		$headScript->appendFile(ROOT_PATH . 'public/script/jstree.min.js');
+		$headScript->appendFile('/script/jstree.min.js');
 		$result           = $this->donviModel->getDSBanThuoc(0);
 		$view['danhsach'] = $result;
 		$jsTreeData       = array();
@@ -203,8 +202,8 @@ class CocauController extends AbstractActionController {
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
 		$headScript = $helper->get('headscript');
 
-		$headScript->appendFile(ROOT_PATH . 'public/script/ckeditor/ckeditor.js');
-		$headScript->appendFile(ROOT_PATH . 'public/template/js/combobox.js');
+		$headScript->appendFile('/script/ckeditor/ckeditor.js');
+		$headScript->appendFile('/template/js/combobox.js');
 		$this->layout('layout/home');
 
 		//to View
@@ -222,7 +221,7 @@ class CocauController extends AbstractActionController {
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
 		$headScript = $helper->get('headscript');
 
-		$headScript->appendFile(ROOT_PATH . 'public/script/ckeditor/ckeditor.js');
+		$headScript->appendFile('/script/ckeditor/ckeditor.js');
 		$this->layout('layout/home');
 
 		//Khi Có Yêu cầu tạo
@@ -294,8 +293,8 @@ class CocauController extends AbstractActionController {
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
 		$headScript = $helper->get('headscript');
 
-		$headScript->appendFile(ROOT_PATH . 'public/script/ckeditor/ckeditor.js');
-		$headScript->appendFile(ROOT_PATH . 'public/template/js/combobox.js');
+		$headScript->appendFile('/script/ckeditor/ckeditor.js');
+		$headScript->appendFile('/template/js/combobox.js');
 
 		//process request
 		if ($this->getRequest()->isPost()) {
@@ -326,8 +325,8 @@ class CocauController extends AbstractActionController {
 		$dsDonVi    = $this->donviModel->getBriefInfoList(); //load "danh sach Don Vi" from database
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
 		$headScript = $helper->get('headscript');
-		$headScript->appendFile(ROOT_PATH . 'public/script/tree.js');
-		$headScript->appendFile(ROOT_PATH . 'public/script/jstree.min.js');
+		$headScript->appendFile('/script/tree.js');
+		$headScript->appendFile('/script/jstree.min.js');
 
 		/*$result = array();
 		foreach($dsDonVi as $donvi){
@@ -551,8 +550,8 @@ class CocauController extends AbstractActionController {
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
 		$headScript = $helper->get('headscript');
 
-		$headScript->appendFile(ROOT_PATH . 'public/script/ckeditor/ckeditor.js');
-		$headScript->appendFile(ROOT_PATH . 'public/template/js/combobox.js');
+		$headScript->appendFile('/script/ckeditor/ckeditor.js');
+		$headScript->appendFile('/template/js/combobox.js');
 
 		//process request
 		if ($this->getRequest()->isPost()) {

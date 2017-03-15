@@ -50,7 +50,13 @@
                     <h3 class="title"><i class="fa fa-home"></i> Trình đơn chính</h3>
                     <div class="itemContent">
                         <ul class="menu">
-                            <li><a href="<?php echo $this->basePath('admin'); ?>">Trang chủ</a></li>
+                            <li><a href="<?php echo $this->basePath('admin'); ?>">Trang chủ</a></li><!-- 
+                            <li><a href="<?php echo $this->basePath('admin/cocau'); ?>">Cơ Cấu</a>
+                                <ul class="<?php if(strpos($uri, 'admin/cocau')) echo 'active-menu-ul'; ?>">
+                                    <li><a href="<?php echo $this->basePath('admin/cocau/danhsachban'); ?>">Thông tin phòng ban</a></li>
+                                    <li><a href="<?php echo $this->basePath('admin/cocau/danhsachthanhvienban'); ?>">Thông tin thành viên phòng ban</a></li>
+                                </ul>
+                            </li> -->
                         </ul>
                     </div>
                 </div>

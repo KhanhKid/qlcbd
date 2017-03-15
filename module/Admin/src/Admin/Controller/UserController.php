@@ -21,18 +21,18 @@ class UserController extends AbstractActionController
 {
     public function indexAction()
     {
-        $this->layout('layout/admin');
+        $this->layout('layout/admin');  
     }
 
     public function thongtinAction(){
         $helper = $this->getServiceLocator()->get('viewhelpermanager');
 
         $headScript = $helper->get('headscript');
-        $headScript->appendFile(ROOT_PATH . 'public/script/datatable/media/js/jquery.dataTables.js');
-        $headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/TableTools/media/js/ZeroClipboard.js');
-        $headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/TableTools/media/js/TableTools.js');
-        $headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/ColReorder/media/js/ColReorder.js');
-        $headScript->appendFile(ROOT_PATH . 'public/template/js/combobox.js');
+        $headScript->appendFile('/script/datatable/media/js/jquery.dataTables.js');
+        $headScript->appendFile('/script/datatable/extras/TableTools/media/js/ZeroClipboard.js');
+        $headScript->appendFile('/script/datatable/extras/TableTools/media/js/TableTools.js');
+        $headScript->appendFile('/script/datatable/extras/ColReorder/media/js/ColReorder.js');
+        $headScript->appendFile('/template/js/combobox.js');
         //init Model
         $userModel = $this->getServiceLocator()->get('Admin\Model\UserModel');
 
@@ -46,7 +46,7 @@ class UserController extends AbstractActionController
 
         $helper = $this->getServiceLocator()->get('viewhelpermanager');
         $headScript = $helper->get('headscript');
-        $headScript->appendFile(ROOT_PATH . 'public/template/js/combobox.js');
+        $headScript->appendFile('/template/js/combobox.js');
 
         //init model
         $userModel = $this->getServiceLocator()->get('Admin\Model\UserModel');
@@ -197,7 +197,7 @@ class UserController extends AbstractActionController
     public function authorizationAction(){
         $helper = $this->getServiceLocator()->get('viewhelpermanager');
         $headScript = $helper->get('headscript');
-        $headScript->appendFile(ROOT_PATH . 'public/template/js/combobox.js');
+        $headScript->appendFile('/template/js/combobox.js');
         //init model
         $userModel = $this->getServiceLocator()->get('Admin\Model\UserModel');
         $canboModel = $this->getServiceLocator()->get('Manager\Model\CanBoModel');

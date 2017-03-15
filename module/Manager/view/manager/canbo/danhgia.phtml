@@ -26,7 +26,6 @@
     }
 
 </style>
-
 <div class="block" xmlns="http://www.w3.org/1999/html">
     <h2 class="title">Đánh giá cán bộ</h2>
 
@@ -62,7 +61,7 @@
                 </div>
 
                 <div class="clear"></div>
-                Xếp lọai tự đánh giá:<br/>
+                Tự xếp loại:<br/>
                 <?php
                     foreach($this->mucdohoanthanh as $element)
                     echo '<label><input type="radio"  class="hoanthanh" id="tudanhgia',$element['Ma_MĐHT'],'" disabled value="',$element['Ma_MĐHT'],'" />',$element['Ten_MĐHT'],'</label><br/>'
@@ -75,14 +74,14 @@
                     <input type="hidden" name="chucvu_tdg" readonly='readonly' disabled='disabled' value="" />
                 </div>-->
                 <div class="clear"></div>
-                Ưu điểm khuyết điểm: </br>
-                <textarea name="noi_dung_danh_gia" id="noi_dung_danh_gia" placeholder="Ưu khuyết điểm"></textarea>
+                Ưu điểm: </br>
+                <textarea name="noi_dung_danh_gia" id="noi_dung_danh_gia" placeholder="Ưu điểm"></textarea>
                 <br/>
                 <div class="clear"></div>
-                Lưu ý: </br>
+                Những vấn đề cần lưu ý: </br>
                 <textarea name="luu_y" id="luu_y" placeholder="Lưu ý"></textarea>
                 <br/>
-                Xếp lọai Cấp trên đánh giá:<br/>
+                Cấp trên xếp loại:<br/>
                 <?php
                     foreach($this->mucdohoanthanh as $element)
                     echo '<label><input type="radio" name="mdht_tdg" class="hoanthanh" id="danhgia',$element['Ma_MĐHT'],'" value="',$element['Ma_MĐHT'],'" />',$element['Ten_MĐHT'],'</label><br/>'
@@ -103,7 +102,7 @@ jQuery(document).ready(function($) {
     loadData()
     function loadData() {
         dotdanhgia = $("#dot_danh_gia").val();
-        canbo_tdgID = <?php echo $canboID?>;
+        canbo_tdgID = <?php echo $canbo_tdgID?>;
         $.ajax({
             url: '<?php echo $this->basePath('manager/canbo/danhgianam'); ?>',
             type: 'POST',

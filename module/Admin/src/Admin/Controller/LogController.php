@@ -24,10 +24,10 @@ class LogController extends AbstractActionController
         $this->layout('layout/admin');
         $helper = $this->getServiceLocator()->get('viewhelpermanager');
         $headScript = $helper->get('headscript');
-        $headScript->appendFile(ROOT_PATH . 'public/script/datatable/media/js/jquery.dataTables.js');
-        $headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/TableTools/media/js/ZeroClipboard.js');
-        $headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/TableTools/media/js/TableTools.js');
-        $headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/ColReorder/media/js/ColReorder.js');
+        $headScript->appendFile('/script/datatable/media/js/jquery.dataTables.js');
+        $headScript->appendFile('/script/datatable/extras/TableTools/media/js/ZeroClipboard.js');
+        $headScript->appendFile('/script/datatable/extras/TableTools/media/js/TableTools.js');
+        $headScript->appendFile('/script/datatable/extras/ColReorder/media/js/ColReorder.js');
 
         $logModel = $this->getServiceLocator()->get('Admin\Model\LogModel');
 

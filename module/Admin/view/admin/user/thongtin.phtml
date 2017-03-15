@@ -1,8 +1,8 @@
 <style type="text/css" title="currentStyle">
-    @import "<?php echo ROOT_PATH; ?>public/script/datatable/media/css/demo_page.css";
-    @import "<?php echo ROOT_PATH; ?>public/script/datatable/media/css/demo_table.css";
-    @import "<?php echo ROOT_PATH; ?>public/script/datatable/extras/TableTools/media/css/TableTools.css";
-    @import "<?php echo ROOT_PATH; ?>public/script/datatable/extras/ColReorder/media/css/ColReorder.css";
+    @import "/script/datatable/media/css/demo_page.css";
+    @import "/script/datatable/media/css/demo_table.css";
+    @import "/script/datatable/extras/TableTools/media/css/TableTools.css";
+    @import "/script/datatable/extras/ColReorder/media/css/ColReorder.css";
     thead input { width: 100% }
     input.search_init { color: #999 }
 </style>
@@ -14,7 +14,7 @@
             <legend>Danh sách người dùng, cán bộ</legend>
             <div class="content">
                 <table cellpadding="0" cellspacing="0" border="0" class="display" id="thongtincanbo">
-                    <thead><!-- 
+                    <thead>
                     <tr>
                         <td><input type="text" value="" class="search_init" /></td>
                         <td><input type="text" value="" class="search_init" /></td>
@@ -22,7 +22,7 @@
                         <td></td>
                         <td></td>
                         <td style="width: 80px !important;"></td>
-                    </tr> -->
+                    </tr>
                     <tr>
                         <th>Username</th>
                         <th>Giữ vai trò</th>
@@ -95,7 +95,7 @@
         oTable = $('#thongtincanbo').dataTable( {
             "sDom": 'T<"clear">lfrtip',
             "oTableTools": {
-                "sSwfPath": "<?php echo ROOT_PATH; ?>public/script/datatable/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
+                "sSwfPath": "/script/datatable/extras/TableTools/media/swf/copy_cvs_xls_pdf.swf",
                 "aButtons": [
 
                 ]

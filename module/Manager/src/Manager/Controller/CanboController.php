@@ -30,7 +30,7 @@ class CanboController extends AbstractActionController {
 
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
 		$headScript = $helper->get('headscript');
-		$headScript->appendFile(ROOT_PATH . 'public/template/js/combobox.js');
+		$headScript->appendFile('/template/js/combobox.js');
 
 		//init view
 		$this->layout('layout/home');
@@ -48,14 +48,13 @@ class CanboController extends AbstractActionController {
 		$helper = $this->getServiceLocator()->get('viewhelpermanager');
 
 		$headScript = $helper->get('headscript');
-		$headScript->appendFile(ROOT_PATH . 'public/script/datatable/media/js/jquery.dataTables.js');
-		$headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/TableTools/media/js/ZeroClipboard.js');
-		$headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/TableTools/media/js/TableTools.js');
-		$headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/ColReorder/media/js/ColReorder.js');
+		$headScript->appendFile('/script/datatable/media/js/jquery.dataTables.js');
+		$headScript->appendFile('/script/datatable/extras/TableTools/media/js/ZeroClipboard.js');
+		$headScript->appendFile('/script/datatable/extras/TableTools/media/js/TableTools.js');
+		$headScript->appendFile('/script/datatable/extras/ColReorder/media/js/ColReorder.js');
 
 		//to view
 		$view['dsCanBo'] = $this->canboModel->getAllWorkInfo(); //load "danh sach Cán Bộ" from database, với thông tin công tác
-		//var_dump($view['dsCanBo']);exit;
 
 		return new ViewModel($view);
 	}
@@ -64,7 +63,7 @@ class CanboController extends AbstractActionController {
 		//init view
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
 		$headScript = $helper->get('headscript');
-		$headScript->appendFile(ROOT_PATH . 'public/script/ckeditor/ckeditor.js');
+		$headScript->appendFile('/script/ckeditor/ckeditor.js');
 
 		//get current CanBoID
 		$auth   = (new AuthenticationService());
@@ -81,6 +80,7 @@ class CanboController extends AbstractActionController {
 		$view['listDot'] = $DotDanhGiaModel->getAllDot();
 		$view['message']   = ''; //nothing
 		
+				echo '<pre>',var_dump($idCBNX),'</pre>';die();
 		//process request: when save this "đánh giá"
 		if ($this->getRequest()->isPost()) {
 			$parameters = $this->getRequest()->getPost();
@@ -93,7 +93,6 @@ class CanboController extends AbstractActionController {
 				$this->canboModel->themDanhGia(
 					$maCB,$parameters['dot_danh_gia'], $parameters['noi_dung_danh_gia'],NULL, $parameters['mdht_tdg'],  $parameters['luu_y'],$idCBNX);
 				$view['message'] = 'Lưu đánh giá thành công';
-
 				//log
 				$logModel = $this->getServiceLocator()->get('Admin\Model\LogModel');
 				$userID   = (new \Zend\Authentication\AuthenticationService)->getIdentity()->UserID;
@@ -579,6 +578,8 @@ class CanboController extends AbstractActionController {
 				$parameters['giadinhlietsy']        = (isset($parameters['giadinhlietsy'])) ? '1' : '0'; //Checkbox "giadinhlietsy"
 				$parameters['thamgia_clbtt']        = ('' == $parameters['thamgia_clbtt']) ? null : $parameters['thamgia_clbtt']; 
 				$parameters['sothehoivien']        = ('' == $parameters['sothehoivien']) ? null : $parameters['sothehoivien']; 
+				$parameters['soquyetdinhcongchuc']        = ('' == $parameters['soquyetdinhcongchuc']) ? null : $parameters['soquyetdinhcongchuc']; 
+				$parameters['sohopdong']        = ('' == $parameters['sohopdong']) ? null : $parameters['sohopdong']; 
 				//var_dump($parameters);exit;
 
 				//to model
@@ -597,7 +598,7 @@ class CanboController extends AbstractActionController {
 						$parameters['khenthuong'], $parameters['kyluat'], $parameters['tinhtrangsuckhoe'], $parameters['tiensubenh'], $parameters['chieucao'], $parameters['cannang'], $parameters['nhommau'],
 						$parameters['thuongbinhloai'], $parameters['giadinhlietsy'],
 						$parameters['luongnam'], $parameters['nguonthunhapkhac'], $parameters['loainhaduoccap'], $parameters['dientichnhaduoccap'], $parameters['loainhatuxay'], $parameters['dientichnhatuxay'],
-						$parameters['dientichdatduoccap'], $parameters['dientichdattumua'], $parameters['dientichdatsx']
+						$parameters['dientichdatduoccap'], $parameters['dientichdattumua'], $parameters['dientichdatsx'], $parameters['soquyetdinhcongchuc'], $parameters['sohopdong']
 					);
 					$view['message'] = 'Đã sửa đổi, bổ sung thông tin';
 				} catch (\Exception $exc) {
@@ -1050,7 +1051,7 @@ class CanboController extends AbstractActionController {
 		//init View
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
 		$headScript = $helper->get('headscript');
-		$headScript->appendFile(ROOT_PATH . 'public/template/js/combobox.js');
+		$headScript->appendFile('/template/js/combobox.js');
 
 		//get parameter from GET request
 		$id = $this->params('id');
@@ -1186,10 +1187,10 @@ class CanboController extends AbstractActionController {
 		$helper = $this->getServiceLocator()->get('viewhelpermanager');
 
 		$headScript = $helper->get('headscript');
-		$headScript->appendFile(ROOT_PATH . 'public/script/datatable/media/js/jquery.dataTables.js');
-		$headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/TableTools/media/js/ZeroClipboard.js');
-		$headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/TableTools/media/js/TableTools.js');
-		$headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/ColReorder/media/js/ColReorder.js');
+		$headScript->appendFile('/script/datatable/media/js/jquery.dataTables.js');
+		$headScript->appendFile('/script/datatable/extras/TableTools/media/js/ZeroClipboard.js');
+		$headScript->appendFile('/script/datatable/extras/TableTools/media/js/TableTools.js');
+		$headScript->appendFile('/script/datatable/extras/ColReorder/media/js/ColReorder.js');
 
 		//get data
 		$view['dsKienNghi'] = $this->canboModel->getDSKienNghi(1); //danh sách kiến nghị chưa giải quyết
@@ -1413,10 +1414,10 @@ class CanboController extends AbstractActionController {
 		$helper = $this->getServiceLocator()->get('viewhelpermanager');
 
 		$headScript = $helper->get('headscript');
-		$headScript->appendFile(ROOT_PATH . 'public/script/datatable/media/js/jquery.dataTables.js');
-		$headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/TableTools/media/js/ZeroClipboard.js');
-		$headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/TableTools/media/js/TableTools.js');
-		$headScript->appendFile(ROOT_PATH . 'public/script/datatable/extras/ColReorder/media/js/ColReorder.js');
+		$headScript->appendFile('/script/datatable/media/js/jquery.dataTables.js');
+		$headScript->appendFile('/script/datatable/extras/TableTools/media/js/ZeroClipboard.js');
+		$headScript->appendFile('/script/datatable/extras/TableTools/media/js/TableTools.js');
+		$headScript->appendFile('/script/datatable/extras/ColReorder/media/js/ColReorder.js');
 
 		//to view
 		$view['dsCanBo'] = $this->canboModel->getDSCanBoNgungCongTac(); //load "danh sach Cán Bộ" from database, với thông tin công tác

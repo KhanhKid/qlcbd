@@ -1,0 +1,68 @@
+<style>
+    .custom-combobox {
+        position: relative;
+        display: inline-block;
+        margin-right: 30px;
+    }
+    .custom-combobox-toggle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-left: -1px;
+        padding: 0;
+        /* support: IE7 */
+        *height: 1.7em;
+        *top: 0.1em;
+    }
+    .custom-combobox-input {
+        margin: 0;
+        padding: 0.3em;
+    }
+
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+</style>
+
+<div class="block">
+    <h2 class="title">Danh sách ban</h2>
+    <div class="block-content">
+        <fieldset>
+            <legend>Tạo mới phòng ban</legend>
+            <form method="post">
+                <span>Nhập tên phòng ban mới</span>
+                <input type="text" name="ten_ban" value="" placeholder="Ban Văn Phòng"><br>
+                <button type="submit" class="changelable-submitbutton">Tạo thêm Phòng/Ban</button>
+            </form>
+        </fieldset>
+        <br>
+        <fieldset>
+            <legend>Danh sách các phòng/ban hiện tại - nhấp vào để thay đổi</legend>
+            <div class="content">
+                <div class="block-content" id="js-hire-tree">
+                <table>
+                    <th>No</th>
+                    <th>Tên Ban</th>
+                    <th>Tool</th>
+                    <tbody>
+                        <?php 
+                            foreach ($dsBan as $key => $value) {
+                                echo "<tr>
+                                <td>".$value['id']."</td>
+                                <td>".$value['ten_ban']."</td>
+                                <td><a href=".$this->basePath('admin/cocau/xoaBan/').$value['id'] ." class='delete' title='Xóa'></a></td>
+                                </tr>";
+                            }
+                        ?>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<link rel="stylesheet" href="<?php echo '/script/themes/default/style.min.css'; ?>" type="text/css">

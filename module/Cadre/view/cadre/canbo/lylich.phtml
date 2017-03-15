@@ -15,7 +15,8 @@
 <?php
     //tool
     function formatDate($date){
-        return $date = (null==$date)? '../../....':date('d-m-Y', strtotime($date));
+        return $date = (null==$date || $date == "1970-01-01")? '../../....':date('d-m-Y', strtotime($date));
+        
     }
     ?>
 <div class="block">

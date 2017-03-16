@@ -95,16 +95,25 @@
 
                 ?>
             </select><br/>
-            Loại Hình:
-            <select id="loaiban" name="loaiban" onchange="autofillBchName()">
+            B:
+
+            <fieldset>
+                <legend>Danh sách các phòng/ban hiện tại - nhấp vào để thay đổi</legend>
+                <div class="content">
+                    <div class="block-content" id="js-hire-tree">
+                    </div>
+                </div>
+            </fieldset>
+            <select id="loaiban" style="display: none" name="loaiban" onchange="autofillBchName()">
                 <?php
                 //Load "Loai Ban  (lãnh đạo)"  list for Dropbox
                 foreach($this->dsLoaiBan as $loaiban){
                     echo '<option value="', $loaiban['Ma_Loai_Ban'],'">', $loaiban['Ten_Loai_Hinh_Ban'],'</option>';
                 }
-
+            
                 ?>
-            </select><br/>
+            </select>
+            <br/>
             Tên gọi: <input type="text" id = 'tengoiban' name="tengoiban" size="50" /><br/>
 
             Ngày thành lập:

@@ -79,8 +79,7 @@ class CanboController extends AbstractActionController {
         $DotDanhGiaModel = $this->getServiceLocator()->get('Manager\Model\DotDanhGiaModel');
 		$view['listDot'] = $DotDanhGiaModel->getAllDot();
 		$view['message']   = ''; //nothing
-		
-				echo '<pre>',var_dump($idCBNX),'</pre>';die();
+	
 		//process request: when save this "đánh giá"
 		if ($this->getRequest()->isPost()) {
 			$parameters = $this->getRequest()->getPost();

@@ -39,7 +39,6 @@ class CanboController extends AbstractActionController {
 
 		$view['dsCanBo']         = $this->canboModel->getAllBriefInfo(); //load "danh sach Cán Bộ" from database
 		
-		//echo '<pre>',var_dump($view),'</pre>';die();
 		return new ViewModel($view);
 	}
 

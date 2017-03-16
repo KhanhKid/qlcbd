@@ -74,8 +74,8 @@ function formatDate($date){
                                 <td>',$value['Ten_Don_Vi_TD'],'</td>
                                 <td>',$value['Ten_Chuc_Vu_TD'],'</td>
                                 <td>
-                                    <input type="text" class="ngaythang" name = "ngayroikhoi"  size="10" value="',formatDate($value['Ngay_Roi_Khoi']),'" />
-                                    <button type="button" onclick="editCell(this)" class="edit"/>
+                                    <input type="text" class="ngaythang" name = "ngayroikhoi"  size="10" value="',Date("d/m/Y"),'" />
+                                    <button type="button" onclick="editCell(this)" >Chuyển đi</button>
                                 </td>
                                 <td>
 
@@ -89,91 +89,91 @@ function formatDate($date){
             </div>
         </fieldset>
 
-        <fieldset>
-            <legend>Cập nhật chức vụ cán bộ</legend>
-            <div class="content">
-            <form method="POST">
-                <div class="group">
-                    <span>Ngày chuyển</span>
-                    <input type="text" id="ngaychuyendi" class="ngaythang" name="ngaydi" value="<?=date('d/m/Y')?>"/>
-                </div>
-
-                <div class="group">
-                    <span>Chuyển đến đơn vị</span>
-                    <select id="donvi" class="combobox" name="donvi" >
-
-                        <?php
-                        //Load "Don Vi" list for Dropbox
-                        foreach($this->dsDonvi as $donvi){
-                            echo '<option value="', $donvi['Ma_ĐV'],'">', $donvi['Ten_Đon_Vi'],'</option>';
-                        }
-                        //Move to out 
-                        ?>
-                    </select>
-                </div>
-
-                <div class="group">
-                    <span>Bộ phận chuyển đến</span>
-                    <select id="banden" name="banden" >
-
-                        <?php
-                        //Load "Don Vi" list for Dropbox
-                        foreach($this->dsBanThuocThanhDoan as $element){
-                            echo '<option value="', $element['Ma_Ban'],'">', $element['Ten_Ban'],'</option>';
-                        }
-
-                        ?>
-                    </select>
-                </div>
-
-                <div class="group">
-                    <span>Bổ nhiệm chức vụ</span>
-                    <select id="chucvu" name="chucvu" >
-                        <?php
-                        foreach ($this->dsChucvu as $element) {
-
-                            echo '<option value="', $element['Ma_Chuc_Vu'], '">',$element['Ten_Chuc_Vu'], '</option>';
-                        }
-                        ?>
-                    </select>
-                </div>
-
-                <div class="clear"></div>
-                <div class="group">
-                    <span>Lý do chuyển đến</span>
-                    <textarea name="lydo" maxlength="254"> </textarea>
-                </div>
-                <div class="clear"></div>
-                <div class="group">
-                    <span>Chuyển từ bộ phận</span>
-                    <select name="thongtindi" >
-                        <option value=''>(từ bên ngoài)</option>
-                        <?php
-                        //Load "Don Vi" list for Dropbox
-                        foreach($this->congtachientai as $element){
-                            if(!$element['La_Cong_Tac_Chinh'])
-                            echo '<option value="',$element['Ma_Ban'],' ',formatDate($element['Ngay_Gia_Nhap']),'">',
-                                    '<tr>
-                                            <td>',$element['Ten_Chuc_Vu'],'</td>
-                                            <td> thuộc ',$element['Ten_Ban'],'</td>
-                                            <td>,',$element['Ten_Đon_Vi'],'</td>
-                                    </tr>
-
-                                  </option>';
-                        }
-
-                        ?>
-                    </select>
-                </div>
-                <div class="clear"></div>
-                <p id='message'>
-                    <mark > <?php echo $this->message?> <mark>
-                </p>
-                <br/>
-                <button type="submit" align="right" >Luân chuyển cán bộ này</button>
-            </form>
-            </div>
-        </fieldset>
+       <!--  <fieldset>
+           <legend>Cập nhật chức vụ cán bộ</legend>
+           <div class="content">
+           <form method="POST">
+               <div class="group">
+                   <span>Ngày chuyển</span>
+                   <input type="text" id="ngaychuyendi" class="ngaythang" name="ngaydi" value="<?=date('d/m/Y')?>"/>
+               </div>
+       
+               <div class="group">
+                   <span>Chuyển đến đơn vị</span>
+                   <select id="donvi" class="combobox" name="donvi" >
+       
+                       <?php
+                       //Load "Don Vi" list for Dropbox
+                       foreach($this->dsDonvi as $donvi){
+                           echo '<option value="', $donvi['Ma_ĐV'],'">', $donvi['Ten_Đon_Vi'],'</option>';
+                       }
+                       //Move to out 
+                       ?>
+                   </select>
+               </div>
+       
+               <div class="group">
+                   <span>Bộ phận chuyển đến</span>
+                   <select id="banden" name="banden" >
+       
+                       <?php
+                       //Load "Don Vi" list for Dropbox
+                       foreach($this->dsBanThuocThanhDoan as $element){
+                           echo '<option value="', $element['Ma_Ban'],'">', $element['Ten_Ban'],'</option>';
+                       }
+       
+                       ?>
+                   </select>
+               </div>
+       
+               <div class="group">
+                   <span>Bổ nhiệm chức vụ</span>
+                   <select id="chucvu" name="chucvu" >
+                       <?php
+                       foreach ($this->dsChucvu as $element) {
+       
+                           echo '<option value="', $element['Ma_Chuc_Vu'], '">',$element['Ten_Chuc_Vu'], '</option>';
+                       }
+                       ?>
+                   </select>
+               </div>
+       
+               <div class="clear"></div>
+               <div class="group">
+                   <span>Lý do chuyển đến</span>
+                   <textarea name="lydo" maxlength="254"> </textarea>
+               </div>
+               <div class="clear"></div>
+               <div class="group">
+                   <span>Chuyển từ bộ phận</span>
+                   <select name="thongtindi" >
+                       <option value=''>(từ bên ngoài)</option>
+                       <?php
+                       //Load "Don Vi" list for Dropbox
+                       foreach($this->congtachientai as $element){
+                           if(!$element['La_Cong_Tac_Chinh'])
+                           echo '<option value="',$element['Ma_Ban'],' ',formatDate($element['Ngay_Gia_Nhap']),'">',
+                                   '<tr>
+                                           <td>',$element['Ten_Chuc_Vu'],'</td>
+                                           <td> thuộc ',$element['Ten_Ban'],'</td>
+                                           <td>,',$element['Ten_Đon_Vi'],'</td>
+                                   </tr>
+       
+                                 </option>';
+                       }
+       
+                       ?>
+                   </select>
+               </div>
+               <div class="clear"></div>
+               <p id='message'>
+                   <mark > <?php echo $this->message?> <mark>
+               </p>
+               <br/>
+               <button type="submit" align="right" >Luân chuyển cán bộ này</button>
+           </form>
+           </div>
+       </fieldset> -->
 
         <fieldset>
             <legend>Luân chuyển cán bộ</legend>
@@ -372,9 +372,9 @@ function formatDate($date){
                 leaving_date:   leavingDate_transfer
             },
             function(data){
-                //alert(data);
-                //$('#message').html(data);
+                obj.closest('tr').remove();
                 alert('chuyển cán bộ đi thành công');
+
             }
         );
 

@@ -20,6 +20,21 @@ class BanModel extends  AbstractModel
         return $data;
     }
 
+
+    // get so luong member by Ma_Ban
+    public function getNumMemberBan($Ma_Ban){
+        //init
+        $sql = "SELECT count(*) as num FROM `thong_tin_tham_gia_ban` WHERE `Ngay_Roi_Khoi` is NULL AND Ma_Ban = $Ma_Ban";
+        $parameters = null;
+
+        //process database
+        $data = $this->query($sql,$parameters);
+        if($data)
+            return $data[0]['num'];
+        return 0;
+
+    }
+
     /*
      * lấy danh sách các ban đang hoạt động thuộc đơn vị
      * 
@@ -113,9 +128,32 @@ class BanModel extends  AbstractModel
         return $data;
     }
 
-
-
     public function thanhlapBanchucnang($Ma_Ban=0, $Ma_Loai_Ban,$Ma_Đon_Vi, $Ten_Ban, $Ngay_Thanh_Lap, $Mo_Ta){
+        //init query
+        //format datatime to MySQL
+        $Ngay_Thanh_Lap = date('Y-m-d', strtotime($Ngay_Thanh_Lap));
+        // lets update begin
+        $sql = 'UPDATE `Ban` SET `Ma_Loai_Ban` = :Ma_Loai_Ban, `Ma_Đon_Vi` = :Ma_Don_Vi, 
+                                 `Ten_Ban` = :Ten_Ban, `Ngay_Thanh_Lap` = :Ngay_Thanh_Lap, 
+                                 `Ngay_Man_Nhiem` = NULL, `Mo_Ta` = :Mo_Ta 
+                WHERE `Ma_Ban` = :Ma_Ban; ';
+
+        //set parameters
+        $parameters = array(
+            'Ma_Ban' => $Ma_Ban,
+            'Ma_Loai_Ban'=> $Ma_Loai_Ban,
+            'Ma_Don_Vi'=> $Ma_Đon_Vi,
+            'Ten_Ban'=> $Ten_Ban,
+            'Ngay_Thanh_Lap' => $Ngay_Thanh_Lap,
+            'Mo_Ta' => $Mo_Ta,
+        );    
+
+        $this->executeNonQuery($sql,$parameters);
+        $result = $Ma_Ban;
+        return $result;
+    }
+
+    public function thanhlapBanchucnangBK($Ma_Ban=0, $Ma_Loai_Ban,$Ma_Đon_Vi, $Ten_Ban, $Ngay_Thanh_Lap, $Mo_Ta){
         //init query
         //format datatime to MySQL
         $Ngay_Thanh_Lap = date('Y-m-d', strtotime($Ngay_Thanh_Lap));

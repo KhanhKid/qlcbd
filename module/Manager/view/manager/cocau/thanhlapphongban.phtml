@@ -58,6 +58,7 @@
     var dsChucVu = <?php echo json_encode($this->dsChucVu); ?>;
 
     dsCanBoHtml = '<select class="combobox hotencombobox" name="hoten[]">';
+    dsCanBoHtml += '<option>Chọn cán bộ</option>';
     var size = dsCanBo.length;
     for (i = 0; i < size; i++)
     {
@@ -86,17 +87,15 @@
             <input type="hidden" id="maban" name="maban" value="">
 
             Đơn vị trực thuộc:
-            <select id='donvitructhuoc' class="combobox1" name="donvitructhuoc">
+            <select id='donvitructhuoc' disabled name="donvitructhuoc">
                 <?php
                 //Load "Don Vi" list for Dropbox
                 foreach($this->dsDonVi as $donvi){
-                    echo '<option value="', $donvi['Ma_ĐV'],'">', $donvi['Ten_Đon_Vi'],'</option>';
+                    echo '<option  value="', $donvi['Ma_ĐV'],'">', $donvi['Ten_Đon_Vi'],'</option>';
                 }
 
                 ?>
             </select><br/>
-            B:
-
             <fieldset>
                 <legend>Danh sách các phòng/ban hiện tại - nhấp vào để thay đổi</legend>
                 <div class="content">
@@ -114,18 +113,14 @@
                 ?>
             </select>
             <br/>
-            Tên gọi: <input type="text" id = 'tengoiban' name="tengoiban" size="50" /><br/>
+            Tên gọi: <input type="text" id = 'tengoiban' disabled name="tengoiban" size="50" /><br/>
 
             Ngày thành lập:
-            <input class ='ngaythang' id="ngaythanhlap" name="ngaythanhlap" type="text" value="<?php echo date('d-m-Y'); ?>" /> (*)<br/>
+            <input class ='ngaythang' disabled id="ngaythanhlap" name="ngaythanhlap" type="text" value="<?php echo date('d-m-Y'); ?>" /> (*)<br/>
 
-            Mô tả: <textarea name="mota"></textarea>
-            <script>
-                CKEDITOR.replace( 'mota', {
-                    toolbar: 'Basic'
-                });
-            </script>
-
+            Mô tả: <span id="mota"></span>
+            <br>
+            <br>
             Danh sách Thành viên:
             <table id="danhsachBCH">
                 <tr>
@@ -135,32 +130,12 @@
                     <th>Chức vụ</th>
                     <th>Thao tác</th>
                 </tr>
-                <tr>
-                    <td>
-                        <script>
-                            document.write(dsCanBoHtml);
-                        </script>
-                    </td>
-                    <!--<td><input type="text" name="ngaysinh[]" class="ngaythang" disabled="true" /></td>
-                    <td>
-                        <select name="gioitinh[]" disabled="true">
-                            <option value="0">Nam</option>
-                            <option value="1">Nữ</option>
-                        </select>
-                    </td>-->
-                    <td>
-                        <script>
-                            document.write(dsChucVuHtml);
-                        </script>
-                    </td>
-                    <td><button class="xemlylich" type="button" onclick="">Xem lý lịch</button><button type="button" onclick="deleteRow(this)">Xóa</button> </td>
-                </tr>
             </table>
 
             <button type="button" id="add">Thêm cán bộ</button>
             <br/>
             <br/>
-            <button type="submit" class="changelable-submitbutton">Thành Lập Phòng/Ban</button>
+            <button type="submit" class="changelable-submitbutton">Cập nhật Phòng/Ban</button>
         </form>
         <br><br><br>
         <fieldset>
@@ -185,13 +160,13 @@
     //reset form 
     $("#resetform").click(function() {
         // form
-        $(".changelable-submitbutton").text('Thanh Lập Phòng/Ban');
+        $(".changelable-submitbutton").text('Thành Lập Phòng/Ban');
         $("#maban").val('');
         $("#donvitructhuoc").val('');
         $("#loaiban").val('');
         $("#tengoiban").val('');
         $("#ngaythanhlap").val('');
-        $("#mota").val('');
+        $("#mota").html('');
         $("#danhsachBCH").html('<tr><th>Họ và tên</th><th>Chức vụ</th><th>Thao tác</th></tr>');
     });
 
@@ -244,7 +219,7 @@
             $("#loaiban").val(banJSON.Ma_Loai_Ban);
             $("#tengoiban").val(banJSON.Ten_Ban);
             $("#ngaythanhlap").val(banJSON.Ngay_Thanh_Lap);
-            $("#mota").val(banJSON.Mo_Ta);
+            $("#mota").html(banJSON.Mo_Ta);
            
             var dsCanBo = banJSON.canboban; 
             for(var i=0; i<dsCanBo.length; i++) {

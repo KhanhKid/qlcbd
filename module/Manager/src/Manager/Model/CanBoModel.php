@@ -27,8 +27,7 @@ class CanBoModel extends AbstractModel {
 		// Add
 		$sql0 = 'SELECT *
 		FROM thong_tin_tham_gia_ban
-		WHERE (Ma_CB = ' . $Ma_Can_Bo . ') AND (La_Cong_Tac_Chinh = 1)';
-
+		WHERE (Ma_CB = ' . $Ma_Can_Bo . ') AND (Ma_Ban = '.(int) $Ma_Ban_Den.') AND (La_Cong_Tac_Chinh = 1)';
 		//query
 		$data = $this->query($sql0, null);
 		if (isset($data[0])) {
@@ -42,19 +41,15 @@ class CanBoModel extends AbstractModel {
 				'Ly_Do'         => $lydo,
 			);
 		} else {
-			$sql = 'Insert Into thong_tin_tham_gia_ban (Ma_CB, Ma_Ban, Ngay_Gia_Nhap, Ma_CV, Ly_Do_Chuyen_Đen, La_Cong_Tac_Chinh)
-                                             VALUE (:Ma_Can_Bo, :Ma_Ban_Den, :Ngay_Gia_Nhap, :Ma_Chuc_Vu, :Ly_Do, :Cong_Tac_Chinh );';
+            $sql = 'UPDATE `thong_tin_tham_gia_ban` SET `Ngay_Gia_Nhap` = :Ngay_Gia_Nhap, Ma_Chuc_Vu = :Ma_Chuc_Vu, Ly_Do = :Ly_Do ,Cong_Tac_Chinh = :Cong_Tac_Chinh WHERE (Ma_CB = ' . $Ma_Can_Bo . ') AND (Ma_Ban = '.(int) $Ma_Ban_Den.');';
 
 			$parameters = array(
-				'Ma_Can_Bo'      => $Ma_Can_Bo,
-				'Ma_Ban_Den'     => $Ma_Ban_Den,
 				'Ngay_Gia_Nhap'  => $Ngay_Gia_Nhap,
 				'Ma_Chuc_Vu'     => $ma_chuc_vu_moi,
 				'Ly_Do'          => $lydo,
 				'Cong_Tac_Chinh' => 1,
 			);
 		}
-
 		return $this->executeNonQuery($sql, $parameters);
 	}
 
@@ -231,9 +226,11 @@ class CanBoModel extends AbstractModel {
 	/*
 	 * L?y danh sách cán b? cùng thông tin công tác, làm vi?c (t?i ??n v? nào, ban nào, ch?c v? gì)
 	 */
-	public function getAllWorkInfo() {
-
-		$sql = 'SELECT Ten_Đon_Vi, Ten_Ban, Ma_Can_Bo, Ho_Ten_CB, DATE_FORMAT(Ngay_Sinh,"%d/%m/%Y") AS Ngay_Sinh, So_CMND, chuc_vu.Ten_Chuc_Vu
+	public function getAllWorkInfo($param = array()) {
+		if(isset($param['checkListMemBan'])){
+			$condTemp = "";
+		}
+		$sql = 'SELECT Ten_Đon_Vi, Ten_Ban, Ma_Can_Bo, Ho_Ten_CB, DATE_FORMAT(Ngay_Sinh,"%d/%m/%Y") AS Ngay_Sinh, So_CMND, chuc_vu.Ten_Chuc_Vu, ban.Ten_Ban
                 FROM can_bo ca LEFT JOIN ly_lich ly ON (ca.Ma_Can_Bo = ly.Ma_CB)
                             LEFT JOIN thong_tin_tham_gia_ban ON (thong_tin_tham_gia_ban.Ma_CB = ca.Ma_Can_Bo
                                                                     AND (thong_tin_tham_gia_ban.Ngay_Roi_Khoi IS NULL)
@@ -244,7 +241,7 @@ class CanBoModel extends AbstractModel {
                             LEFT JOIN ban ON (thong_tin_tham_gia_ban.Ma_Ban = ban.Ma_Ban)
                             LEFT JOIN đon_vi ON (ban.Ma_Đon_Vi =  đon_vi.Ma_ĐV)
                 WHERE  (ca.Ngay_Roi_Khoi IS NULL OR ca.Ngay_Roi_Khoi = "1970-01-01") AND (ca.Trang_Thai = 1) AND ca.DangHoatDong = 1 
-                GROUP BY Ma_Can_Bo';
+                GROUP BY ca.Ma_Can_Bo';
 
 		//query
 		$data = $this->query($sql, null);

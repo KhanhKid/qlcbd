@@ -135,25 +135,14 @@ class CocauController extends AbstractActionController {
 		if ($this->getRequest()->isPost()) {
 			//parameters
 			$parameters = $this->getRequest()->getPost();
-
-			//var_dump($parameters);exit;
-
 			//tạo ban mới
-			$BanID = $this->banModel->thanhlapBanchucnang(
-				$parameters['maban'],
-				$parameters['loaiban'],
-				$parameters['donvitructhuoc'], //get Ma_Don_Vi
-				$parameters['tengoiban'],
-				$parameters['ngaythanhlap'],
-				$parameters['mota']
-			);
-
+			$banInfo = $this->banModel->getBanDetailedInfo((int)$parameters['maban']);
 			//thêm cán bộ vào Ban mới thành lập (nếu không có lỗi lúc thành lập)
-			if (null != $BanID && $parameters['hoten']) {
+			if ($banInfo && $parameters['hoten']) {
+				$BanID = $banInfo["Ma_Ban"];
 				//từng cán bộ gia nhập ban
 				$this->canboModel->huyGiaNhapBan($BanID);
 				foreach ($parameters['hoten'] as $i => $macb) {
-
 					$this->canboModel->giaNhapBan(
 						$macb,
 						$BanID, //ID of Ban (sau khi lấy được sau khi Thành lập ban mới)
@@ -176,7 +165,6 @@ class CocauController extends AbstractActionController {
 		foreach ($result as $ban) {
 			$id       = $ban['Ma_Ban'];
 			$canboban = $this->banModel->getDSCanBoThuocBan($id);
-
 			if ($canboban[0] != '') {
 				$danhsach = array();
 				foreach ($canboban as $canbo) {
@@ -186,13 +174,13 @@ class CocauController extends AbstractActionController {
 				}
 				$jsTreeData[] = array(
 					'id'       => $id,
-					'text'     => $ban['Ten_Ban'],
+					'text'     => $ban['Ten_Ban']."(".$this->banModel->getNumMemberBan($id).")",
 					'children' => $danhsach,
 				);
 			} else {
 				$jsTreeData[] = array(
 					'id'   => $id,
-					'text' => $ban['Ten_Ban'],
+					'text' => $ban['Ten_Ban']."(".$this->banModel->getNumMemberBan($id).")",
 				);
 			}
 		}

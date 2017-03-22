@@ -749,7 +749,6 @@ class CanBoModel extends AbstractModel {
 	 */
 	public function getDanTocList() {
 		$sql = 'SELECT Ma_Dan_Toc, Ten_Dan_Toc FROM dan_toc';
-
 		//get data to array
 		$data = $this->query($sql, null);
 
@@ -1845,7 +1844,7 @@ class CanBoModel extends AbstractModel {
 
 	public function getDSKienNghi($trangthai) {
 		//sql (CRAZY)
-		$sql = 'SELECT `Thoi_Gian`, Ma_Can_Bo, `Ho_Ten_CB` AS Ten_CB_Kien_Nghi , So_CMND, `Ten_Kien_Nghi`, `Noi_Dung`, `File_URL`, `kien_nghi`.`Trang_Thai`
+		$sql = 'SELECT `kien_nghi`.`id`,`Thoi_Gian`, Ma_Can_Bo, `Ho_Ten_CB` AS Ten_CB_Kien_Nghi , So_CMND, `Ten_Kien_Nghi`, `Noi_Dung`, `File_URL`, `kien_nghi`.`Trang_Thai`
                 FROM `kien_nghi` LEFT JOIN can_bo ON (kien_nghi.Ma_CB_Kien_Nghi = can_bo.Ma_Can_Bo)
                                  LEFT JOIN ly_lich ON(can_bo.Ma_Can_Bo = ly_lich.Ma_CB)
                 WHERE `kien_nghi`.`Trang_Thai` = :trangthai';
@@ -1865,7 +1864,7 @@ class CanBoModel extends AbstractModel {
 
 	public function getDSKienNghiTheoNgay($begin = null, $end = null, $trangthai = 1) {
 
-		$sql = 'SELECT `Thoi_Gian`, Ma_Can_Bo, `Ho_Ten_CB` AS Ten_CB_Kien_Nghi , So_CMND, `Ten_Kien_Nghi`, `Noi_Dung`, `File_URL`, `kien_nghi`.`Trang_Thai`
+		$sql = 'SELECT `kien_nghi`.`id`,`Thoi_Gian`, Ma_Can_Bo, `Ho_Ten_CB` AS Ten_CB_Kien_Nghi , So_CMND, `Ten_Kien_Nghi`, `Noi_Dung`, `File_URL`, `kien_nghi`.`Trang_Thai`
                 FROM `kien_nghi` LEFT JOIN can_bo ON (kien_nghi.Ma_CB_Kien_Nghi = can_bo.Ma_Can_Bo)
                                  LEFT JOIN ly_lich ON(can_bo.Ma_Can_Bo = ly_lich.Ma_CB)
                 WHERE `kien_nghi`.`Trang_Thai` = :trangthai AND date(Thoi_Gian) >= :begin and date(Thoi_Gian) <= :end';
@@ -1894,10 +1893,10 @@ class CanBoModel extends AbstractModel {
 		return $data;
 	}
 
-	public function getKienNghi($maCB, $time) {
-		$sql        = 'SELECT * FROM `kien_nghi` WHERE Thoi_Gian = :thoigian AND Ma_CB_Kien_Nghi = :macb';
+	public function getKienNghi($maCB, $idKienNghi) {
+		$sql        = 'SELECT * FROM `kien_nghi` WHERE id = :id AND Ma_CB_Kien_Nghi = :macb';
 		$parameters = array(
-			'thoigian' => $time,
+			'id' => $idKienNghi,
 			'macb'     => $maCB,
 		);
 		//execute query
@@ -1951,19 +1950,15 @@ class CanBoModel extends AbstractModel {
 		return $result;
 	}
 
-	public function giaiquyetKienNghi($Ma_Can_Bo, $Thoi_Gian,
+	public function giaiquyetKienNghi($id,
 		$Trang_Thai = 1) {
 		$sql = "UPDATE `kien_nghi` SET `Trang_Thai`= :Trang_Thai
-                WHERE `Thoi_Gian` = :Thoi_Gian
-                    AND`Ma_CB_Kien_Nghi` = :Ma_Can_Bo;";
+                WHERE `id` = :id";
 
 		$parameters = array(
-			'Ma_Can_Bo'  => $Ma_Can_Bo,
-			'Thoi_Gian'  => $Thoi_Gian,
-
+			'id'  => $id,
 			'Trang_Thai' => $Trang_Thai,
 		);
-
 		$result = $this->executeNonQuery($sql, $parameters);
 
 		return $result;

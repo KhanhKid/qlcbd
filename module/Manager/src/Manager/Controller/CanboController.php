@@ -539,7 +539,7 @@ class CanboController extends AbstractActionController {
 	 */
 	public function bosungAction() {
 
-		$time = $this->getRequest()->getQuery('time');
+		$idKienNghi = $this->getRequest()->getQuery('id');
 
 		$canboModel = $this->getServiceLocator()->get('Manager\Model\CanBoModel');
 
@@ -548,8 +548,8 @@ class CanboController extends AbstractActionController {
 		$curId = $this->params('id');
 
 		$kiennghi = null;
-		if (isset($time)) {
-			$kiennghi = $canboModel->getKienNghi($curId, $time);
+		if (isset($idKienNghi)) {
+			$kiennghi = $canboModel->getKienNghi($curId, $idKienNghi);
 		}
 
 		//process request:  when save edited info
@@ -757,20 +757,20 @@ class CanboController extends AbstractActionController {
 
 		//ViewModel
 		$view['lylich']    = $canboModel->getLyLichCanBo($curId);
-		$view['dsDanToc']  = $this->canboModel->getDanTocList();
-		$view['dsTonGiao'] = $this->canboModel->getTonGiaoList();
-		$view['dsTDCM']    = $this->canboModel->getTrinhDoChuyenMonList();
-		$view['dsTDLLCT']  = $this->canboModel->getTrinhDoLLCTList();
+		$view['dsDanToc']  = $canboModel->getDanTocList();
+		$view['dsTonGiao'] = $canboModel->getTonGiaoList();
+		$view['dsTDCM']    = $canboModel->getTrinhDoChuyenMonList();
+		$view['dsTDLLCT']  = $canboModel->getTrinhDoLLCTList();
 
 		$view['dsChucVu'] = $canboModel->getChucVuList();
 
 		$view['kiennghi']          = $kiennghi;
-		$view['dao_tao_boi_duong'] = $this->canboModel->getDaoTaoBoiDuong($curId);
-		//$view['dacdiemlichsu'] = $this->canboModel->getDacDiemLichSu($id);
-		$view['quatrinhcongtac'] = $this->canboModel->getQuaTrinhCongTac($curId);
-		$view['quanhegiadinh']   = $this->canboModel->getQuanHeGiaDinh($curId, 0); //của bản thân
-		$view['quanhegiadinhvo'] = $this->canboModel->getQuanHeGiaDinh($curId, 1); //của nhà vợ
-		$view['quatrinhluong']   = $this->canboModel->getQuaTrinhLuong($curId);
+		$view['dao_tao_boi_duong'] = $canboModel->getDaoTaoBoiDuong($curId);
+		//$view['dacdiemlichsu'] = $canboModel->getDacDiemLichSu($id);
+		$view['quatrinhcongtac'] = $canboModel->getQuaTrinhCongTac($curId);
+		$view['quanhegiadinh']   = $canboModel->getQuanHeGiaDinh($curId, 0); //của bản thân
+		$view['quanhegiadinhvo'] = $canboModel->getQuanHeGiaDinh($curId, 1); //của nhà vợ
+		$view['quatrinhluong']   = $canboModel->getQuaTrinhLuong($curId);
 		//$view['congtacnuocngoai'] = $this->canboModel->getCongTacNuocNgoai($id);
 
 		return new ViewModel($view);
@@ -1264,29 +1264,14 @@ class CanboController extends AbstractActionController {
 
 	public function boquaKiennghiAction() {
 		//get parameter from GET request
-		//$paras = explode('-',$this->params('id'));
 		$id = $this->params('id');
-		//$date = date('Y-m-d H:i:s', $paras[1]);
-		$date = $this->getRequest()->getQuery('time');
-
-		//process request (GET)
 		if ($this->getRequest()) {
 			$parameters = $this->getRequest()->getPost();
-			//var_dump($parameters);exit;
-			//insert
 			$this->canboModel->giaiquyetKienNghi(
 				$id,
-				$date,
 				-1
 			);
 		}
-
-		//redirect
-		/*$this->redirect()->toRoute('manager/default', array(
-		'controller'    => 'canbo',
-		'action'    => 'giaiquyetkiennghi',
-		));
-		 */
 
 		$basePath = $this->getRequest()->getBasePath();
 		$this->redirect()->toUrl($basePath . '/manager/canbo/giaiquyetkiennghi');

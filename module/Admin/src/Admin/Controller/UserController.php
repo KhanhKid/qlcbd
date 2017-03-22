@@ -47,7 +47,6 @@ class UserController extends AbstractActionController
         $helper = $this->getServiceLocator()->get('viewhelpermanager');
         $headScript = $helper->get('headscript');
         $headScript->appendFile('/template/js/combobox.js');
-
         //init model
         $userModel = $this->getServiceLocator()->get('Admin\Model\UserModel');
         $canboModel = $this->getServiceLocator()->get('Manager\Model\CanBoModel');
@@ -56,16 +55,8 @@ class UserController extends AbstractActionController
             //$parameters = new Parameters();
             $parameters = $this->getRequest()->getPost();
 
-            //TEST
-            //echo $parameters['sercurity'];exit;
-
-
-            //null value
             $parameters['macanbo'] = (''==$parameters['macanbo'])?null:$parameters['macanbo'];
             $parameters['role'] = (''==$parameters['role'])?null:$parameters['role'];
-
-
-            //var_dump($parameters);exit;
 
             //excute model
             try{
@@ -86,7 +77,9 @@ class UserController extends AbstractActionController
 
         //ViewModel to view
         $view['role_list'] = $userModel->getRoleList();
-        $view['dsCanbo'] = $canboModel->getAllBriefInfo();
+
+        $param['createNew'] = 1; // set if have user dont show
+        $view['dsCanbo'] = $canboModel->getAllBriefInfo($param);
 
         return new ViewModel($view);
     }
@@ -206,7 +199,6 @@ class UserController extends AbstractActionController
         //get GET parameters
         $userid = $this->params('id'); //user id
 
-
         //on request
         if($this->getRequest()->isPost()){
             //$parameters = new Parameters();
@@ -220,26 +212,31 @@ class UserController extends AbstractActionController
             //var_dump($parameters);exit;
 
             //excute model
-            try{
-                $userModel->editInfo(
-                    $userid,
-                    $parameters['username'],
-                    $parameters['role'],
-                    $parameters['macanbo'],
-                    $parameters['status']
-                );
-                $view['message'] = 'Sửa khoản thành công';
-            }catch(InvalidQueryException $exc){
-                //throw $exc;
-                $view['message'] = 'Không thực hiện được [lỗi dữ liệu: trùng tài khoản,...]';
+            $flag= true;
+            if($parameters['macanbo'] == null){
+                $view['message'] = 'Không thực hiện được lỗi không có tên cán bộ';
+                $flag= false;
+            }
+
+            if($flag){
+                try{
+                    $userModel->editInfo(
+                        $userid,
+                        $parameters['username'],
+                        $parameters['role'],
+                        $parameters['macanbo'],
+                        $parameters['status']
+                    );
+                    $view['message'] = 'Sửa khoản thành công';
+                }catch(InvalidQueryException $exc){
+                    //throw $exc;
+                    $view['message'] = 'Không thực hiện được [lỗi dữ liệu: trùng tài khoản,...]';
+                }
             }
         }
 
-        
-
         //init view
         $view['user'] =  $userModel->getInfo($userid);
-
         $view['role_list'] = $userModel->getRoleList();
         $view['dsCanbo'] = $canboModel->getAllBriefInfo();
 

@@ -44,6 +44,17 @@ class CanboController extends AbstractActionController {
 
 	public function thongtinAction() {
 		$this->layout('layout/home');
+		$auth   = (new AuthenticationService());
+		$infoCbCur = $auth->getIdentity();
+
+		$idBanCur["Ma_Ban"] = 0;
+		if($infoCbCur->Role_Name == "manager"){
+			$ban = $this->canboModel->getBan($infoCbCur->Identifier_Info);
+			if($ban){
+				$idBanCur["Ma_Ban"] = $ban[0]["Ma_Ban"];
+			}
+		}
+	
 		$helper = $this->getServiceLocator()->get('viewhelpermanager');
 
 		$headScript = $helper->get('headscript');
@@ -53,8 +64,9 @@ class CanboController extends AbstractActionController {
 		$headScript->appendFile('/script/datatable/extras/ColReorder/media/js/ColReorder.js');
 
 		//to view
-		$view['dsCanBo'] = $this->canboModel->getAllWorkInfo(); //load "danh sach Cán Bộ" from database, với thông tin công tác
-		$view['dsBan']               = $this->banModel->getDSBanHoatDong();
+		$view['dsCanBo'] = $this->canboModel->getAllWorkInfo($idBanCur); //load "danh sach Cán Bộ" from database, với thông tin công tác
+		$view['infoCbCur'] = $infoCbCur; 
+		$view['dsBan'] = $this->banModel->getDSBanHoatDong();
 		$dsBanThuocThanhDoan = $this->donviModel->getDSBanthuoc(0);
 		$arrDSBan = array();
 		foreach ($dsBanThuocThanhDoan as $key => $value) {

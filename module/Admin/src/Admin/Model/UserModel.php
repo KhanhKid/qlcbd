@@ -33,10 +33,15 @@ class UserModel  extends  AbstractModel
     }
 
     public function getAllUserCanBoInfo(){
-        $sql = 'SELECT UserID, Username, user.Role_Name, Role_Display_Name, Ma_Can_Bo, Ho_Ten_CB, Ngay_Sinh, So_CMND
-                FROM user LEFT JOIN role ON (role.Role_Name = user.Role_Name)
-                          LEFT JOIN can_bo ON (user.Identifier_Info = can_bo.Ma_Can_Bo)
-                          LEFT JOIN ly_lich ON (can_bo.Ma_Can_Bo = ly_lich.Ma_CB)
+        $sql = 'SELECT UserID, Username, user.Role_Name, Role_Display_Name, Ma_Can_Bo, Ho_Ten_CB, Ngay_Sinh, So_CMND, ban.Ten_Ban
+                FROM user   LEFT JOIN role ON (role.Role_Name = user.Role_Name)
+                            LEFT JOIN can_bo ON (user.Identifier_Info = can_bo.Ma_Can_Bo)
+                            LEFT JOIN ly_lich ON (can_bo.Ma_Can_Bo = ly_lich.Ma_CB)
+                            LEFT JOIN thong_tin_tham_gia_ban ON (thong_tin_tham_gia_ban.Ma_CB = user.Identifier_Info
+                                                                    AND (thong_tin_tham_gia_ban.Ngay_Roi_Khoi IS NULL)
+                                                                    AND (thong_tin_tham_gia_ban.La_Cong_Tac_Chinh = 1)
+                                                                )
+                            LEFT JOIN ban ON (thong_tin_tham_gia_ban.Ma_Ban = ban.Ma_Ban)
                 WHERE can_bo.DangHoatDong = 1;';
 
         //excute
@@ -109,9 +114,6 @@ class UserModel  extends  AbstractModel
         //echo $password;
         $passwordKey = date('d/m/Y h:m:s:ms', time());
         $password = md5(md5($password.$passwordKey));
-
-
-
 
         $sql = 'insert into user (Username, Password, Password_Key, Role_Name, Identifier_Info)
                           values (:username, :password, :passwordKey, :role, :identifierInfo)';

@@ -19,6 +19,16 @@ class CanBoModel extends AbstractModel {
 
 		return $this->executeNonQuery($sql, $parameters);
 	} 
+
+	public function getBan($Ma_Can_Bo) {
+		// Delete before
+		$sql        = 'SELECT *
+						FROM thong_tin_tham_gia_ban
+						WHERE (Ma_CB = ' . $Ma_Can_Bo . ') AND (La_Cong_Tac_Chinh = 1)
+						ORDER BY timestamp DESC';
+
+		return $this->query($sql);
+	} 
 	public function giaNhapBan($Ma_Can_Bo, $Ma_Ban_Den, $Ngay_Gia_Nhap, $ma_chuc_vu_moi, $lydo = null) {
 
 		// FormatDate
@@ -203,14 +213,21 @@ class CanBoModel extends AbstractModel {
 	/**
 	 * lấy danh sách cán bộ cùng thông tin công tác vắn tắt của cán bộ. Cán bộ đang hoạt động.
 	 */
-	public function getAllBriefInfo() {
+	public function getAllBriefInfo($param = null) {
+		$condTemp = "";
+		if(isset($param['createNew']))
+			$condTemp = "AND NOT EXISTS (
+										    SELECT 1 
+										    FROM user 
+										    WHERE can_bo.Ma_Can_Bo = user.Identifier_Info)";
+
 		//chú ý chuyển đồi format của ngày tháng khi lấy thông tin lên
 		$sql = "SELECT can_bo.Ma_Can_Bo, Ho_Ten_CB, DATE_FORMAT(Ngay_Sinh,'%d/%m/%Y') AS Ngay_Sinh, SO_CMND AS So_CMND
-                from can_bo left join ly_lich on( can_bo.Ma_Can_Bo = ly_lich.Ma_CB)
-                WHERE (Ngay_Roi_Khoi IS NULL) AND can_bo.DangHoatDong = 1;";
+                from can_bo 
+                left join ly_lich on( can_bo.Ma_Can_Bo = ly_lich.Ma_CB)
+                WHERE (Ngay_Roi_Khoi IS NULL or Ngay_Roi_Khoi = '1970-01-01') AND can_bo.DangHoatDong = 1 ".$condTemp;
 
 		$parameters = null;
-
 		$result = null;
 		try {
 			$sm = $this->adapter->createStatement();
@@ -236,22 +253,24 @@ class CanBoModel extends AbstractModel {
 	 * L?y danh sách cán b? cùng thông tin công tác, làm vi?c (t?i ??n v? nào, ban nào, ch?c v? gì)
 	 */
 	public function getAllWorkInfo($param = array()) {
+		$condTemp = "";
 		if(isset($param['checkListMemBan'])){
 			$condTemp = "";
+		}
+		if(isset($param["Ma_Ban"]) && $param["Ma_Ban"] != 0){
+			$condTemp .= " AND (thong_tin_tham_gia_ban.Ma_Ban = ".$param["Ma_Ban"].")";
 		}
 		$sql = 'SELECT Ten_Đon_Vi, Ten_Ban, Ma_Can_Bo, Ho_Ten_CB, DATE_FORMAT(Ngay_Sinh,"%d/%m/%Y") AS Ngay_Sinh, So_CMND, chuc_vu.Ten_Chuc_Vu, ban.Ten_Ban
                 FROM can_bo ca LEFT JOIN ly_lich ly ON (ca.Ma_Can_Bo = ly.Ma_CB)
                             LEFT JOIN thong_tin_tham_gia_ban ON (thong_tin_tham_gia_ban.Ma_CB = ca.Ma_Can_Bo
                                                                     AND (thong_tin_tham_gia_ban.Ngay_Roi_Khoi IS NULL)
-                                                                    AND(thong_tin_tham_gia_ban.La_Cong_Tac_Chinh = 1)
-
+                                                                    AND (thong_tin_tham_gia_ban.La_Cong_Tac_Chinh = 1)
                                                                 )
                             LEFT JOIN chuc_vu ON (thong_tin_tham_gia_ban.Ma_CV = chuc_vu.Ma_Chuc_Vu)
                             LEFT JOIN ban ON (thong_tin_tham_gia_ban.Ma_Ban = ban.Ma_Ban)
                             LEFT JOIN đon_vi ON (ban.Ma_Đon_Vi =  đon_vi.Ma_ĐV)
-                WHERE  (ca.Ngay_Roi_Khoi IS NULL OR ca.Ngay_Roi_Khoi = "1970-01-01") AND (ca.Trang_Thai = 1) AND ca.DangHoatDong = 1 
+                WHERE  (ca.Ngay_Roi_Khoi IS NULL OR ca.Ngay_Roi_Khoi = "1970-01-01") AND (ca.Trang_Thai = 1) AND ca.DangHoatDong = 1 '.$condTemp.'
                 GROUP BY ca.Ma_Can_Bo';
-
 		//query
 		$data = $this->query($sql, null);
 

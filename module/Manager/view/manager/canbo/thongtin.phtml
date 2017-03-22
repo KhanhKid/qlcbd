@@ -18,13 +18,17 @@
                 <table cellpadding="0" cellspacing="0" border="0" class="display" id="thongtincanbo">
                     <thead> 
                     <tr>
+                        <td>Tìm kiếm theo trường</td>
                         <td><input type="text" value="" class="search_init" /></td>
                         <td><input type="text" value="" class="search_init" /></td>
                         <td><input type="text" value="" class="search_init" /></td>
-                        <td><input type="text" id="searchBan" value="" class="search_init" /></td>
+                        <td>
+                            <input type="text" <?php echo ($this->infoCbCur->Role_Name != "admin")?"disabled":"";?> id="searchBan" value="" class="search_init" />
+                        </td>
                         <td style="width: 160px !important;"></td>
                     </tr>
                     <tr>
+                        <th>ID Cán Bộ</th>
                         <th>Họ tên</th>
                         <th>Ngày sinh</th>
                         <th>Chức vụ</th>
@@ -35,8 +39,9 @@
                     </thead>
                     <?php
                     if($this->dsCanBo){
-                        foreach($this->dsCanBo as $element){
+                        foreach($this->dsCanBo as $key => $element){
                             echo '<tr>
+                                        <td>', $element['Ma_Can_Bo'], '</td>
                                         <td>',$element['Ho_Ten_CB'], '</td>
                                         <td>',$element['Ngay_Sinh'], '</td>
                                         <td>',$element['Ten_Chuc_Vu'], '</td>
@@ -65,12 +70,12 @@
         var oTable;
         <?php
         $js_array = json_encode($dsBanThuocThanhDoan);
-        echo '<pre>',var_dump($js_array),'</pre>';die();
+        //echo '<pre>',var_dump($js_array),'</pre>';die();
         echo "var arr = ". $js_array . ";\n";
         ?>
 
         $( "#searchBan" ).autocomplete({
-              source: javascript_array
+              source: arr
             });
         /* Add the events etc before DataTables hides a column */
         $("thead input").keyup( function () {

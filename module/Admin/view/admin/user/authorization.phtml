@@ -106,7 +106,6 @@
         select: function (event, ui) {
             var id = $(this).val();
             $('#loading').fadeIn(300);
-            $.aj
             $.ajax(
                 {
                     url : "<?php echo $this->basePath('manager/canbo/xemthongtincanbo/'); ?>" + id,
@@ -128,4 +127,28 @@
                 });
         }
     });
+    updateDetail();
+    function updateDetail(){
+        var id = $("#macanbo").val();
+        $('#loading').fadeIn(300);
+        $.ajax(
+            {
+                url : "<?php echo $this->basePath('manager/canbo/xemthongtincanbo/'); ?>" + id,
+                type: "POST",
+                data : "",
+                //dataType: 'json',
+                success:function(returnData)
+                {
+                    var data = JSON.parse(returnData);
+                    console.log(data);
+                    $('#cmnd').html(data.So_CMND);
+                    $('#ngaysinh').html(data.Ngay_Sinh);
+                    $('#loading').fadeOut(300);
+                },
+                error: function(data, errorThrown)
+                {
+                    alert('request failed :'+errorThrown);
+                }
+            });
+    }
 </script>

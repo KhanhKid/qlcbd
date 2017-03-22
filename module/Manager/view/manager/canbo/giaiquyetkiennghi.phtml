@@ -72,8 +72,8 @@
                         html += '<td>(Không có)</td>'
                     }
                     html +='<td>\
-                                <a href="<?php echo $this->basePath('manager/canbo/bosung/');?>'+ obj[i].Ma_Can_Bo +'?time=' + obj[i].Thoi_Gian + '" class="done" title="Giải quyết"></a>\
-                                <a href="<?php echo $this->basePath('manager/canbo/boquaKiennghi/');?>'+ obj[i].Ma_Can_Bo +'?time=' + obj[i].Thoi_Gian + '" class="notallow" title="Bỏ qua"></a>\
+                                <a href="<?php echo $this->basePath('manager/canbo/bosung/');?>'+ obj[i].Ma_Can_Bo +'?id=' + obj[i].id + '" class="edit" title="Giải quyết"></a>\
+                                <a href="<?php echo $this->basePath('manager/canbo/boquaKiennghi/');?>'+ obj[i].id +'" class="done" title="Xong"></a>\
                             </td>';
 
                     html += '</tr>';
@@ -152,59 +152,6 @@
             </div>
         </fieldset>
 
-        <!--<fieldset>
-        <legend>Các kiến nghị đã giải quyết</legend>
-            <div class="content" id="kiennghigiaiquyet">
-                <!--<table id="kiennghi-2" cellpadding="0" cellspacing="0" border="0" class="display">
-                    <thead>
-                        <tr>
-                            <td><input type="text" value="" class="search_init" /></td>
-                            <td><input type="text" value="" class="search_init" /></td>
-                            <td><input type="text" value="" class="search_init" /></td>
-                            <td><input type="text" value="" class="search_init" /></td>
-                            <td><input type="text" value="" class="search_init" /></td>
-                            <td></td>
-                            <td></td>
-                            <td style="width: 60px !important;"></td>
-                        </tr>
-                        <tr>
-                            <th>Thời gian</th>
-                            <th>Cán bộ</th>
-                            <th>CMND</th>
-                            <th>Tiêu đề</th>
-                            <th>Nội dung kiến nghị</th>
-                            <th>Minh chứng</th>
-                            <th>Tình trạng</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <?php
-                   /* if($this->dsKienNghiGQ){
-                        $dsKienNghi = array_merge($this->dsKienNghiGQ, $this->dsKienNghiKGQ);
-                        //var_dump($dsKienNghi);exit;
-                        foreach($dsKienNghi as $element){
-                            $file_url_array = explode('/',$element['File_URL']);
-                            echo '<tr>
-                                        <td>',$element['Thoi_Gian'], '</td>
-                                        <td>',$element['Ten_CB_Kien_Nghi'], '</td>
-                                        <td>',$element['So_CMND'], '</td>
-                                        <td>',$element['Ten_Kien_Nghi'], '</td>
-                                        <td>',$element['Noi_Dung'], '</td>
-                                        <td>',(!$element['File_URL'])?'(không có)'
-                                                                    :(' <a href="'.$this->basePath('manager/canbo/taifileKiennghi/'). $element['Ma_Can_Bo'].'-'.strtotime($element['Thoi_Gian'])  .'" class="download" title="Tải về"></a>'),'
-                                        </td>
-                                        <td>',($element['Trang_Thai']==0)?'đã giải quyết':'bỏ qua', '</td>
-                                        <td>
-                                            <a href="', $this->basePath('manager/canbo/xoaKiennghi/'),$element['Ma_Can_Bo'],'-',strtotime($element['Thoi_Gian'])  , '" class="delete" title="Xóa"></a>
-                                        </td>
-                                      </tr>';
-                        }
-                    }
-                    */?>
-                </table>
-            </div>
-            <button type="button" onclick="">Danh sách kiến nghị đã giải quyết</button>
-        </fieldset>-->
 
     </div>
 </div>
@@ -254,7 +201,7 @@
         } );
 
     } );
-    loadData(false,false,false);
+    loadData(true, true, true);
     $('#view').click(function(){
         var begin   = $('#begin').val();
         var end     = $('#end').val();

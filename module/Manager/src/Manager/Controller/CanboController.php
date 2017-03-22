@@ -54,7 +54,13 @@ class CanboController extends AbstractActionController {
 
 		//to view
 		$view['dsCanBo'] = $this->canboModel->getAllWorkInfo(); //load "danh sach Cán Bộ" from database, với thông tin công tác
-
+		$view['dsBan']               = $this->banModel->getDSBanHoatDong();
+		$dsBanThuocThanhDoan = $this->donviModel->getDSBanthuoc(0);
+		$arrDSBan = array();
+		foreach ($dsBanThuocThanhDoan as $key => $value) {
+			$arrDSBan[] = $value['Ten_Ban'];
+		}
+		$view['dsBanThuocThanhDoan'] = $arrDSBan;
 		return new ViewModel($view);
 	}
 
@@ -1052,7 +1058,7 @@ class CanboController extends AbstractActionController {
 		$headScript->appendFile('/template/js/combobox.js');
 
 		//get parameter from GET request
-		$id = $this->params('id');
+		$id = (int)$this->params('id');
 
 		//set id = current uset id (if there is no value)
 		$id = (null != $id) ? $id : ((new AuthenticationService())->getIdentity()->Identifier_Info);
@@ -1075,6 +1081,9 @@ class CanboController extends AbstractActionController {
 
 			//insert
 			try {
+				// xóa tất cả phòng ban hiện tại
+				$this->canboModel->chuyendiall($id);
+				// chuyển phòng ban mơi
 				$this->canboModel->luanchuyen(
 					$id,
 					$parameters['banden'],

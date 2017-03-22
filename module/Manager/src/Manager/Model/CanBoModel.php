@@ -81,6 +81,15 @@ class CanBoModel extends AbstractModel {
 
 		return $this->executeNonQuery($sql, $parameters);
 	}
+	public function chuyendiall($id){
+		$sql = "SELECT *
+        		FROM thong_tin_tham_gia_ban
+        		WHERE (Ma_CB = $id) AND (La_Cong_Tac_Chinh = 1)";
+        $listBan = $this->query($sql);
+        foreach ($listBan as $key => $value) {
+        	self::roiKhoiBan($id,$value['Ma_Ban'],$value['Ngay_Gia_Nhap'],date("d/m/Y"));
+        }
+	}
 
 	public function luanchuyen($Ma_Can_Bo, $Ma_Ban_Den, $Ngay_GN_Ban_Den, $ma_chuc_vu_moi, $lydo = null,
 		$Ma_Ban_Di = null, $Ngay_GN_Ban_Di = null

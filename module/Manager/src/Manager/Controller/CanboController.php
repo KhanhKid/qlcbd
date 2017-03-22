@@ -1106,6 +1106,7 @@ class CanboController extends AbstractActionController {
 					$mabandi,
 					$tgbandi
 				);
+
 				$view['message'] = 'Luân chuyển thành công';
 
 				//log

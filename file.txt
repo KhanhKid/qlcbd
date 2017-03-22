@@ -16,7 +16,9 @@ Zend\Db\Adapter\Driver\Pdo\Statement Object
                     [connectionParameters:protected] => Array
                         (
                             [driver] => Pdo
-                            [dsn] => mysql:dbname=qlcbd;host=localhost
+                            [dsn] => mysql:dbname=qlcbd;host=localhost;
+                            [username] => root
+                            [password] => root
                             [driver_options] => Array
                                 (
                                     [1002] => SET NAMES 'UTF8' 
@@ -24,8 +26,6 @@ Zend\Db\Adapter\Driver\Pdo\Statement Object
                                     [3] => 2
                                 )
 
-                            [username] => root
-                            [password] => 
                         )
 
                     [resource:protected] => PDO Object
@@ -73,70 +73,70 @@ Zend\Db\Adapter\Driver\Pdo\Statement Object
         (
             [data:protected] => Array
                 (
-                    [sohieu] => 
-                    [hoten] => NGUYỄN THANH ĐOÀN
+                    [sohieu] => 2356
+                    [hoten] => Khánh
                     [gioitinh] => 0
-                    [ngaysinh] => 1978-10-12
-                    [ngaygianhap] => 1970-01-01
-                    [ngaytuyendung] => 1970-01-01
-                    [ngaybienche] => 1970-01-01
-                    [ngaynangbac] => 1970-01-01
+                    [ngaysinh] => 1970-01-01
+                    [ngaygianhap] => 2017-03-14
+                    [ngaytuyendung] => 2017-03-14
+                    [ngaybienche] => 2017-03-14
+                    [ngaynangbac] => 2017-03-22
                     [mangach] => 00000
-                    [bacluong] => 6-Sep
-                    [hesoluong] => 3.99
-                    [phucap] => 
-                    [vuotkhung] => 
-                    [mucluongkhoan] => 0
-                    [cmnd] => 123123123123
-                    [ngaycapCMND] => 1970-01-01
-                    [noicapCMND] => 
-                    [tengoikhac] => Không
-                    [noisinh] => Tiền Giang
-                    [quequan] => Tiền Giang
-                    [noiohiennay] => 52/2D Vạn Hạnh, Trung Chánh, Hóc Môn, TP. HCM
-                    [dienthoai] => 0983.850585
-                    [dantoc] => 0
-                    [tongiao] => 0
-                    [thanhphangiadinh] => Nông dân
-                    [capuyhientai] => Đảng ủy viên Đảng ủy cơ quan Thành Đoàn, Phó Bí thư Đảng ủy Bộ phận khối phong trào Thành Đoàn, Bí thư chi bộ Trường học
-                    [capuykiem] => Không
+                    [bacluong] => 1
+                    [hesoluong] => 1
+                    [phucap] => 1
+                    [vuotkhung] => 1
+                    [mucluongkhoan] => 500000
+                    [cmnd] => 321554588
+                    [ngaycapCMND] => 2017-03-08
+                    [noicapCMND] => ads asd fa
+                    [tengoikhac] => long an 
+                    [noisinh] => long an 
+                    [quequan] => long an 
+                    [noiohiennay] => 
+                    [dienthoai] => 0969689666
+                    [dantoc] => 2
+                    [tongiao] => 3
+                    [thanhphangiadinh] => 
+                    [capuyhientai] => 
+                    [capuykiem] => 
                     [chucdanh] => 
-                    [nghenghieptruocdo] => Sinh viên
+                    [nghenghieptruocdo] => 
                     [coquantuyendung] => Thành Đoàn TPHCM
                     [ngaythamgiacachmang] => 1970-01-01
-                    [ngayvaodang] => 2002-03-14
-                    [ngayvaodangchinhthuc] => 2003-03-14
-                    [ngaythamgiactxh] => 26/3/1994 (Đoàn TNCS Hồ Chí Minh) 
+                    [ngayvaodang] => 1970-01-01
+                    [ngayvaodangchinhthuc] => 1970-01-01
+                    [ngaythamgiactxh] => 
                     [ngaynhapngu] => 1970-01-01
                     [ngayxuatngu] => 1970-01-01
-                    [quanhamchucvu] => Không
-                    [chuyenmon] => Thạc sỹ Kinh tế chính trị
+                    [quanhamchucvu] => 
+                    [chuyenmon] => 
                     [hocham] => Không
                     [trinhdochuyenmon] => 12.00
-                    [lyluanchinhtri] => 2.00
+                    [lyluanchinhtri] => 0.00
                     [giaoducphothong] => 12/12
-                    [ngoaingu] => C Anh văn
-                    [danhhieu] => Không
-                    [sotruong] => Phong trào
-                    [congvieclaunhat] => Cán bộ Đoàn - Hội, công tác chính trị sinh viên 
-                    [tinhtrangsuckhoe] => Tốt
-                    [chieucao] => 1m65
-                    [cannang] => 65kg
+                    [ngoaingu] => 
+                    [danhhieu] => 
+                    [sotruong] => 
+                    [congvieclaunhat] => 
+                    [tinhtrangsuckhoe] => 
+                    [chieucao] => 
+                    [cannang] => 
                     [nhommau] => O
                     [thuongbinhloai] => Không
-                    [dacdiemlichsu] => Không
-                    [lamviecchedocu] => Không
-                    [quanhenuocngoai] => Không
-                    [thannhannuocngoai] => Không
+                    [dacdiemlichsu] => 
+                    [lamviecchedocu] => 
+                    [quanhenuocngoai] => 
+                    [thannhannuocngoai] => 
                     [luongnam] => 
-                    [nguonthunhapkhac] => 0
-                    [loainhaduoccap] => Không
-                    [dientichnhaduoccap] => 0
-                    [loainhatuxay] => Chung cư
-                    [dientichnhatuxay] => 72.00
-                    [dientichdatduoccap] => 0
-                    [dientichdattumua] => 0.00
-                    [dientichdatsx] => 0
+                    [nguonthunhapkhac] => 
+                    [loainhaduoccap] => 
+                    [dientichnhaduoccap] => 
+                    [loainhatuxay] => 
+                    [dientichnhatuxay] => 
+                    [dientichdatduoccap] => 
+                    [dientichdattumua] => 
+                    [dientichdatsx] => 
                     [giadinhlietsy] => 0
                 )
 

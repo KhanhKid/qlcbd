@@ -74,9 +74,6 @@ class LogModel  extends  AbstractModel{
             'noidung'  =>  $noidung
         );
 
-        //var_dump($parameters);exit;
-
-
         $result = $this->executeNonQuery($sql,$parameters);
 
         return $result;

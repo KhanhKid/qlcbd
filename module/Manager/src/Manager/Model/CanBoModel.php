@@ -113,6 +113,7 @@ class CanBoModel extends AbstractModel {
         		FROM thong_tin_tham_gia_ban
         		WHERE (Ma_CB = $Ma_Can_Bo) AND (La_Cong_Tac_Chinh = 1)";
 		$data = $this->query($sql, null);
+
 		if (isset($data[0])) {
 			$sql1 = 'Insert Into thong_tin_tham_gia_ban (Ma_CB, Ma_Ban, Ngay_Gia_Nhap, Ma_CV, Ly_Do_Chuyen_Đen, Ma_Ban_Truoc_Đo, Ngay_GN_Ban_Truoc_Đo)
                                              VALUE (:Ma_Can_Bo, :Ma_Ban_Den, :Ngay_Gia_Nhap, :Ma_Chuc_Vu, :Ly_Do, :Ma_Ban_TD, :Ngay_GN_TD );';
@@ -145,19 +146,9 @@ class CanBoModel extends AbstractModel {
 
 		}
 
-		//rời khỏi ban cũ
-		$sql2 = "UPDATE thong_tin_tham_gia_ban SET Ngay_Roi_Khoi= :Ngay_Roi_Khoi, Trang_Thai=0
-                WHERE `Ma_CB`= :Ma_Can_Bo AND `Ma_Ban` = :Ma_Ban_Roi_Khoi AND `Ngay_Gia_Nhap` = :Ngay_GN_Ban_Di;";
+		//echo '<pre>',var_dump($parameters),'</pre>';die();
+		$sql = $sql1 ;
 
-		$parameters += array(
-			'Ma_Can_Bo'       => $Ma_Can_Bo,
-			'Ma_Ban_Roi_Khoi' => $Ma_Ban_Di,
-			'Ngay_GN_Ban_Di'  => $Ngay_GN_Ban_Di,
-
-			'Ngay_Roi_Khoi'   => $Ngay_GN_Ban_Den,
-		);
-
-		$sql = $sql1 . $sql2;
 		//var_dump($parameters);exit;
 
 		return $this->executeNonQuery($sql, $parameters);

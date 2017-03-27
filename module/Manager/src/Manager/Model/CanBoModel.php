@@ -635,6 +635,27 @@ class CanBoModel extends AbstractModel {
 
 		return $result;
 	}
+	public function bosungDanhMuc($Ma_CB,$bangtotnghiep,$hopdonglaodong,$quyetdinhtuyendung,$bangchuyenmon,$bangngoaingu,$bangtinhoc,$vanbangkhac,$bonhiemngach,$congtaccanbo,$hinhthuongkhenhtuong,$kyluat,$dinuocngoai,$canbodihoc,$thoitraluong){
+		$sql = "SELECT Ma_CB FROM danh_muc_ho_so WHERE Ma_CB = $Ma_CB";
+		//process database
+		$result = null;
+		try {
+			$sm = $this->adapter->createStatement();
+			$sm->prepare($sql);
+			$result = $sm->execute();
+		} catch (Exception $exc) {
+			var_dump($exc);
+		}	
+		$arrBind = array("Ma_CB"=>$Ma_CB,"bangtotnghiep"=>$bangtotnghiep,"hopdonglaodong"=>$hopdonglaodong,"quyetdinhtuyendung"=>$quyetdinhtuyendung,"bangchuyenmon"=>$bangchuyenmon,"bangngoaingu"=>$bangngoaingu,"bangtinhoc"=>$bangtinhoc,"vanbangkhac"=>$vanbangkhac,"bonhiemngach"=>$bonhiemngach,"congtaccanbo"=>$congtaccanbo,"hinhthuongkhenhtuong"=>$hinhthuongkhenhtuong,"kyluat"=>$kyluat,"dinuocngoai"=>$dinuocngoai,"canbodihoc"=>$canbodihoc,"thoitraluong"=>$thoitraluong);
+		if(count($result) == 0){
+			$sql = "INSERT INTO `danh_muc_ho_so` (`Ma_CB`, `bangtotnghiep`, `hopdonglaodong`, `quyetdinhtuyendung`, `bangchuyenmon`, `bangngoaingu`, `bangtinhoc`, `vanbangkhac`, `bonhiemngach`, `congtaccanbo`, `hinhthuongkhenhtuong`, `kyluat`, `dinuocngoai`, `canbodihoc`, `thoitraluong`) VALUES (:Ma_CB, :bangtotnghiep, :hopdonglaodong, :quyetdinhtuyendung, :bangchuyenmon, :bangngoaingu, :bangtinhoc, :vanbangkhac, :bonhiemngach, :congtaccanbo, :hinhthuongkhenhtuong, :kyluat, :dinuocngoai, :canbodihoc, :thoitraluong);";
+		}else{
+			unset($arrBind["Ma_CB"]);
+			$sql = "UPDATE `danh_muc_ho_so` SET `bangtotnghiep`=:bangtotnghiep,`hopdonglaodong`=:hopdonglaodong,`quyetdinhtuyendung`=:quyetdinhtuyendung,`bangchuyenmon`=:bangchuyenmon,`bangngoaingu`=:bangngoaingu,`bangtinhoc`=:bangtinhoc,`vanbangkhac`=:vanbangkhac,`bonhiemngach`=:bonhiemngach,`congtaccanbo`=:congtaccanbo,`hinhthuongkhenhtuong`=:hinhthuongkhenhtuong,`kyluat`=:kyluat,`dinuocngoai`=:dinuocngoai,`canbodihoc`=:canbodihoc,`thoitraluong`=:thoitraluong WHERE Ma_CB = $Ma_CB";
+		}
+
+		$result = $this->executeNonQuery($sql, $arrBind);
+	}
 
 	public function layMaCanBoMoiNhat() {
 		//init
@@ -825,6 +846,49 @@ class CanBoModel extends AbstractModel {
 
 		//data to array
 		return $result->current();
+	}
+	public function getDanhMucHSCanBo($Ma_CB)
+	{
+		
+		$sql = 'SELECT *
+                FROM danh_muc_ho_so WHERE (Ma_CB = :macb)
+                LIMIT 1;';
+		//parameter
+		$parameters = array(
+			'macb' => $Ma_CB,
+		);
+
+		//process database
+		$result = null;
+		try {
+			$sm = $this->adapter->createStatement();
+			$sm->prepare($sql);
+			$result = $sm->execute($parameters);
+		} catch (Exception $exc) {
+			var_dump($exc);
+		}
+
+		if($result)
+			return $result->current();
+		else{
+			return array (
+					  'bangtotnghiep' => 0,
+					  'hopdonglaodong' => 0,
+					  'quyetdinhtuyendung' => 0,
+					  'bangchuyenmon' => '',
+					  'bangngoaingu' => '',
+					  'bangtinhoc' => '',
+					  'vanbangkhac' => '',
+					  'bonhiemngach' => '',
+					  'congtaccanbo' => '',
+					  'hinhthuongkhenhtuong' => '',
+					  'kyluat' => '',
+					  'dinuocngoai' => '',
+					  'canbodihoc' => '',
+					  'thoitraluong' => '',
+					);
+		}
+		//data to array
 	}
 
 	/**

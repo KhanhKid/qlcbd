@@ -560,7 +560,7 @@ ul.metro li.disable{
 }
 
 #wrapper .main .block .block-content fieldset span{
-    min-width: 150px;
+    /*min-width: 150px;*/
     float: left;
     margin-right: 0px;
     text-align: right;
@@ -581,6 +581,11 @@ ul.metro li.disable{
     max-width: 650px;
     overflow: auto;
 }
+#wrapper .main .block .block-content fieldset .content .danhmucTextArea{ 
+    width: 90%;
+    height: 90px;
+}
+
 
 #wrapper .main .block .block-content fieldset.minimize{
 
@@ -941,10 +946,10 @@ ul.metro li {
 
 input, select {
     min-height: 15px !important;
-    //padding: 2px !important;
+    /*padding: 2px !important;*/
     max-height: 22px;
     margin-bottom: 5px;
-    margin-top: 0px;
+    /*margin-top: 0px;*/
 }
 
 .login #remember {

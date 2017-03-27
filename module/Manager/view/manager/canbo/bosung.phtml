@@ -709,6 +709,46 @@ function formatDate($date){
             </span>
         </div>
     </fieldset>
+    <fieldset>
+        <legend>Danh mục hồ sơ</legend>
+        <div class="content">
+            <div class="group">
+                <span>1. Bằng tốt nghiệp THPT</span> 
+                <input type="checkbox" name="dm_bangtotnghiep" <?php echo ($this->danhMucHoSo['bangtotnghiep'] == 1)?"checked":""?> value="1"/>
+            </div>
+            <div class="group">
+                <span>2. Hợp đồng lao động</span> 
+                <input type="checkbox" name="dm_hopdonglaodong" <?php echo ($this->danhMucHoSo['hopdonglaodong'] == 1)?"checked":""?> value="1"/>
+            </div>
+            <div class="group">
+                <span>3. Quyết định tuyển dụng</span> 
+                <input type="checkbox" name="dm_quyetdinhtuyendung" <?php echo ($this->danhMucHoSo['quyetdinhtuyendung'] == 1)?"checked":""?> value="1"/>
+            </div>
+            <br>
+            <span>4. Bằng chuyên môn nghiệp vụ (Tiến sỹ, Thạc sỹ, Đại học, Cao đẳng, Trung cấp chuyên nghiệp…)</span>
+            <p><textarea name="dm_bangchuyenmon" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bangchuyenmon'] ?></textarea></p>
+            <span>5. Bằng ngoại ngữ</span>
+            <p><textarea name="dm_bangngoaingu" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bangngoaingu'] ?></textarea></p>
+            <span>6. Bằng tin học</span>
+            <p><textarea name="dm_bangtinhoc" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bangtinhoc'] ?></textarea></p>
+            <span>7. Các loại văn bằng, chửng chỉ về đào tạo, bồi dưỡng: </span>
+            <p><textarea name="dm_vanbangkhac" class="danhmucTextArea"><?php echo $this->danhMucHoSo['vanbangkhac'] ?></textarea></p>
+            <span>8. Quyết định bổ nhiệm ngạch: </span>
+            <p><textarea name="dm_bonhiemngach" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bonhiemngach'] ?></textarea></p>
+            <span>9. Quyết định về công tác cán bộ (bổ nhiệm, điều động, luân chuyển, chuẩn y, thôi nhiệm vụ): </span>
+            <p><textarea name="dm_congtaccanbo" class="danhmucTextArea"><?php echo $this->danhMucHoSo['congtaccanbo'] ?></textarea></p>
+            <span>10. Các hình thức khen thưởng </span>
+            <p><textarea name="dm_hinhthuongkhenhtuong" class="danhmucTextArea"><?php echo $this->danhMucHoSo['hinhthuongkhenhtuong'] ?></textarea></p>
+            <span>11. Quyết định kỷ luật </span>
+            <p><textarea name="dm_kyluat" class="danhmucTextArea"><?php echo $this->danhMucHoSo['kyluat'] ?></textarea></p>
+            <span>12. Quyết định cử cán bộ đi nước ngoài (ghi rõ số quyết định và tên nước đến): </span>
+            <p><textarea name="dm_dinuocngoai" class="danhmucTextArea"><?php echo $this->danhMucHoSo['dinuocngoai'] ?></textarea></p>
+            <span>13. Quyết định cử cán bộ đi học: </span>
+            <p><textarea name="dm_canbodihoc" class="danhmucTextArea"><?php echo $this->danhMucHoSo['canbodihoc'] ?></textarea></p>
+            <span>14. Giấy thôi trả lương: </span>
+            <p><textarea name="dm_thoitraluong" class="danhmucTextArea"><?php echo $this->danhMucHoSo['thoitraluong'] ?></textarea></p>            
+        </div>
+    </fieldset>
     <p>
         <mark> <?php echo $this->message?> <mark>
     </p>

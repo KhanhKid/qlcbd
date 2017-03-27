@@ -584,9 +584,6 @@ class CanboController extends AbstractActionController {
 				$parameters['ngaynhapngu']          = ('' == $parameters['ngaynhapngu']) ? null : $parameters['ngaynhapngu'];
 				$parameters['ngayxuatngu']          = ('' == $parameters['ngayxuatngu']) ? null : $parameters['ngayxuatngu'];
 				$parameters['ngayroikhoi']          = ('' == $parameters['ngayroikhoi']) ? null : $parameters['ngayroikhoi'];
-				$parameters['ngayroikhoi']          = ('' == $parameters['ngayroikhoi']) ? null : $parameters['ngayroikhoi'];
-				$parameters['ngayroikhoi']          = ('' == $parameters['ngayroikhoi']) ? null : $parameters['ngayroikhoi'];
-				$parameters['ngayroikhoi']          = ('' == $parameters['ngayroikhoi']) ? null : $parameters['ngayroikhoi'];
 				$parameters['dantoc']               = ('' == $parameters['dantoc']) ? null : $parameters['dantoc'];
 				$parameters['tongiao']              = ('' == $parameters['tongiao']) ? null : $parameters['tongiao'];
 				$parameters['Cap_Do_CTLL']          = ('' == $parameters['Cap_Do_CTLL']) ? null : $parameters['Cap_Do_CTLL'];
@@ -597,9 +594,24 @@ class CanboController extends AbstractActionController {
 				$parameters['soquyetdinhcongchuc']        = ('' == $parameters['soquyetdinhcongchuc']) ? null : $parameters['soquyetdinhcongchuc']; 
 				$parameters['sohopdong']        = ('' == $parameters['sohopdong']) ? null : $parameters['sohopdong']; 
 				//var_dump($parameters);exit;
-
+				// Kiểm tra Danh mục hồ sơ
+				$parameters['dm_bangtotnghiep']        = (isset($parameters['dm_bangtotnghiep'])) ? '1' : '0'; //Checkbox 
+				$parameters['dm_hopdonglaodong']        = (isset($parameters['dm_hopdonglaodong'])) ? '1' : '0'; //Checkbox 
+				$parameters['dm_quyetdinhtuyendung']        = (isset($parameters['dm_quyetdinhtuyendung'])) ? '1' : '0'; //Checkbox 
+				$parameters['dm_bangchuyenmon']        = ('' == $parameters['dm_bangchuyenmon']) ? null : $parameters['dm_bangchuyenmon']; 
+				$parameters['dm_bangngoaingu']        = ('' == $parameters['dm_bangngoaingu']) ? null : $parameters['dm_bangngoaingu']; 
+				$parameters['dm_bangtinhoc']        = ('' == $parameters['dm_bangtinhoc']) ? null : $parameters['dm_bangtinhoc']; 
+				$parameters['dm_vanbangkhac']        = ('' == $parameters['dm_vanbangkhac']) ? null : $parameters['dm_vanbangkhac'];  
+				$parameters['dm_bonhiemngach']        = ('' == $parameters['dm_bonhiemngach']) ? null : $parameters['dm_bonhiemngach']; 
+				$parameters['dm_congtaccanbo']        = ('' == $parameters['dm_congtaccanbo']) ? null : $parameters['dm_congtaccanbo']; 
+				$parameters['dm_hinhthuongkhenhtuong']        = ('' == $parameters['dm_hinhthuongkhenhtuong']) ? null : $parameters['dm_hinhthuongkhenhtuong']; 
+				$parameters['dm_kyluat']        = ('' == $parameters['dm_kyluat']) ? null : $parameters['dm_kyluat']; 
+				$parameters['dm_dinuocngoai']        = ('' == $parameters['dm_dinuocngoai']) ? null : $parameters['dm_dinuocngoai']; 
+				$parameters['dm_canbodihoc']        = ('' == $parameters['dm_canbodihoc']) ? null : $parameters['dm_canbodihoc']; 
+				$parameters['dm_thoitraluong']        = ('' == $parameters['dm_thoitraluong']) ? null : $parameters['dm_thoitraluong']; 
 				//to model
 				try {
+
 					$canboModel->bosungThongTin($curId,
 						$parameters['hoten'], $parameters['ngaygianhap'], $parameters['ngaytuyendung'], $parameters['ngaybienche'], $parameters['ngayroikhoi'], $parameters['trangthai'], $parameters['thamgia_clbtt'], $parameters['sothehoivien'],
 						$parameters['sohieu'], $parameters['hotenkhaisinh'], $parameters['tengoikhac'], $parameters['gioitinh'], $parameters['capuyhientai'], $parameters['capuykiem'], $parameters['chucdanh'], $parameters['phucapchucvu'],
@@ -615,6 +627,9 @@ class CanboController extends AbstractActionController {
 						$parameters['thuongbinhloai'], $parameters['giadinhlietsy'],
 						$parameters['luongnam'], $parameters['nguonthunhapkhac'], $parameters['loainhaduoccap'], $parameters['dientichnhaduoccap'], $parameters['loainhatuxay'], $parameters['dientichnhatuxay'],
 						$parameters['dientichdatduoccap'], $parameters['dientichdattumua'], $parameters['dientichdatsx'], $parameters['soquyetdinhcongchuc'], $parameters['sohopdong']
+					);
+
+					$canboModel->bosungDanhMuc($curId,$parameters['dm_bangtotnghiep'],$parameters['dm_hopdonglaodong'],$parameters['dm_quyetdinhtuyendung'],$parameters['dm_bangchuyenmon'],$parameters['dm_bangngoaingu'],$parameters['dm_bangtinhoc'],$parameters['dm_vanbangkhac'],$parameters['dm_bonhiemngach'],$parameters['dm_congtaccanbo'],$parameters['dm_hinhthuongkhenhtuong'],$parameters['dm_kyluat'],$parameters['dm_dinuocngoai'],$parameters['dm_canbodihoc'],$parameters['dm_thoitraluong']
 					);
 					$view['message'] = 'Đã sửa đổi, bổ sung thông tin';
 				} catch (\Exception $exc) {
@@ -757,6 +772,7 @@ class CanboController extends AbstractActionController {
 
 		//ViewModel
 		$view['lylich']    = $canboModel->getLyLichCanBo($curId);
+		$view['danhMucHoSo']    = $canboModel->getDanhMucHSCanBo($curId);
 		$view['dsDanToc']  = $canboModel->getDanTocList();
 		$view['dsTonGiao'] = $canboModel->getTonGiaoList();
 		$view['dsTDCM']    = $canboModel->getTrinhDoChuyenMonList();
@@ -1074,7 +1090,12 @@ class CanboController extends AbstractActionController {
 
 		//set id = current uset id (if there is no value)
 		$id = (null != $id) ? $id : ((new AuthenticationService())->getIdentity()->Identifier_Info);
+		$curUserInfo = (new AuthenticationService())->getIdentity();
 
+		if($curUserInfo->Role_Name != "admin") { // only admin can luan chuyen 
+			$basePath = $this->getRequest()->getBasePath();
+			$this->redirect()->toUrl($basePath . '/manager/canbo/thongtin');
+		}
 		//process request
 		if ($this->getRequest()->isPost()) {
 			$parameters = $this->getRequest()->getPost();

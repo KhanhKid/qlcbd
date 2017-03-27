@@ -534,6 +534,18 @@ function formatDate($date){
                                     </tr>';
                     }
                 }
+                if($this->quatrinhcongtacnoibo){
+                    foreach($this->quatrinhcongtacnoibo as $value){
+                        echo '<tr>
+                                        <td>',formatDate($value['Tu_Ngay']) ,'</td>
+                                        <td>',formatDate($value['Đen_Ngay']),'</td>
+                                        <td>',$value['So_Luoc']." - ".$value['Ban_Den'],'</td>
+                                        <td>
+                                            <a href="', $this->basePath('manager/canbo/luanchuyen/'),$this->lylich['Ma_Can_Bo'],'-',$value['Ma_QTCT'] , '" class="delete" title="Xóa"></a>
+                                        </td>
+                                    </tr>';
+                    }
+                }
                 ?>
                 </tbody>
             </table>

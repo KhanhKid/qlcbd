@@ -679,12 +679,14 @@ class CanboController extends AbstractActionController {
 				if (isset($dsQuaTrinhCongTac)) {
 					try {
 						foreach ($dsQuaTrinhCongTac['tungay'] as $i => $tungay) {
-							$this->canboModel->themQuaTrinhCongTac(
-								$maCB,
-								$tungay,
-								$dsQuaTrinhCongTac['denngay'][$i],
-								$dsQuaTrinhCongTac['soluoc'][$i]
-							);
+							if($dsQuaTrinhCongTac['denngay'][$i]!=""){
+								$this->canboModel->themQuaTrinhCongTac(
+									$maCB,
+									$tungay,
+									$dsQuaTrinhCongTac['denngay'][$i],
+									$dsQuaTrinhCongTac['soluoc'][$i]
+								);
+							}
 						}
 					} catch (InvalidQueryException $exc) {
 						$view['message'] .= ', lưu quá trình công tác có sai sót';
@@ -784,6 +786,7 @@ class CanboController extends AbstractActionController {
 		$view['dao_tao_boi_duong'] = $canboModel->getDaoTaoBoiDuong($curId);
 		//$view['dacdiemlichsu'] = $canboModel->getDacDiemLichSu($id);
 		$view['quatrinhcongtac'] = $canboModel->getQuaTrinhCongTac($curId);
+		$view['quatrinhcongtacnoibo'] = $canboModel->getQuaTrinhCongTacNoiBo($curId);
 		$view['quanhegiadinh']   = $canboModel->getQuanHeGiaDinh($curId, 0); //của bản thân
 		$view['quanhegiadinhvo'] = $canboModel->getQuanHeGiaDinh($curId, 1); //của nhà vợ
 		$view['quatrinhluong']   = $canboModel->getQuaTrinhLuong($curId);

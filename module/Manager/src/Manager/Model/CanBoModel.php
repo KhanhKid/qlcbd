@@ -980,7 +980,42 @@ class CanBoModel extends AbstractModel {
 	 * @param $maCanBo
 	 * @return array
 	 */
+
 	public function getQuaTrinhCongTac($maCanBo) {
+		$sql = 'SELECT Ma_QTCT, `Tu_Ngay`,`Đen_Ngay`,`So_Luoc`
+		FROM qua_trinh_cong_tac WHERE ma_cb = :macb ORDER BY Tu_Ngay';
+		//parameter
+		$parameters = array(
+			'macb' => $maCanBo,
+		);
+
+		//execute query
+		$result = null;
+		try {
+			$sm = $this->adapter->createStatement();
+			$sm->prepare($sql);
+			$result = $sm->execute($parameters);
+		} catch (Exception $exc) {
+			var_dump($exc);
+		}
+
+		//if there are no row
+		if (0 == $result->count()) {
+			return array();
+		}
+
+		//get data to array
+		$data = array();
+		while (($result->valid())) {
+			$row    = $result->current();
+			$data[] = $row;
+
+			$result->next();
+		};
+
+		return $data;
+	}
+	public function getQuaTrinhCongTacNoiBo($maCanBo) {
 		//sql
 		/*$sql = 'SELECT Ma_QTCT, `Tu_Ngay`,`Đen_Ngay`,`So_Luoc`
 		FROM qua_trinh_cong_tac WHERE ma_cb = :macb;';*/
@@ -989,7 +1024,9 @@ class CanBoModel extends AbstractModel {
         LEFT JOIN `chuc_vu` as t2 ON (t1.Ma_CV = t2.Ma_Chuc_Vu)
         LEFT JOIN `ban` as t3 ON (t1.Ma_Ban = t3.Ma_Ban)
         LEFT JOIN `ban` as t4 ON (t1.Ma_Ban_Truoc_Đo = t4.Ma_Ban)
-        where t1.ma_cb = :macb;';
+        where t1.ma_cb = :macb
+        ORDER BY Tu_Ngay
+        ;';
 		//parameter
 		$parameters = array(
 			'macb' => $maCanBo,

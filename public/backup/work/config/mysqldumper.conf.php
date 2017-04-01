@@ -1,5 +1,5 @@
 <?php
-#Vars - written at 2014-04-01
+#Vars - written at 2017-04-01
 $dbhost="localhost";
 $dbname="qlcbd";
 $dbuser="root";
@@ -7,9 +7,9 @@ $dbpass="";
 $dbport=3306;
 $dbsocket="";
 $compression=1;
-$backup_path="C:/xampp/htdocs/qlcbd/backup/work/backup/";
-$logdatei="C:/xampp/htdocs/qlcbd/backup/work/log/mysqldump_perl.log.gz";
-$completelogdatei="C:/xampp/htdocs/qlcbd/backup/work/log/mysqldump_perl.complete.log.gz";
+$backup_path="E:/wamp/www/qlcbd_dev/public/backup/work/backup/";
+$logdatei="E:/wamp/www/qlcbd_dev/public/backup/work/log/mysqldump_perl.log.gz";
+$completelogdatei="E:/wamp/www/qlcbd_dev/public/backup/work/log/mysqldump_perl.complete.log.gz";
 $sendmail_call="/usr/lib/sendmail -t -oi -oem";
 $nl="\n";
 $cron_dbindex=-3;

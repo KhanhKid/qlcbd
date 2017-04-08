@@ -62,25 +62,29 @@
 <div class="block">
     <h2 class="title">Thêm cán bộ</h2>
     <div class="block-content">
-        <div id="dragdrop">
+        <!-- <div id="dragdrop">
             <span id="caption">Thả tệp chứa lý lịch tại đây</span>
         </div>
         <form id="file-input" enctype="multipart/formdata" method="post">
             <input type="file" name="filename"  />
             <br/><button type="submit" id="submitfile">Nhập dữ liệu</button>
-        </form>
+        </form> -->
+
+        <p>
+            <mark> <?php echo $this->message?> <mark>
+        </p>
         <form method="post">
         <fieldset>
             <legend>Thông tin cơ bản</legend>
             <div class="content">
                 <div class="group">
                     <span>Số hiệu cán bộ:</span>
-                    <input id="sohieu" type="text" name="sohieu"/>
+                    <input id="sohieu" type="text" name="sohieu"/><span style="color: red">(*)</span>
                 </div>
                 <div class="clear"></div>
                 <div class="group">
                     <span>Họ tên:</span>
-                    <input id="hoten" type="text" name="hoten"/>
+                    <input id="hoten" type="text" name="hoten"/><span style="color: red">(*)</span>
                 </div>
                 <div class="group">
                     <span>Giới tính:</span>
@@ -92,7 +96,7 @@
                 <div class="clear"></div>
                 <div class="group">
                     <span>Ngày sinh:</span>
-                    <input type="text" id="ngaysinh" class="ngaythang" required="required" name="ngaysinh" value="<?=date('m/d/Y')?>"/>(*)
+                    <input type="text" id="ngaysinh" class="ngaythang" required="required" name="ngaysinh" value="<?=date('m/d/Y')?>"/><span style="color: red">(*)</span>
                 </div>
                 <div class="group">
                     <span>Ngày gia nhập:</span>
@@ -186,7 +190,7 @@
             <div class="content">
                 <div class="group">
                     <span>Số CMND:</span>
-                    <input id="cmnd" type="text" name="cmnd" required="required"/>
+                    <input id="cmnd" type="text" name="cmnd" required="required"/><span style="color: red">(*)</span>
                 </div>
 
                 <div class="group">
@@ -638,9 +642,6 @@
                 <br/>
                 <span>- Đất sản xuất, kinh doanh:</span> <input id="datsxkd" type='number' name="dientichdatsx"/></span>m<sup>2</sup>
         </fieldset>
-        <p>
-            <mark> <?php echo $this->message?> <mark>
-        </p>
         <button type="submit">Nhập thông tin</button>
         </form>
     </div>

@@ -217,7 +217,6 @@ class CanBoModel extends AbstractModel {
                 from can_bo 
                 left join ly_lich on( can_bo.Ma_Can_Bo = ly_lich.Ma_CB)
                 WHERE (Ngay_Roi_Khoi IS NULL or Ngay_Roi_Khoi = '1970-01-01') AND can_bo.DangHoatDong = 1 ".$condTemp;
-
 		$parameters = null;
 		$result = null;
 		try {

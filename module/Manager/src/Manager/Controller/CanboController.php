@@ -21,11 +21,6 @@ class CanboController extends AbstractActionController {
 	public $logModel;
 	public $DotDanhGiaModel;
 
-	public function __contructor() {
-		//$this->canboModel = new CanBoModel();
-
-	}
-
 	public function indexAction() {
 
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
@@ -629,7 +624,7 @@ class CanboController extends AbstractActionController {
 						$parameters['khenthuong'], $parameters['kyluat'], $parameters['tinhtrangsuckhoe'], $parameters['tiensubenh'], $parameters['chieucao'], $parameters['cannang'], $parameters['nhommau'],
 						$parameters['thuongbinhloai'], $parameters['giadinhlietsy'],
 						$parameters['luongnam'], $parameters['nguonthunhapkhac'], $parameters['loainhaduoccap'], $parameters['dientichnhaduoccap'], $parameters['loainhatuxay'], $parameters['dientichnhatuxay'],
-						$parameters['dientichdatduoccap'], $parameters['dientichdattumua'], $parameters['dientichdatsx'], $parameters['soquyetdinhcongchuc'], $parameters['sohopdong']
+						$parameters['dientichdatduoccap'], $parameters['dientichdattumua'], $parameters['dientichdatsx'], $parameters['soquyetdinhcongchuc'], $parameters['sohopdong'], $parameters['sobaohiemxahoi'], $parameters['sothecanbo']
 					);
 
 					if($flagFullRole)

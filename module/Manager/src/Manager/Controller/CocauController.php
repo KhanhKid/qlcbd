@@ -158,11 +158,35 @@ class CocauController extends AbstractActionController {
 		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
 		$headScript = $helper->get('headscript');
 		$headScript->appendFile('/script/jstree.min.js');
-		$result           = $this->donviModel->getDSBanThuoc(0);
-		$view['danhsach'] = $result;
+
+		$banChuyenTrach = self::getDanhSachBan(0); // chuyên trách thành đoàn
+		$banSuNghiep = self::getDanhSachBan(1); // đơn vị sự nghiệp
+
+		$view['banChuyenTrach'] = $banChuyenTrach;
+		$view['banSuNghiep'] = $banSuNghiep;
+
+		//init View
+		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
+		$headScript = $helper->get('headscript');
+
+		$headScript->appendFile('/script/ckeditor/ckeditor.js');
+		$headScript->appendFile('/template/js/combobox.js');
+		$this->layout('layout/home');
+
+		//to View
+		$view['dsDonVi']    = $dsDonVi; //load "danh sach Don Vi" from database
+		$view['dsLoaiBan']  = $this->banModel->getLoaiHinhBan_List_Brief(0); //load "danh sach LoaiBan" from database
+		$view['dsChucVu']   = $this->canboModel->getChucVuList(); //load "danh sach Chuc Vu" from database
+		$view['dsCanBo']    = $this->canboModel->getAllBriefInfo(); //load "danh sach Cán Bộ" from database
+		$view['dsPhongBan'] = $this->banModel->getDSBanHoatDong(); //load "danh sach phong ban" from database
+
+		return new ViewModel($view);
+	}
+	public function getDanhSachBan($idDonVi){
+		$dsBanChuyenTrach = $this->donviModel->getDSBanThuoc($idDonVi);
 		$jsTreeData       = array();
 		// JS tree data
-		foreach ($result as $ban) {
+		foreach ($dsBanChuyenTrach as $ban) {
 			$id       = $ban['Ma_Ban'];
 			$canboban = $this->banModel->getDSCanBoThuocBan($id);
 			if ($canboban[0] != '') {
@@ -184,24 +208,7 @@ class CocauController extends AbstractActionController {
 				);
 			}
 		}
-		$view['jsTreeData'] = $jsTreeData;
-
-		//init View
-		$helper     = $this->getServiceLocator()->get('viewhelpermanager');
-		$headScript = $helper->get('headscript');
-
-		$headScript->appendFile('/script/ckeditor/ckeditor.js');
-		$headScript->appendFile('/template/js/combobox.js');
-		$this->layout('layout/home');
-
-		//to View
-		$view['dsDonVi']    = $dsDonVi; //load "danh sach Don Vi" from database
-		$view['dsLoaiBan']  = $this->banModel->getLoaiHinhBan_List_Brief(0); //load "danh sach LoaiBan" from database
-		$view['dsChucVu']   = $this->canboModel->getChucVuList(); //load "danh sach Chuc Vu" from database
-		$view['dsCanBo']    = $this->canboModel->getAllBriefInfo(); //load "danh sach Cán Bộ" from database
-		$view['dsPhongBan'] = $this->banModel->getDSBanHoatDong(); //load "danh sach phong ban" from database
-
-		return new ViewModel($view);
+		return $jsTreeData;
 	}
 
 	public function loaihinhbanAction() {

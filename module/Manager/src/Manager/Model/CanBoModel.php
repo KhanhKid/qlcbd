@@ -504,7 +504,7 @@ class CanBoModel extends AbstractModel {
 		$Khen_Thuong, $Ky_Luat, $Tinh_Trang_Suc_Khoe,$Tien_Su_Benh, $Chieu_Cao, $Can_Nang, $Nhom_Mau,
 		$Loai_Thuong_Binh, $Gia_Đinh_Liet_Sy,
 		$Luong_Thu_Nhap_Nam, $Nguon_Thu_Khac, $Loai_Nha_Đuoc_Cap, $Dien_Tich_Nha_Đuoc_Cap, $Loai_Nha_Tu_Xay, $Dien_Tich_Nha_Tu_Xay,
-		$Dien_Tich_Đat_O_Đuoc_Cap, $Dien_Tich_Đat_O_Tu_Mua, $Dien_Tich_Đat_San_Xuat,$So_Quyet_Dinh_Cong_Chuc,$So_Hop_Dong
+		$Dien_Tich_Đat_O_Đuoc_Cap, $Dien_Tich_Đat_O_Tu_Mua, $Dien_Tich_Đat_San_Xuat,$So_Quyet_Dinh_Cong_Chuc,$So_Hop_Dong,$So_Bao_Hiem_Xa_Hoi,$So_The_Can_Bo
 	) {
 
 		//var_dump($Ngay_Roi_Khoi);
@@ -526,7 +526,7 @@ class CanBoModel extends AbstractModel {
 		//can_bo
 		$sql1 = 'UPDATE `can_bo` SET `Ho_Ten_CB`=:Ho_Ten_CB,`Ngay_Gia_Nhap`= :Ngay_Gia_Nhap,
                 `Ngay_Tuyen_Dung`= :Ngay_Tuyen_Dung,`Ngay_Bien_Che`= :Ngay_Bien_Che, `Ngay_Roi_Khoi`= :Ngay_Roi_Khoi,
-                `Trang_Thai`= :Trang_Thai,`Tham_Gia_CLBTT`=:Tham_Gia_CLBTT,`So_The_HoiVien`=:So_The_HoiVien,`So_Quyet_Dinh_Cong_Chuc`=:So_Quyet_Dinh_Cong_Chuc,`So_Hop_Dong`=:So_Hop_Dong
+                `Trang_Thai`= :Trang_Thai,`Tham_Gia_CLBTT`=:Tham_Gia_CLBTT,`So_The_HoiVien`=:So_The_HoiVien,`So_Quyet_Dinh_Cong_Chuc`=:So_Quyet_Dinh_Cong_Chuc,`So_Hop_Dong`=:So_Hop_Dong,`So_Bao_Hiem_Xa_Hoi`=:So_Bao_Hiem_Xa_Hoi,`So_The_Can_Bo`=:So_The_Can_Bo
                  WHERE `Ma_Can_Bo`= :Ma_CB;';
 
 		//ly_lich
@@ -560,6 +560,8 @@ class CanBoModel extends AbstractModel {
 			'So_The_HoiVien'                             => $So_The_HoiVien,
 			'So_Quyet_Dinh_Cong_Chuc'                    => $So_Quyet_Dinh_Cong_Chuc,
 			'So_Hop_Dong'                             	 => $So_Hop_Dong,
+			'So_The_Can_Bo'                              => $So_The_Can_Bo,
+			'So_Bao_Hiem_Xa_Hoi'                         => $So_Bao_Hiem_Xa_Hoi,
 
 			//ly lich
 			'So_Hieu_CB'                                 => $So_Hieu_CB,
@@ -792,7 +794,7 @@ class CanBoModel extends AbstractModel {
 	 */
 	public function getLyLichCanBo($maCanBo) {
 		// (backup code)
-		$sql = 'SELECT can_bo.Ma_Can_Bo, đon_vi.Ten_Đon_Vi, can_bo.Ho_Ten_CB,can_bo.Ma_Quan_Ly,can_bo.So_The_HoiVien,can_bo.So_Quyet_Dinh_Cong_Chuc,can_bo.So_Hop_Dong, ly_lich.So_Hieu_CB, can_bo.Ngay_Tuyen_Dung, can_bo.Ngay_Bien_Che, can_bo.Ngay_Roi_Khoi, can_bo.Trang_Thai, can_bo.Tham_Gia_CLBTT,
+		$sql = 'SELECT can_bo.Ma_Can_Bo, đon_vi.Ten_Đon_Vi, can_bo.Ho_Ten_CB,can_bo.Ma_Quan_Ly,can_bo.So_The_HoiVien,can_bo.So_Quyet_Dinh_Cong_Chuc,can_bo.So_Hop_Dong, ly_lich.So_Hieu_CB, can_bo.Ngay_Tuyen_Dung, can_bo.Ngay_Bien_Che, can_bo.Ngay_Roi_Khoi, can_bo.Trang_Thai, can_bo.Tham_Gia_CLBTT,can_bo.So_Bao_Hiem_Xa_Hoi,can_bo.So_The_Can_Bo,
                        ly_lich.Ho_Ten_Khai_Sinh, Ten_Goi_Khac, Gioi_Tinh,Cap_Uy_Hien_Tai, Cap_Uy_Kiem, cvchinh.Ten_Chuc_Vu as Chuc_Vu_Chinh, Chuc_Danh as Chuc_Danh, Phu_Cap_Chuc_Vu,
                        Ngay_Sinh, Noi_Sinh, Que_Quan,Noi_O_Hien_Nay, Đien_Thoai,
                        ly_lich.Ton_Giao AS Ma_Ton_Giao, ton_giao.Ten_Ton_Giao as Ton_Giao, ly_lich.Dan_Toc AS Ma_Dan_Toc, dan_toc.Ten_Dan_Toc as Dan_Toc,Thanh_Phan_Gia_Đinh_Xuat_Than,

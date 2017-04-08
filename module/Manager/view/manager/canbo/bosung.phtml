@@ -105,19 +105,6 @@
                         <input type="text" id="ngaygianhap" class="ngaythang" name="ngaygianhap"
                             value="<?=formatDate($this->lylich['Ngay_Gia_Nhap'])?>"/>
                     </div>
-                    <div class="group">
-                        <span>Số hiệu (Mã quản lý hồ sơ)</span>
-                        <input type="text" name="sohieu" value="<?=$this->lylich['So_Hieu_CB']?>"/>
-                    </div>
-                    <div class="group">
-                        <span>Số quyết định công chức</span>
-                        <input type="text" id="soquyetdinhcongchuc" name="soquyetdinhcongchuc"
-                            value="<?=$this->lylich['So_Quyet_Dinh_Cong_Chuc']?>"/>
-                    </div>
-                    <div class="group">
-                        <span>Số hợp đồng</span>
-                        <input type="text" name="sohopdong" value="<?=$this->lylich['So_Hop_Dong']?>"/>
-                    </div>
                 </div>
             </fieldset>
             <!-- 
@@ -606,20 +593,45 @@
                 </div>
             </fieldset>
             <fieldset>
-                <span>
+                <legend>Thông tin Tài Sản</legend>
+                <div class="content">
                     - Nguồn Thu Nhập Chính Gia Đình (hàng năm):<br/>
-                    <span> + Lương: <input type='number' name="luongnam" step='1000' value="<?=$this->lylich['Luong_Thu_Nhap_Nam']?>"/> VNĐ/ năm.<br/>
-                    <span> + Các nguồn khác: </span>  <input type="text" name="nguonthunhapkhac" size="70" value="<?=$this->lylich['Nguon_Thu_Khac']?>"/>
-                    <br/>
-                    <br/>
+                    <div class="group">
+                        <span>+ Lương:</span>
+                        <input type='number' name="luongnam" step='1000' value="<?=$this->lylich['Luong_Thu_Nhap_Nam']?>"/> VNĐ/ năm.
+                    </div>
+                    <div class="group">
+                        <span>+ Các nguồn khác:</span>  
+                        <input type="text" name="nguonthunhapkhac" value="<?=$this->lylich['Nguon_Thu_Khac']?>"/>
+                    </div>
+                    <div class="clear"></div>
                     - Nhà ở:<br/>
-                    + Được cấp, được thuê, loại nhà: <input type="text" name="loainhaduoccap" value="<?=$this->lylich['Loai_Nha_Đuoc_Cap']?>">,  tổng diện tích sử dụng: <input type='number' name="dientichnhaduoccap" value="<?=$this->lylich['Dien_Tich_Nha_Đuoc_Cap']?>"/>  m<sup>2</sup> <br/>
-                    + Nhà tự mua, tự xây, loại nhà: <input type="text" name="loainhatuxay" value="<?=$this->lylich['Loai_Nha_Tu_Xay']?>">,  tổng diện tích sử dụng <input type='number' name="dientichnhatuxay" value="<?=$this->lylich['Dien_Tich_Nha_Tu_Xay']?>"/> m<sup>2</sup>
-                    <br/>
-                    <br/>
-                    - Đất ở: + Đất được cấp: <input type='number' name="dientichdatduoccap" value="<?=$this->lylich['Dien_Tich_Đat_O_Đuoc_Cap']?>"/> m<sup>2</sup>; + Đất tự mua: <input type='number' name="dientichdattumua" value="<?=$this->lylich['Dien_Tich_Đat_O_Tu_Mua']?>"/> m<sup>2</sup>
-                    <br/>
-                    <span>- Đất sản xuất, kinh doanh</span> <input type='number' name="dientichdatsx" value="<?=$this->lylich['Dien_Tich_Đat_San_Xuat']?>"/></span>m<sup>2</sup>
+                    <div class="group">
+                        <span>+ Được cấp/thuê/loại nhà:</span>
+                        <input type="text" name="loainhaduoccap" value="<?=$this->lylich['Loai_Nha_Đuoc_Cap']?>">, 
+                    </div>
+                    <div class="group">
+                        <span>Tổng diện tích sử dụng:<//span> 
+                        <input type='number' name="dientichnhaduoccap" value="<?=$this->lylich['Dien_Tich_Nha_Đuoc_Cap']?>"/> m<sup>2</sup> 
+                    </div>
+                    <div class="group">
+                        <span>+ Tự mua/xây/loại nhà:</span> <input type="text" name="loainhatuxay" value="<?=$this->lylich['Loai_Nha_Tu_Xay']?>"> ,
+                    </div>
+                    <div class="group">
+                        <span> Tổng diện tích sử dụng <input type='number' name="dientichnhatuxay" value="<?=$this->lylich['Dien_Tich_Nha_Tu_Xay']?>"/> m<sup>2</sup>
+                    </div>
+                    <div class="clear"></div>
+                    - Đất ở:<br/>
+                    <div class="group">
+                        <span>+ Đất được cấp:</span><input type='number' name="dientichdatduoccap" value="<?=$this->lylich['Dien_Tich_Đat_O_Đuoc_Cap']?>"/> m<sup>2</sup>
+                    </div>
+                    <div class="group">
+                        <span> Đất tự mua </span><input type='number' name="dientichdattumua" value="<?=$this->lylich['Dien_Tich_Đat_O_Tu_Mua']?>"/> m<sup>2</sup>
+                    </div>
+                    <div class="group">
+                        <span> Đất sản xuất, kinh doanh</span><input type='number' name="dientichdatsx" value="<?=$this->lylich['Dien_Tich_Đat_San_Xuat']?>"/></span>m<sup>2</sup>
+                    </div>
+                </div>
             </fieldset>
             <p align='middle'>-----------------oOo---------------------</p>
             <fieldset>
@@ -644,50 +656,76 @@
             </div>
             </fieldset>
 
-            <?php if($flagFullRole){?>            
+            <?php if($flagFullRole){?>
+                <fieldset>
+                    <legend>Thông tin Sổ</legend>
+                    <div class="content">
+                        <div class="group">
+                            <span>Số hiệu (Mã quản lý hồ sơ)</span>
+                            <input type="text" name="sohieu" value="<?=$this->lylich['So_Hieu_CB']?>"/>
+                        </div>
+                        <div class="group">
+                            <span>Số quyết định công chức</span>
+                            <input type="text" id="soquyetdinhcongchuc" name="soquyetdinhcongchuc"
+                                value="<?=$this->lylich['So_Quyet_Dinh_Cong_Chuc']?>"/>
+                        </div>
+                        <div class="group">
+                            <span>Số hợp đồng</span>
+                            <input type="text" name="sohopdong" value="<?=$this->lylich['So_Hop_Dong']?>"/>
+                        </div>
+                        <div class="group">
+                            <span>Số sổ bảo hiểm xã hội</span> 
+                            <input type="text" name="sobaohiemxahoi" value="<?=($this->lylich['So_Bao_Hiem_Xa_Hoi'])?>"/>
+                        </div>
+                        <div class="group">
+                            <span>Số thẻ Cán Bộ</span> 
+                            <input type="text" name="sothecanbo" value="<?=($this->lylich['So_The_Can_Bo'])?>"/>
+                        </div>
+                    </div>
+                </fieldset>            
                 <fieldset>
                     <legend>Danh mục hồ sơ</legend>
                     <div class="content">
                         <div class="group">
                             <span>1. Bằng tốt nghiệp THPT</span> 
-                            <input type="checkbox" name="dm_bangtotnghiep" <?php echo ($this->danhMucHoSo['bangtotnghiep'] == 1)?"checked":""?> value="1"/>
+                            <input type="checkbox" name="dm_bangtotnghiep" <?=($this->danhMucHoSo['bangtotnghiep'] == 1)?"checked":""?> value="1"/>
                         </div>
                         <div class="group">
                             <span>2. Hợp đồng lao động</span> 
-                            <input type="checkbox" name="dm_hopdonglaodong" <?php echo ($this->danhMucHoSo['hopdonglaodong'] == 1)?"checked":""?> value="1"/>
+                            <input type="checkbox" name="dm_hopdonglaodong" <?=($this->danhMucHoSo['hopdonglaodong'] == 1)?"checked":""?> value="1"/>
                         </div>
                         <div class="group">
                             <span>3. Quyết định tuyển dụng</span> 
-                            <input type="checkbox" name="dm_quyetdinhtuyendung" <?php echo ($this->danhMucHoSo['quyetdinhtuyendung'] == 1)?"checked":""?> value="1"/>
+                            <input type="checkbox" name="dm_quyetdinhtuyendung" <?=($this->danhMucHoSo['quyetdinhtuyendung'] == 1)?"checked":""?> value="1"/>
                         </div>
                         <br>
                         <span>4. Bằng chuyên môn nghiệp vụ (Tiến sỹ, Thạc sỹ, Đại học, Cao đẳng, Trung cấp chuyên nghiệp…)</span>
-                        <p><textarea name="dm_bangchuyenmon" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bangchuyenmon'] ?></textarea></p>
+                        <p><textarea name="dm_bangchuyenmon" class="danhmucTextArea"><?=$this->danhMucHoSo['bangchuyenmon'] ?></textarea></p>
                         <span>5. Bằng ngoại ngữ</span>
-                        <p><textarea name="dm_bangngoaingu" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bangngoaingu'] ?></textarea></p>
+                        <p><textarea name="dm_bangngoaingu" class="danhmucTextArea"><?=$this->danhMucHoSo['bangngoaingu'] ?></textarea></p>
                         <span>6. Bằng tin học</span>
-                        <p><textarea name="dm_bangtinhoc" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bangtinhoc'] ?></textarea></p>
+                        <p><textarea name="dm_bangtinhoc" class="danhmucTextArea"><?=$this->danhMucHoSo['bangtinhoc'] ?></textarea></p>
                         <span>7. Các loại văn bằng, chửng chỉ về đào tạo, bồi dưỡng: </span>
-                        <p><textarea name="dm_vanbangkhac" class="danhmucTextArea"><?php echo $this->danhMucHoSo['vanbangkhac'] ?></textarea></p>
+                        <p><textarea name="dm_vanbangkhac" class="danhmucTextArea"><?=$this->danhMucHoSo['vanbangkhac'] ?></textarea></p>
                         <span>8. Quyết định bổ nhiệm ngạch: </span>
-                        <p><textarea name="dm_bonhiemngach" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bonhiemngach'] ?></textarea></p>
+                        <p><textarea name="dm_bonhiemngach" class="danhmucTextArea"><?=$this->danhMucHoSo['bonhiemngach'] ?></textarea></p>
                         <span>9. Quyết định về công tác cán bộ (bổ nhiệm, điều động, luân chuyển, chuẩn y, thôi nhiệm vụ): </span>
-                        <p><textarea name="dm_congtaccanbo" class="danhmucTextArea"><?php echo $this->danhMucHoSo['congtaccanbo'] ?></textarea></p>
+                        <p><textarea name="dm_congtaccanbo" class="danhmucTextArea"><?=$this->danhMucHoSo['congtaccanbo'] ?></textarea></p>
                         <span>10. Các hình thức khen thưởng </span>
-                        <p><textarea name="dm_hinhthuongkhenhtuong" class="danhmucTextArea"><?php echo $this->danhMucHoSo['hinhthuongkhenhtuong'] ?></textarea></p>
+                        <p><textarea name="dm_hinhthuongkhenhtuong" class="danhmucTextArea"><?=$this->danhMucHoSo['hinhthuongkhenhtuong'] ?></textarea></p>
                         <span>11. Quyết định kỷ luật </span>
-                        <p><textarea name="dm_kyluat" class="danhmucTextArea"><?php echo $this->danhMucHoSo['kyluat'] ?></textarea></p>
+                        <p><textarea name="dm_kyluat" class="danhmucTextArea"><?=$this->danhMucHoSo['kyluat'] ?></textarea></p>
                         <span>12. Quyết định cử cán bộ đi nước ngoài (ghi rõ số quyết định và tên nước đến): </span>
-                        <p><textarea name="dm_dinuocngoai" class="danhmucTextArea"><?php echo $this->danhMucHoSo['dinuocngoai'] ?></textarea></p>
+                        <p><textarea name="dm_dinuocngoai" class="danhmucTextArea"><?=$this->danhMucHoSo['dinuocngoai'] ?></textarea></p>
                         <span>13. Quyết định cử cán bộ đi học: </span>
-                        <p><textarea name="dm_canbodihoc" class="danhmucTextArea"><?php echo $this->danhMucHoSo['canbodihoc'] ?></textarea></p>
+                        <p><textarea name="dm_canbodihoc" class="danhmucTextArea"><?=$this->danhMucHoSo['canbodihoc'] ?></textarea></p>
                         <span>14. Giấy thôi trả lương: </span>
-                        <p><textarea name="dm_thoitraluong" class="danhmucTextArea"><?php echo $this->danhMucHoSo['thoitraluong'] ?></textarea></p>
+                        <p><textarea name="dm_thoitraluong" class="danhmucTextArea"><?=$this->danhMucHoSo['thoitraluong'] ?></textarea></p>
                     </div>
                 </fieldset>
             <?php } ?>
             <p>
-                <mark> <?php echo $this->message?> <mark>
+                <mark> <?=$this->message?> <mark>
             </p>
             <button type="submit">Sửa thông tin</button>
         </form>

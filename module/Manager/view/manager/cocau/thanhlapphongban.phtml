@@ -251,13 +251,21 @@
         'core' : {
             'data' : [
                 {
-                    'text': 'THÀNH ĐOÀN',
+                    'text': 'Cơ Quan Chuyên Trách',
                     'state' : {
-                        'opened' : true,
+                        'opened' : false,
                         'selected' : false
                     },
-                    'children' : <?php echo json_encode($this->jsTreeData); ?>
-                }
+                    'children' : <?php echo json_encode($this->banChuyenTrach); ?>
+                },
+                {
+                    'text': 'Đơn vị sự nghiệp',
+                    'state' : {
+                        'opened' : false,
+                        'selected' : false
+                    },
+                    'children' : <?php echo json_encode($this->banSuNghiep); ?>
+                },
                 //jsTreeData
             ]
         }

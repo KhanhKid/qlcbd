@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 08, 2017 at 05:56 AM
+-- Generation Time: Apr 08, 2017 at 06:48 AM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -26,9 +26,9 @@ DELIMITER $$
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCadreWorkInfo` ()  NO SQL
 select can_bo.Ma_Can_Bo, Ho_Ten_CB, DATE_FORMAT(Ngay_Sinh,'%d/%m/%Y') AS Ngay_Sinh, So_CMND,
-                       Chuc_Vu.Ten_Chuc_Vu
-                from Can_Bo left join Ly_Lich on( Can_Bo.Ma_Can_Bo = Ly_Lich.Ma_CB)
-                            left join Chuc_Vu on (Can_Bo.Ma_CV_Chinh = Chuc_Vu.Ma_Chuc_Vu)
+                       chuc_vu.Ten_Chuc_Vu
+                from can_bo left join ly_lich on( can_bo.Ma_Can_Bo = ly_lich.Ma_CB)
+                            left join chuc_vu on (can_bo.Ma_CV_Chinh = chuc_vu.Ma_Chuc_Vu)
                 WHERE Ngay_Roi_Khoi IS NULL$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_layDSCanBoTrucThuoc` (IN `maCB` INT)  NO SQL
@@ -44,7 +44,7 @@ SELECT Ma_CB AS Ma_Can_Bo, Ho_Ten_CB
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_layDSCanBoVoiThongTinVanTat` ()  NO SQL
 SELECT can_bo.Ma_Can_Bo, Ho_Ten_CB, DATE_FORMAT(Ngay_Sinh,'%d/%m/%Y') AS Ngay_Sinh, SO_CMND
-                from Can_Bo left join Ly_Lich on( can_bo.Ma_Can_Bo = Ly_Lich.Ma_CB)
+                from can_bo left join Ly_Lich on( can_bo.Ma_Can_Bo = ly_lich.Ma_CB)
                 WHERE (Ngay_Roi_Khoi IS NULL)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_layThongTinBCH` (IN `maDonVi` VARCHAR(32))  NO SQL
@@ -58,7 +58,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_layThongTinCanBo` (IN `maCanBo` 
     COMMENT 'lấy thông tin của một cán bộ từ mã cán bộ'
 SELECT Ho_Ten_CB, DATE_FORMAT(Ngay_Sinh,'%d/%m/%Y') AS Ngay_Sinh, So_CMND,
                        DATE_FORMAT(Ngay_Tuyen_Dung,'%d/%m/%Y') AS Ngay_Tuyen_Dung, DATE_FORMAT(Ngay_Bien_Che,'%d/%m/%Y') AS Ngay_Bien_Che
-                FROM Can_Bo LEFT JOIN Ly_Lich on( can_bo.Ma_Can_Bo = Ly_Lich.Ma_CB)
+                FROM can_bo LEFT JOIN ly_lich on( can_bo.Ma_Can_Bo = ly_lich.Ma_CB)
                 WHERE Ma_CB = maCanBo
                 LIMIT 1$$
 

@@ -711,7 +711,7 @@ class CanBoModel extends AbstractModel {
 	 */
 	public function getNgachList() {
 		//init
-		$sql       = 'select Ma_So_Ngach, Ten_Ngach from Ngach_Luong';
+		$sql       = 'select Ma_So_Ngach, Ten_Ngach from ngach_luong';
 		$parameter = null;
 
 		//run

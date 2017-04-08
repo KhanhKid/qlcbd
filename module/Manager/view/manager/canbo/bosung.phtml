@@ -1,777 +1,701 @@
 <style xmlns="http://www.w3.org/1999/html">
     #addquatrinh, #adddaotao, #addquanhegiadinh, #addquanhegiadinhvo, #addkyluat, #addkhenthuong, #addquatrinhluong{
-        margin-top: 10px;
-        cursor: pointer;
+    margin-top: 10px;
+    cursor: pointer;
     }
     #addquatrinh:hover, #adddaotao:hover, #addquanhegiadinh:hover, #addquanhegiadinhvo:hover, #addkyluat:hover, #addkhenthuong:hover, #addquatrinhluong{
-        background-color: #39a0b9;
-        color: #fff;
+    background-color: #39a0b9;
+    color: #fff;
     }
-
     #daotaoboiduong, #quatrinhcongtac, #quanhegiadinh, #quanhegiadinhvo, #kyluat, #khenthuong, #quatrinhluong{
-        float: left;
-        min-width: 0 !important;
-        margin-top: 10px;
-        height: 26px;
+    float: left;
+    min-width: 0 !important;
+    margin-top: 10px;
+    height: 26px;
     }
-
     #dragdrop {
-        width: 100%;
-        height: 70px;
-        color: #ccc;
-        font-size: 1.5em;
-        font-style: italic;
-        border: 2px dashed #ccc;
-        text-align: center;
+    width: 100%;
+    height: 70px;
+    color: #ccc;
+    font-size: 1.5em;
+    font-style: italic;
+    border: 2px dashed #ccc;
+    text-align: center;
     }
     .thaotac{
-        width: 20px;
+    width: 20px;
     }
     .delete{
-        color: red;
-        cursor: pointer;
+    color: red;
+    cursor: pointer;
     }
-
     .custom-combobox {
-        position: relative;
-        display: inline-block;
-        margin-right: 30px;
+    position: relative;
+    display: inline-block;
+    margin-right: 30px;
     }
     .custom-combobox-toggle {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        margin-left: -1px;
-        padding: 0;
-        /* support: IE7 */
-        *height: 1.7em;
-        *top: 0.1em;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+    /* support: IE7 */
+    *height: 1.7em;
+    *top: 0.1em;
     }
     .custom-combobox-input {
-        margin: 0;
-        padding: 0.3em;
+    margin: 0;
+    padding: 0.3em;
     }
-
     .ui-autocomplete {
-        max-height: 100px;
-        overflow-y: auto;
-        overflow-x: hidden;
+    max-height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
     }
 </style>
-
 <?php
-//tool
-function formatDate($date){
-    return $date = (null==$date || $date == "1970-01-01")?"":date('d/m/Y', strtotime($date));
-}
-?>
-<div class="block">
-<h2 class="title">Bổ sung lý lịch cán bộ</h2>
-    <div class="block-content">
-    <?php
-    if (!$this->lylich):
-        echo '<span class="message">Mã cán bộ không hợp lệ</span>';
-    else:
-
-    if ($this->kiennghi!=null){
+    //tool
+    function formatDate($date){
+        return $date = (null==$date || $date == "1970-01-01")?"":date('d/m/Y', strtotime($date));
+    }
     ?>
-    <fieldset>
-        <legend>Thông tin được kiến nghị</legend>
-        <div class="content">
-            <?php
-                  echo 'Tiêu đề: ' , $this->kiennghi[0]['Ten_Kien_Nghi'] , '<br/>';
-                  echo 'Nội dung: ' , $this->kiennghi[0]['Noi_Dung'];
-            ?>
-        </div>
-    </fieldset>
-    <?php } ?>
-
-        <form method="post">
-    <fieldset>
-        <legend>Thông tin cơ bản</legend>
-        <div class="content">
-            <div class="group">
-                <span>Họ tên</span>
-                <input type="text" name="hoten" value="<?=$this->lylich['Ho_Ten_CB']?>"/>
-            </div>
-            <div class="group">
-                <span>Giới tính</span>
-                <select disabled name="gioitinh">
-                    <option value="0" <?php if ($this->lylich['Gioi_Tinh']==0) echo 'selected'; ?>>Nam</option>
-                    <option value="1" <?php if ($this->lylich['Gioi_Tinh']==1) echo 'selected'; ?>>Nữ</option>
-                </select>
-            </div>
-            <div class="clear"></div>
-            <div class="group">
-                <span>Ngày sinh</span>
-                <input type="text" disabled id="ngaysinh" class="ngaythang"  value="<?=formatDate($this->lylich['Ngay_Sinh'])?>" name="ngaysinh"/> (*)
-            </div>
-            <div class="group">
-                <span>Ngày gia nhập</span>
-                <input type="text" id="ngaygianhap" class="ngaythang" name="ngaygianhap"
-                       value="<?=formatDate($this->lylich['Ngay_Gia_Nhap'])?>"/>
-            </div>
-            <div class="group">
-                <span>Số hiệu (Mã quản lý hồ sơ)</span>
-                <input type="text" name="sohieu" value="<?=$this->lylich['So_Hieu_CB']?>"/>
-            </div>
-            <div class="group">
-                <span>Số quyết định công chức</span>
-                <input type="text" id="soquyetdinhcongchuc" name="soquyetdinhcongchuc"
-                       value="<?=$this->lylich['So_Quyet_Dinh_Cong_Chuc']?>"/>
-            </div>
-            <div class="group">
-                <span>Số hợp đồng</span>
-                <input type="text" name="sohopdong" value="<?=$this->lylich['So_Hop_Dong']?>"/>
-            </div>
-        </div>
-
-    </fieldset>
-
-<!-- 
-    <fieldset>
-        <legend>Thông tin tuyển dụng</legend>
-        <div class="conten">
-            <div class="group">
-                <span>Ngày thông báo tuyển dụng</span>
-                <input type="text" id="ngaytuyendung" class="ngaythang" name="ngaytuyendung" value="<?=formatDate($this->lylich['Ngay_Tuyen_Dung'])?>"/>
-            </div>
-            <div class="group">
-                <span>Ngày vào biên chế</span>
-                <input type="text" id="ngaybienche" class="ngaythang" name="ngaybienche" value="<?=formatDate($this->lylich['Ngay_Bien_Che'])?>"/>
-            </div>
-
-        </div>
-    </fieldset> -->
-
-    <fieldset>
-        <legend>Lý lịch</legend>
-        <div class="content">
-            <div class="group">
-            <span>1) Họ tên khai sinh</span>
-            <input type="text" name="hotenkhaisinh" value="<?=$this->lylich['Ho_Ten_Khai_Sinh']?>"/>
-            </div>
-
-            <div class="group">
-                <span>2) Tên gọi khác</span>
-                <input type="text" name="tengoikhac" value="<?=$this->lylich['Ten_Goi_Khac']?>"/>
-            </div>
-
-            <div class="group">
-                <span>3) Ngày sinh</span>
-                <input type="text" id="ngaysinh" class="ngaythang"  value="<?=formatDate($this->lylich['Ngay_Sinh'])?>" name="ngaysinh"/> (*)
-            </div>
+<div class="block">
+    <h2 class="title">Bổ sung lý lịch cán bộ</h2>
+    <div class="block-content">
+        <?php
+            if (!$this->lylich):
+                echo '<span class="message">Mã cán bộ không hợp lệ</span>';
+            else:
             
-            <div class="group">
-                <span>4) Giới tính</span>
-                <select disabled name="gioitinh">
-                    <option value="0" <?php if ($this->lylich['Gioi_Tinh']==0) echo 'selected'; ?>>Nam</option>
-                    <option value="1" <?php if ($this->lylich['Gioi_Tinh']==1) echo 'selected'; ?>>Nữ</option>
-                </select>
-            </div>
-            <div class="group">
-                <span>Số CMND</span>
-                <input type="text" name="cmnd" required="required" value="<?=$this->lylich['So_CMND']?>" />
-            </div>
-
-            <div class="group">
-                <span>Ngày cấp</span>
-                <input class="ngaythang" type="text" name="ngaycapCMND" value="<?=formatDate($this->lylich['Ngay_Cap_CMND'])?>"/>
-            </div>
-
-            <div class="group">
-                <span>Nơi cấp</span>
-                <input type="text" name="noicapCMND" value="<?=$this->lylich['Noi_Cap_CMND']?>"/>
-            </div>
-
-
-
-            <div class="group">
-                <span>Nơi sinh</span>
-                <input type="text" name="noisinh" value="<?=$this->lylich['Noi_Sinh']?>"/>
-            </div>
-
-            <div class="group">
-                <span>5) Quê quán</span>
-                <input type="text" name="quequan" value="<?=$this->lylich['Que_Quan']?>"/>
-            </div>
-
-            <div class="group">
-                <span>Nơi ở hiện nay</span>
-                <input type="text" name="noiohiennay" value="<?=$this->lylich['Noi_O_Hien_Nay']?>"/>
-            </div>
-
-            <div class="group">
-                <span>Điện thoại</span>
-                <input type="text" name="dienthoai" value="<?=$this->lylich['Đien_Thoai']?>"/>
-            </div>
-
-            <div class="group">
-                <span>6) Dân tộc</span>
-                <select name = 'dantoc'>
-                    <option value="">(chưa biết)</option>
-                    <?php
-                    $currDantoc = $this->lylich['Ma_Dan_Toc'];
-                    foreach ($this->dsDanToc as $element) {
-                        echo '<option  ',($element['Ma_Dan_Toc']==$currDantoc)?' selected="selected" ':''  ,'  value="', $element['Ma_Dan_Toc'], '">', $element['Ten_Dan_Toc'], '</option>';
-                    }
-                    ?>
-                </select>
-            </div>
-
-            <div class="group">
-                <span>7) Tôn giáo</span>
-                <select name = 'tongiao'>
-                    <option value="">(chưa rõ)</option>
-                    <?php
-                    $currTonGiao = $this->lylich['Ma_Ton_Giao'];
-                    foreach ($this->dsTonGiao as $element) {
-                        echo '<option  ',($element['Ma_Ton_Giao']==$currTonGiao)?' selected="selected" ':''  ,'  value="', $element['Ma_Ton_Giao'], '">', $element['Ten_Ton_Giao'], '</option>';
-                    }
-                    ?>
-                </select>
-
-            </div>
-
-            <div class="group">
-                <span>Ngày tham gia cách mạng</span>
-                <input type="text" class="ngaythang" name="ngaythamgiacm" value="<?=formatDate($this->lylich['Ngay_Tham_Gia_CM'])?>"/>
-            </div>
-
-            <div class="group">
-                <span>Thành phần gia đình</span>
-                <input type="text" name="thanhphangiadinh" value="<?=$this->lylich['Thanh_Phan_Gia_Đinh_Xuat_Than']?>"/>
-            </div>
-
-            <div class="group">
-                <span>Cấp Ủy hiện tại</span>
-                <input type="text" name="capuyhientai" value="<?=$this->lylich['Cap_Uy_Hien_Tai']?>"/>
-            </div>
-
-            <div class="group">
-                <span>Cấp Ủy kiêm</span>
-                <input type="text" name="capuykiem" value="<?=$this->lylich['Cap_Uy_Kiem']?>" />
-            </div>
-
-            <div class="group">
-                <span>Chức danh</span>
-                <input type="text" name="chucdanh" value="<?=$this->lylich['Chuc_Danh']?>" />
-            </div>
-
-            <div class="group">
-                <span>Phụ cấp chức vụ</span>
-                <input type="text" name="phucapchucvu" value="<?=$this->lylich['Phu_Cap_Chuc_Vu']?>" />
-            </div>
-
-            <div class="group">
-                <span>Nghề nghiệp <bR>khi được tuyển dụng</span>
-                <input type="text" name="nghenghieptruocdo" value="<?=$this->lylich['Nghe_Nghiep_Truoc_Đo']?>"/>
-            </div>
-
-            <div class="group">
-                <span>Ngày được tuyển dụng</span>
-                <input type="text" id="ngaytuyendung_cqnc" class="ngaythang" name="ngaytuyendung_cqnc" value="<?=formatDate($this->lylich['Ngay_Đuoc_Tuyen_Dung'])?>"/>
-            </div>
-
-            <div class="group">
-                <span>Cơ quan tuyển dụng</span>
-                <input type="text" name="coquantuyendung" value="<?=$this->lylich['Co_Quan_Tuyen_Dung']?>"/>
-            </div>
-
-            <div class="group">
-                <span>Ngày  vào Đảng</span>
-                <input type="text" class="ngaythang" name="ngayvaodang" value="<?=formatDate($this->lylich['Ngay_Vao_Đang'])?>"/>
-            </div>
-
-            <div class="group">
-                <span>Ngày chính thức</span>
-                <input type="text" class="ngaythang" name="ngayvaodangchinhthuc" value="<?=formatDate(($this->lylich['Ngay_Chinh_Thuc']))?>"/>
-            </div>
-
-            <div class="group">
-                <span>Ngày tham gia các TC CTXH</span>
-                <input type="text" name="thamgiatcccxh" value="<?=$this->lylich['Ngay_Tham_Gia_Cac_To_Chuc_Chinh_Tri_Xa_Hoi']?>"/>
-            </div>
-
-            <div class="group">
-                <span>Ngày nhập ngũ</span>
-                <input type="text" class="ngaynhapngu" name="ngaynhapngu" value="<?=formatDate(($this->lylich['Ngay_Nhap_Ngu']))?>"/>
-            </div>
-
-            <div class="group">
-                <span>Ngày xuất ngũ</span>
-                <input type="text" class="ngayxuatngu" name="ngayxuatngu" value="<?=formatDate(($this->lylich['Ngay_Xuat_Ngu']))?>"/>
-            </div>
-
-            <div class="group">
-                <span>Quân hàm, chức vụ cao nhất</span>
-                <input type="text" name="quanhamcaonhat" value="<?=$this->lylich['Quan_Ham_Chuc_Vu_Cao_Nhat']?>"/>
-            </div>
-
-            <div class="group">
-                <span>Chuyên ngành</span>
-                <input type="text" name="chuyennganh" value="<?=$this->lylich['Chuyen_Nganh']?>"/>
-            </div>
-
-            <div class="group">
-                <span>Trình độ GDPT</span>
-                <select name="trinhdohocvan">
-                    <option <?=('12/12'==$this->lylich['Trinh_Đo_Hoc_Van'])?' selected="selected" ':'' ?> value="12/12">12/12</option>
-                    <option <?=('9/12'==$this->lylich['Trinh_Đo_Hoc_Van'])?' selected="selected" ':'' ?> value="9/12">9/12</option>
-                    <option <?=('5/12'==$this->lylich['Trinh_Đo_Hoc_Van'])?' selected="selected" ':'' ?>  value="5/12">5/12</option>
-                    <option <?=('(không)'==$this->lylich['Trinh_Đo_Hoc_Van'])?' selected="selected" ':'' ?> value="(không)">(không)</option>
-                </select>
-            </div>
-
-            <div class="group">
-                <span>Trình độ chuyên môn</span>
-                <select id="trinhdochuyenmon" name="trinhdochuyenmon"/>
+            if ($this->kiennghi!=null){
+            ?>
+        <fieldset>
+            <legend>Thông tin được kiến nghị</legend>
+            <div class="content">
                 <?php
-                $currTDCM = $this->lylich['Cap_Đo_TĐCM'];
-                foreach ($this->dsTDCM as $element) {
-                    echo '<option ', ($currTDCM==$element['Cap_Đo_TĐCM'])?' selected="selected" ':'' ,' value="', $element['Cap_Đo_TĐCM'], '">', $element['Ten_TĐCM'], '</option>';
-                }
-                ?>
-                </select>
-            </div>
-
-            <div class="group">
-                <span>Học hàm</span>
-                <select name="hocham">
-                    <option <?=(''==$this->lylich['Hoc_Ham'])?' selected="selected" ':'' ?> value="">(không)</option>
-                    <option <?=('Phó Giáo sư'==$this->lylich['Hoc_Ham'])?' selected="selected" ':'' ?> value="Phó Giáo sư">Phó Giáo sư</option>
-                    <option <?=('Giáo sư'==$this->lylich['Hoc_Ham'])?' selected="selected" ':'' ?> value="Giáo sư">Giáo sư</option>
-                </select>
-            </div>
-            <div class="group">
-                <span>Lý luận chính trị</span>
-                <select name="lyluanchinhtri">
-                    <?php
-                    $currCTLL = $this->lylich['Cap_Đo_CTLL'];
-                    foreach ($this->dsTDLLCT as $element) {
-                        echo '<option ', ($currCTLL==$element['Cap_Đo_LLCT'])?' selected="selected" ':'' ,' value="', $element['Cap_Đo_LLCT'], '">', $element['Ten_CTLL'], '</option>';
-                    }
+                    echo 'Tiêu đề: ' , $this->kiennghi[0]['Ten_Kien_Nghi'] , '<br/>';
+                    echo 'Nội dung: ' , $this->kiennghi[0]['Noi_Dung'];
                     ?>
-                </select>
             </div>
-
-
-
-            <div class="group">
-                <span>Ngoại ngữ</span>
-                <input type="text" name="ngoaingu" value="<?=$this->lylich['Ngoai_Ngu']?>"/>
-            </div>
-
-            <div class="group">
-                <span>Công tác chính đang làm</span>
-                <input id="congtacchinh" type="text" name="congtacchinh" value="<?=$this->lylich['Cong_Tac_Chinh_Đang_Lam']?>"/>
-            </div>
-
-            <div class="group">
-                <span>Danh hiệu được phong</span>
-                <input id="danhhieu" type="text" name="danhhieu" value="<?=$this->lylich['Danh_Hieu_Đuoc_Phong']?>"/>
-            </div>
-
-
-            <div class="group">
-                <span>Sở trường công tác</span>
-                <input id="sotruong" type="text" name="sotruong" value="<?=$this->lylich['So_Truong_Cong_Tac']?>"/>
-            </div>
-
-
-            <div class="group">
-                <span>Công việc làm lâu nhất</span>
-                <input id="congvieclaunhat" type="text" name="congvieclaunhat" value="<?=$this->lylich['Cong_Viec_Lam_Lau_Nhat']?>"/>
-            </div>
-            <div>
-                <span class="group">Khen Thưởng</span>
-                <textarea name='khenthuong' placeholder="bằng khen/giấy khen của các cấp"><?=$this->lylich['Khen_Thuong']?></textarea>
-            </div>
-
-
-            <div>
-                <span style="float: none;">Kỷ luật</span>
-                <textarea name='kyluat' cols='5'><?=$this->lylich['Ky_Luat']?></textarea>
-            </div>
-
-
-            <div class="group">
-                <span>Tình trạng sức khỏe</span>
-                <input id="tinhtrangsuckhoe" type="text" name="tinhtrangsuckhoe" value="<?=$this->lylich['Tinh_Trang_Suc_Khoe']?>"/>
-            </div>
-
-
-            <div class="group">
-                <span>Chiều cao</span>
-                <input id="chieucao" type="text" name="chieucao" size="20" value="<?=$this->lylich['Chieu_Cao']?>"/>m
-            </div>
-
-            <div class="group">
-                <span>Cân nặng</span>
-                <input id="cannang" type="text" name="cannang" value="<?=$this->lylich['Can_Nang']?>"/> (kg)
-            </div>
-
-
-            <div class="group">
-                <span>Nhóm máu</span>
-                <select id="nhommau" name="nhommau">
-                    <option value="">(không biết)</option>
-                    <option <?=('O'==$this->lylich['Nhom_Mau']?' selected="selected" ':'')?> value="O">O</option>
-                    <option <?=('A'==$this->lylich['Nhom_Mau']?' selected="selected" ':'')?> value="A">A</option>
-                    <option <?=('B'==$this->lylich['Nhom_Mau']?' selected="selected" ':'')?> value="B">B</option>
-                    <option <?=('AB'==$this->lylich['Nhom_Mau']?' selected="selected" ':'')?> value="AB">AB</option>
-                </select>
-            </div>
-
-            <div class="group">
-                <span>Thương binh loại</span>
-                <select id="thuongbinhloai" name="thuongbinhloai">
-
-                    <option value="Không">Không</option>
-                    <option <?=('1/4'==$this->lylich['Loai_Thuong_Binh']?' selected="selected" ':'')?> value="1/4">1/4</option>
-                    <option <?=('2/4'==$this->lylich['Loai_Thuong_Binh']?' selected="selected" ':'')?> value="2/4">2/4</option>
-                    <option <?=('3/4'==$this->lylich['Loai_Thuong_Binh']?' selected="selected" ':'')?> value="3/4">3/4</option>
-                    <option <?=('4/4'==$this->lylich['Loai_Thuong_Binh']?' selected="selected" ':'')?> value="4/4">4/4</option>
-                </select>
-            </div>
-            <div class="group">
-                <span>Tiền sử bệnh lý</span>
-                <textarea name='tiensubenh' cols='5'><?=$this->lylich['Tien_Su_Benh']?></textarea>
-            </div>
-            <div class="clear"></div>
-            <label for="giadinhlietsy">
-                <div class="group">
-                    <span>Gia đình liệt sỹ</span>
-                    <input type="checkbox" id="giadinhlietsy" name="giadinhlietsy" value='1' <?=($this->lylich['Gia_Đinh_Liet_Sy']==1)?' checked = "checked" ':''?> />
-                </div>
-            </label>
-
+        </fieldset>
+        <?php } ?>
+        <form method="post">
             <fieldset>
-                <legend>Đặc điểm lịch sử bản thân</legend>
+                <legend>Thông tin cơ bản</legend>
                 <div class="content">
-                    Khai rõ bị bắt, bị tù, đã khai báo cho ai, những vấn đề gì:<br/>
-                    <textarea id="dacdiemlichsu" name="dacdiemlichsu"><?=$this->lylich['Đac_Điem_Lich_Su']?></textarea><br/>
-                    Bản thân có làm việc trong chế độ cũ:<br/>
-                    <textarea id="lamviecchedocu" name="lamviecchedocu"><?=$this->lylich['Lam_Viec_Trong_Che_Đo_Cu']?></textarea>
+                    <div class="group">
+                        <span>Họ tên</span>
+                        <input type="text" name="hoten" value="<?=$this->lylich['Ho_Ten_CB']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Giới tính</span>
+                        <select disabled name="gioitinh">
+                            <option value="0" <?php if ($this->lylich['Gioi_Tinh']==0) echo 'selected'; ?>>Nam</option>
+                            <option value="1" <?php if ($this->lylich['Gioi_Tinh']==1) echo 'selected'; ?>>Nữ</option>
+                        </select>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="group">
+                        <span>Ngày sinh</span>
+                        <input type="text" disabled id="ngaysinh" class="ngaythang"  value="<?=formatDate($this->lylich['Ngay_Sinh'])?>" name="ngaysinh"/> (*)
+                    </div>
+                    <div class="group">
+                        <span>Ngày gia nhập</span>
+                        <input type="text" id="ngaygianhap" class="ngaythang" name="ngaygianhap"
+                            value="<?=formatDate($this->lylich['Ngay_Gia_Nhap'])?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Số hiệu (Mã quản lý hồ sơ)</span>
+                        <input type="text" name="sohieu" value="<?=$this->lylich['So_Hieu_CB']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Số quyết định công chức</span>
+                        <input type="text" id="soquyetdinhcongchuc" name="soquyetdinhcongchuc"
+                            value="<?=$this->lylich['So_Quyet_Dinh_Cong_Chuc']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Số hợp đồng</span>
+                        <input type="text" name="sohopdong" value="<?=$this->lylich['So_Hop_Dong']?>"/>
+                    </div>
                 </div>
             </fieldset>
-
+            <!-- 
+                <fieldset>
+                    <legend>Thông tin tuyển dụng</legend>
+                    <div class="conten">
+                        <div class="group">
+                            <span>Ngày thông báo tuyển dụng</span>
+                            <input type="text" id="ngaytuyendung" class="ngaythang" name="ngaytuyendung" value="<?=formatDate($this->lylich['Ngay_Tuyen_Dung'])?>"/>
+                        </div>
+                        <div class="group">
+                            <span>Ngày vào biên chế</span>
+                            <input type="text" id="ngaybienche" class="ngaythang" name="ngaybienche" value="<?=formatDate($this->lylich['Ngay_Bien_Che'])?>"/>
+                        </div>
+                
+                    </div>
+                </fieldset> -->
             <fieldset>
-                <legend>Quan hệ với nước ngoài</legend>
+                <legend>Lý lịch</legend>
                 <div class="content">
-                    Tham gia hoặc có quan hệ với các tổ chức chính trị, kinh tế, xã hội nào ở nước ngoài<br/>
-                    <textarea id="quanhenuocngoai" name="quanhenuocngoai"><?=$this->lylich['Tham_Gia_Cac_To_Chuc_Nuoc_Ngoai']?></textarea><br/>
-                    Có thân nhân nước ngoài<br/>
-                    <textarea id="thannhannuocngoai" name="thannhannuocngoai" ><?=$this->lylich['Co_Than_Nhan_Nuoc_Ngoai']?></textarea>
-
+                    <div class="group">
+                        <span>1) Họ tên khai sinh</span>
+                        <input type="text" name="hotenkhaisinh" value="<?=$this->lylich['Ho_Ten_Khai_Sinh']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>2) Tên gọi khác</span>
+                        <input type="text" name="tengoikhac" value="<?=$this->lylich['Ten_Goi_Khac']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>3) Ngày sinh</span>
+                        <input type="text" id="ngaysinh" class="ngaythang"  value="<?=formatDate($this->lylich['Ngay_Sinh'])?>" name="ngaysinh"/> (*)
+                    </div>
+                    <div class="group">
+                        <span>4) Giới tính</span>
+                        <select disabled name="gioitinh">
+                            <option value="0" <?php if ($this->lylich['Gioi_Tinh']==0) echo 'selected'; ?>>Nam</option>
+                            <option value="1" <?php if ($this->lylich['Gioi_Tinh']==1) echo 'selected'; ?>>Nữ</option>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <span>Số CMND</span>
+                        <input type="text" name="cmnd" required="required" value="<?=$this->lylich['So_CMND']?>" />
+                    </div>
+                    <div class="group">
+                        <span>Ngày cấp</span>
+                        <input class="ngaythang" type="text" name="ngaycapCMND" value="<?=formatDate($this->lylich['Ngay_Cap_CMND'])?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Nơi cấp</span>
+                        <input type="text" name="noicapCMND" value="<?=$this->lylich['Noi_Cap_CMND']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Nơi sinh</span>
+                        <input type="text" name="noisinh" value="<?=$this->lylich['Noi_Sinh']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>5) Quê quán</span>
+                        <input type="text" name="quequan" value="<?=$this->lylich['Que_Quan']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Nơi ở hiện nay</span>
+                        <input type="text" name="noiohiennay" value="<?=$this->lylich['Noi_O_Hien_Nay']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Điện thoại</span>
+                        <input type="text" name="dienthoai" value="<?=$this->lylich['Đien_Thoai']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>6) Dân tộc</span>
+                        <select name = 'dantoc'>
+                            <option value="">(chưa biết)</option>
+                            <?php
+                                $currDantoc = $this->lylich['Ma_Dan_Toc'];
+                                foreach ($this->dsDanToc as $element) {
+                                    echo '<option  ',($element['Ma_Dan_Toc']==$currDantoc)?' selected="selected" ':''  ,'  value="', $element['Ma_Dan_Toc'], '">', $element['Ten_Dan_Toc'], '</option>';
+                                }
+                                ?>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <span>7) Tôn giáo</span>
+                        <select name = 'tongiao'>
+                            <option value="">(chưa rõ)</option>
+                            <?php
+                                $currTonGiao = $this->lylich['Ma_Ton_Giao'];
+                                foreach ($this->dsTonGiao as $element) {
+                                    echo '<option  ',($element['Ma_Ton_Giao']==$currTonGiao)?' selected="selected" ':''  ,'  value="', $element['Ma_Ton_Giao'], '">', $element['Ten_Ton_Giao'], '</option>';
+                                }
+                                ?>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <span>Ngày tham gia cách mạng</span>
+                        <input type="text" class="ngaythang" name="ngaythamgiacm" value="<?=formatDate($this->lylich['Ngay_Tham_Gia_CM'])?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Thành phần gia đình</span>
+                        <input type="text" name="thanhphangiadinh" value="<?=$this->lylich['Thanh_Phan_Gia_Đinh_Xuat_Than']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Cấp Ủy hiện tại</span>
+                        <input type="text" name="capuyhientai" value="<?=$this->lylich['Cap_Uy_Hien_Tai']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Cấp Ủy kiêm</span>
+                        <input type="text" name="capuykiem" value="<?=$this->lylich['Cap_Uy_Kiem']?>" />
+                    </div>
+                    <div class="group">
+                        <span>Chức danh</span>
+                        <input type="text" name="chucdanh" value="<?=$this->lylich['Chuc_Danh']?>" />
+                    </div>
+                    <div class="group">
+                        <span>Phụ cấp chức vụ</span>
+                        <input type="text" name="phucapchucvu" value="<?=$this->lylich['Phu_Cap_Chuc_Vu']?>" />
+                    </div>
+                    <div class="group">
+                        <span>Nghề nghiệp <bR>khi được tuyển dụng</span>
+                        <input type="text" name="nghenghieptruocdo" value="<?=$this->lylich['Nghe_Nghiep_Truoc_Đo']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Ngày được tuyển dụng</span>
+                        <input type="text" id="ngaytuyendung_cqnc" class="ngaythang" name="ngaytuyendung_cqnc" value="<?=formatDate($this->lylich['Ngay_Đuoc_Tuyen_Dung'])?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Cơ quan tuyển dụng</span>
+                        <input type="text" name="coquantuyendung" value="<?=$this->lylich['Co_Quan_Tuyen_Dung']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Ngày  vào Đảng</span>
+                        <input type="text" class="ngaythang" name="ngayvaodang" value="<?=formatDate($this->lylich['Ngay_Vao_Đang'])?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Ngày chính thức</span>
+                        <input type="text" class="ngaythang" name="ngayvaodangchinhthuc" value="<?=formatDate(($this->lylich['Ngay_Chinh_Thuc']))?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Ngày tham gia các TC CTXH</span>
+                        <input type="text" name="thamgiatcccxh" value="<?=$this->lylich['Ngay_Tham_Gia_Cac_To_Chuc_Chinh_Tri_Xa_Hoi']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Ngày nhập ngũ</span>
+                        <input type="text" class="ngaynhapngu" name="ngaynhapngu" value="<?=formatDate(($this->lylich['Ngay_Nhap_Ngu']))?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Ngày xuất ngũ</span>
+                        <input type="text" class="ngayxuatngu" name="ngayxuatngu" value="<?=formatDate(($this->lylich['Ngay_Xuat_Ngu']))?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Quân hàm, chức vụ cao nhất</span>
+                        <input type="text" name="quanhamcaonhat" value="<?=$this->lylich['Quan_Ham_Chuc_Vu_Cao_Nhat']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Chuyên ngành</span>
+                        <input type="text" name="chuyennganh" value="<?=$this->lylich['Chuyen_Nganh']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Trình độ GDPT</span>
+                        <select name="trinhdohocvan">
+                            <option <?=('12/12'==$this->lylich['Trinh_Đo_Hoc_Van'])?' selected="selected" ':'' ?> value="12/12">12/12</option>
+                            <option <?=('9/12'==$this->lylich['Trinh_Đo_Hoc_Van'])?' selected="selected" ':'' ?> value="9/12">9/12</option>
+                            <option <?=('5/12'==$this->lylich['Trinh_Đo_Hoc_Van'])?' selected="selected" ':'' ?>  value="5/12">5/12</option>
+                            <option <?=('(không)'==$this->lylich['Trinh_Đo_Hoc_Van'])?' selected="selected" ':'' ?> value="(không)">(không)</option>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <span>Trình độ chuyên môn</span>
+                        <select id="trinhdochuyenmon" name="trinhdochuyenmon"/>
+                        <?php
+                            $currTDCM = $this->lylich['Cap_Đo_TĐCM'];
+                            foreach ($this->dsTDCM as $element) {
+                                echo '<option ', ($currTDCM==$element['Cap_Đo_TĐCM'])?' selected="selected" ':'' ,' value="', $element['Cap_Đo_TĐCM'], '">', $element['Ten_TĐCM'], '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <span>Học hàm</span>
+                        <select name="hocham">
+                            <option <?=(''==$this->lylich['Hoc_Ham'])?' selected="selected" ':'' ?> value="">(không)</option>
+                            <option <?=('Phó Giáo sư'==$this->lylich['Hoc_Ham'])?' selected="selected" ':'' ?> value="Phó Giáo sư">Phó Giáo sư</option>
+                            <option <?=('Giáo sư'==$this->lylich['Hoc_Ham'])?' selected="selected" ':'' ?> value="Giáo sư">Giáo sư</option>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <span>Lý luận chính trị</span>
+                        <select name="lyluanchinhtri">
+                        <?php
+                            $currCTLL = $this->lylich['Cap_Đo_CTLL'];
+                            foreach ($this->dsTDLLCT as $element) {
+                                echo '<option ', ($currCTLL==$element['Cap_Đo_LLCT'])?' selected="selected" ':'' ,' value="', $element['Cap_Đo_LLCT'], '">', $element['Ten_CTLL'], '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <span>Ngoại ngữ</span>
+                        <input type="text" name="ngoaingu" value="<?=$this->lylich['Ngoai_Ngu']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Công tác chính đang làm</span>
+                        <input id="congtacchinh" type="text" name="congtacchinh" value="<?=$this->lylich['Cong_Tac_Chinh_Đang_Lam']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Danh hiệu được phong</span>
+                        <input id="danhhieu" type="text" name="danhhieu" value="<?=$this->lylich['Danh_Hieu_Đuoc_Phong']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Sở trường công tác</span>
+                        <input id="sotruong" type="text" name="sotruong" value="<?=$this->lylich['So_Truong_Cong_Tac']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Công việc làm lâu nhất</span>
+                        <input id="congvieclaunhat" type="text" name="congvieclaunhat" value="<?=$this->lylich['Cong_Viec_Lam_Lau_Nhat']?>"/>
+                    </div>
+                    <div>
+                        <span class="group">Khen Thưởng</span>
+                        <textarea name='khenthuong' placeholder="bằng khen/giấy khen của các cấp"><?=$this->lylich['Khen_Thuong']?></textarea>
+                    </div>
+                    <div>
+                        <span style="float: none;">Kỷ luật</span>
+                        <textarea name='kyluat' cols='5'><?=$this->lylich['Ky_Luat']?></textarea>
+                    </div>
+                    <div class="group">
+                        <span>Tình trạng sức khỏe</span>
+                        <input id="tinhtrangsuckhoe" type="text" name="tinhtrangsuckhoe" value="<?=$this->lylich['Tinh_Trang_Suc_Khoe']?>"/>
+                    </div>
+                    <div class="group">
+                        <span>Chiều cao</span>
+                        <input id="chieucao" type="text" name="chieucao" size="20" value="<?=$this->lylich['Chieu_Cao']?>"/>m
+                    </div>
+                    <div class="group">
+                        <span>Cân nặng</span>
+                        <input id="cannang" type="text" name="cannang" value="<?=$this->lylich['Can_Nang']?>"/> (kg)
+                    </div>
+                    <div class="group">
+                        <span>Nhóm máu</span>
+                        <select id="nhommau" name="nhommau">
+                            <option value="">(không biết)</option>
+                            <option <?=('O'==$this->lylich['Nhom_Mau']?' selected="selected" ':'')?> value="O">O</option>
+                            <option <?=('A'==$this->lylich['Nhom_Mau']?' selected="selected" ':'')?> value="A">A</option>
+                            <option <?=('B'==$this->lylich['Nhom_Mau']?' selected="selected" ':'')?> value="B">B</option>
+                            <option <?=('AB'==$this->lylich['Nhom_Mau']?' selected="selected" ':'')?> value="AB">AB</option>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <span>Thương binh loại</span>
+                        <select id="thuongbinhloai" name="thuongbinhloai">
+                            <option value="Không">Không</option>
+                            <option <?=('1/4'==$this->lylich['Loai_Thuong_Binh']?' selected="selected" ':'')?> value="1/4">1/4</option>
+                            <option <?=('2/4'==$this->lylich['Loai_Thuong_Binh']?' selected="selected" ':'')?> value="2/4">2/4</option>
+                            <option <?=('3/4'==$this->lylich['Loai_Thuong_Binh']?' selected="selected" ':'')?> value="3/4">3/4</option>
+                            <option <?=('4/4'==$this->lylich['Loai_Thuong_Binh']?' selected="selected" ':'')?> value="4/4">4/4</option>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <span>Tiền sử bệnh lý</span>
+                        <textarea name='tiensubenh' cols='5'><?=$this->lylich['Tien_Su_Benh']?></textarea>
+                    </div>
+                    <div class="clear"></div>
+                    <label for="giadinhlietsy">
+                        <div class="group">
+                            <span>Gia đình liệt sỹ</span>
+                            <input type="checkbox" id="giadinhlietsy" name="giadinhlietsy" value='1' <?=($this->lylich['Gia_Đinh_Liet_Sy']==1)?' checked = "checked" ':''?> />
+                        </div>
+                    </label>
+                    <fieldset>
+                        <legend>Đặc điểm lịch sử bản thân</legend>
+                        <div class="content">
+                            Khai rõ bị bắt, bị tù, đã khai báo cho ai, những vấn đề gì:<br/>
+                            <textarea id="dacdiemlichsu" name="dacdiemlichsu"><?=$this->lylich['Đac_Điem_Lich_Su']?></textarea><br/>
+                            Bản thân có làm việc trong chế độ cũ:<br/>
+                            <textarea id="lamviecchedocu" name="lamviecchedocu"><?=$this->lylich['Lam_Viec_Trong_Che_Đo_Cu']?></textarea>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Quan hệ với nước ngoài</legend>
+                        <div class="content">
+                            Tham gia hoặc có quan hệ với các tổ chức chính trị, kinh tế, xã hội nào ở nước ngoài<br/>
+                            <textarea id="quanhenuocngoai" name="quanhenuocngoai"><?=$this->lylich['Tham_Gia_Cac_To_Chuc_Nuoc_Ngoai']?></textarea><br/>
+                            Có thân nhân nước ngoài<br/>
+                            <textarea id="thannhannuocngoai" name="thannhannuocngoai" ><?=$this->lylich['Co_Than_Nhan_Nuoc_Ngoai']?></textarea>
+                        </div>
+                    </fieldset>
                 </div>
             </fieldset>
+            <fieldset>
+                <legend>Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị, ngoại ngữ</legend>
+                <div class="content">
+                    <table>
+                        <th>Tên trường</th>
+                        <th>Ngành học (Tên lớp)</th>
+                        <th>Hình thức học</th>
+                        <th>Thời gian học</th>
+                        <th>Tình trạng</th>
+                        <th>Văn bằng, chứng chỉ, trình độ gì</th>
+                        <tbody id="input-daotao">
+                            <?php
+                                if($this->dao_tao_boi_duong){
+                                    foreach($this->dao_tao_boi_duong as $value){
+                                        echo '<tr>
+                                                    <td>',$value['Ten_Truong'],'</td>
+                                                    <td>',$value['Nganh_Hoc'],'</td>
+                                                    <td>',$value['Hinh_Thuc_Hoc'],'</td>
+                                                    <td>',$value['Thoi_Gian_Hoc'],'</td>
+                                                    <td>',$value['TG_Ket_Thuc'],'</td>
+                                                    <td>',$value['Van_Bang_Chung_Chi'],'</td>
+                                                    <td>
+                                                        <a href="', $this->basePath('manager/canbo/xoaDaotaoboiduong/'),$this->lylich['Ma_Can_Bo'],'-',$value['Ma_ĐTBD'] , '" class="delete" title="Xóa"></a>
+                                                    </td>
+                                                </tr>';
+                                    }
+                                }
+                                
+                                ?>
+                        </tbody>
+                    </table>
+                    <select id="daotaoboiduong">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <button type="button" id="adddaotao">Thêm</button>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Tóm tắt quá trình công tác</legend>
+                <div class="content">
+                    <table>
+                        <th>Từ</th>
+                        <th>Đến</th>
+                        <th>Chức danh, chức vụ, đơn vị công tác</th>
+                        <tbody id="input-quatrinh">
+                            <?php
+                                if($this->quatrinhcongtac){
+                                    foreach($this->quatrinhcongtac as $value){
+                                        echo '<tr>
+                                                        <td>',formatDate($value['Tu_Ngay']) ,'</td>
+                                                        <td>',formatDate($value['Đen_Ngay']),'</td>
+                                                        <td>',$value['So_Luoc'],'</td>
+                                                        <td>
+                                                            <a href="', $this->basePath('manager/canbo/xoaQuatrinhcongtac/'),$this->lylich['Ma_Can_Bo'],'-',$value['Ma_QTCT'] , '" class="delete" title="Xóa"></a>
+                                                        </td>
+                                                    </tr>';
+                                    }
+                                }
+                                if($this->quatrinhcongtacnoibo){
+                                    foreach($this->quatrinhcongtacnoibo as $value){
+                                        echo '<tr>
+                                                        <td>',formatDate($value['Tu_Ngay']) ,'</td>
+                                                        <td>',formatDate($value['Đen_Ngay']),'</td>
+                                                        <td>',$value['So_Luoc']." - ".$value['Ban_Den'],'</td>
+                                                        <td>
+                                                            <a href="', $this->basePath('manager/canbo/luanchuyen/'),$this->lylich['Ma_Can_Bo'],'-',$value['Ma_QTCT'] , '" class="delete" title="Xóa"></a>
+                                                        </td>
+                                                    </tr>';
+                                    }
+                                }
+                                ?>
+                        </tbody>
+                    </table>
+                    <select id="quatrinhcongtac">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <button type="button" id="addquatrinh">Thêm</button>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Quan hệ gia đình</legend>
+                <div class="content">
+                    a) Bản thân:
+                    <table>
+                        <th>Quan hệ</th>
+                        <th>Họ tên</th>
+                        <th>Năm sinh</th>
+                        <th>Quê quán, nghề nghiệp, chức danh,...</th>
+                        <tbody id="input-quanhegiadinh">
+                            <?php
+                                if($this->quanhegiadinh){
+                                    foreach($this->quanhegiadinh as $value){
+                                        echo '<tr>
+                                                        <td>',$value['Quan_He'],'</td>
+                                                        <td>',$value['Ho_Ten'],'</td>
+                                                        <td>',$value['Nam_Sinh'],'</td>
+                                                        <td>',$value['Thong_Tin_So_Luoc'],'</td>
+                                                        <td>
+                                                            <a href="', $this->basePath('manager/canbo/xoaQuanhegiadinh/'),$this->lylich['Ma_Can_Bo'],'-',$value['Ma_Quan_He'] , '" class="delete" title="Xóa"></a>
+                                                        </td>
+                                                    </tr>';
+                                    }
+                                
+                                }
+                                ?>
+                        </tbody>
+                    </table>
+                    <select id="quanhegiadinh">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <button type="button" id="addquanhegiadinh">Thêm</button>
+                    </br>
+                    </br>
+                    b) Bên vợ:
+                    <table>
+                        <th>Quan hệ</th>
+                        <th>Họ tên</th>
+                        <th>Năm sinh</th>
+                        <th>Quê quán, nghề nghiệp, chức danh,...</th>
+                        <tbody id="input-quanhegiadinhvo">
+                            <?php
+                                if($this->quanhegiadinhvo){
+                                    foreach($this->quanhegiadinhvo as $value){
+                                        echo '<tr>
+                                                        <td>',$value['Quan_He'],'</td>
+                                                        <td>',$value['Ho_Ten'],'</td>
+                                                        <td>',$value['Nam_Sinh'],'</td>
+                                                        <td>',$value['Thong_Tin_So_Luoc'],'</td>
+                                                    </tr>';
+                                    }
+                                
+                                }
+                                ?>
+                        </tbody>
+                    </table>
+                    <select id="quanhegiadinhvo">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <button type="button" id="addquanhegiadinhvo">Thêm</button>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Quá trình tăng lương</legend>
+                <div class="content">
+                    Qúa trình lương trước đây:
 
-        </div>
-    </fieldset>
-    <fieldset>
-        <legend>Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị, ngoại ngữ</legend>
-        <div class="content">
-            <table>
-                <th>Tên trường</th>
-                <th>Ngành học (Tên lớp)</th>
-                <th>Hình thức học</th>
-                <th>Thời gian học</th>
-                <th>Tình trạng</th>
-                <th>Văn bằng, chứng chỉ, trình độ gì</th>
-                <tbody id="input-daotao">
-                <?php
-                if($this->dao_tao_boi_duong){
-                    foreach($this->dao_tao_boi_duong as $value){
-                        echo '<tr>
-                                    <td>',$value['Ten_Truong'],'</td>
-                                    <td>',$value['Nganh_Hoc'],'</td>
-                                    <td>',$value['Hinh_Thuc_Hoc'],'</td>
-                                    <td>',$value['Thoi_Gian_Hoc'],'</td>
-                                    <td>',$value['TG_Ket_Thuc'],'</td>
-                                    <td>',$value['Van_Bang_Chung_Chi'],'</td>
-                                    <td>
-                                        <a href="', $this->basePath('manager/canbo/xoaDaotaoboiduong/'),$this->lylich['Ma_Can_Bo'],'-',$value['Ma_ĐTBD'] , '" class="delete" title="Xóa"></a>
-                                    </td>
-                                </tr>';
-                    }
-                }
-
-                ?>
-                </tbody>
-            </table>
-            <select id="daotaoboiduong">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <button type="button" id="adddaotao">Thêm</button>
-
-
-        </div>
-    </fieldset>
-
-    <fieldset>
-        <legend>Tóm tắt quá trình công tác</legend>
-        <div class="content">
-            <table>
-                <th>Từ</th>
-                <th>Đến</th>
-                <th>Chức danh, chức vụ, đơn vị công tác</th>
-                <tbody id="input-quatrinh">
-                <?php
-                if($this->quatrinhcongtac){
-                    foreach($this->quatrinhcongtac as $value){
-                        echo '<tr>
-                                        <td>',formatDate($value['Tu_Ngay']) ,'</td>
-                                        <td>',formatDate($value['Đen_Ngay']),'</td>
-                                        <td>',$value['So_Luoc'],'</td>
-                                        <td>
-                                            <a href="', $this->basePath('manager/canbo/xoaQuatrinhcongtac/'),$this->lylich['Ma_Can_Bo'],'-',$value['Ma_QTCT'] , '" class="delete" title="Xóa"></a>
-                                        </td>
-                                    </tr>';
-                    }
-                }
-                if($this->quatrinhcongtacnoibo){
-                    foreach($this->quatrinhcongtacnoibo as $value){
-                        echo '<tr>
-                                        <td>',formatDate($value['Tu_Ngay']) ,'</td>
-                                        <td>',formatDate($value['Đen_Ngay']),'</td>
-                                        <td>',$value['So_Luoc']." - ".$value['Ban_Den'],'</td>
-                                        <td>
-                                            <a href="', $this->basePath('manager/canbo/luanchuyen/'),$this->lylich['Ma_Can_Bo'],'-',$value['Ma_QTCT'] , '" class="delete" title="Xóa"></a>
-                                        </td>
-                                    </tr>';
-                    }
-                }
-                ?>
-                </tbody>
-            </table>
-            <select id="quatrinhcongtac">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <button type="button" id="addquatrinh">Thêm</button>
-
-        </div>
-    </fieldset>
-
-    <fieldset>
-        <legend>Quan hệ gia đình</legend>
-        <div class="content">
-            a) Bản thân:
-            <table>
-                <th>Quan hệ</th>
-                <th>Họ tên</th>
-                <th>Năm sinh</th>
-                <th>Quê quán, nghề nghiệp, chức danh,...</th>
-                <tbody id="input-quanhegiadinh">
-                <?php
-                if($this->quanhegiadinh){
-                    foreach($this->quanhegiadinh as $value){
-                        echo '<tr>
-                                        <td>',$value['Quan_He'],'</td>
-                                        <td>',$value['Ho_Ten'],'</td>
-                                        <td>',$value['Nam_Sinh'],'</td>
-                                        <td>',$value['Thong_Tin_So_Luoc'],'</td>
-                                        <td>
-                                            <a href="', $this->basePath('manager/canbo/xoaQuanhegiadinh/'),$this->lylich['Ma_Can_Bo'],'-',$value['Ma_Quan_He'] , '" class="delete" title="Xóa"></a>
-                                        </td>
-                                    </tr>';
-                    }
-
-                }
-                ?>
-                </tbody>
-            </table>
-            <select id="quanhegiadinh">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <button type="button" id="addquanhegiadinh">Thêm</button>
-
-            </br>
-
-            b) Bên vợ:
-            <table>
-                <th>Quan hệ</th>
-                <th>Họ tên</th>
-                <th>Năm sinh</th>
-                <th>Quê quán, nghề nghiệp, chức danh,...</th>
-                <tbody id="input-quanhegiadinhvo">
-                <?php
-                if($this->quanhegiadinhvo){
-                    foreach($this->quanhegiadinhvo as $value){
-                        echo '<tr>
-                                        <td>',$value['Quan_He'],'</td>
-                                        <td>',$value['Ho_Ten'],'</td>
-                                        <td>',$value['Nam_Sinh'],'</td>
-                                        <td>',$value['Thong_Tin_So_Luoc'],'</td>
-                                    </tr>';
-                    }
-
-                }
-                ?>
-                </tbody>
-            </table>
-            <select id="quanhegiadinhvo">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <button type="button" id="addquanhegiadinhvo">Thêm</button>
-        </div>
-    </fieldset>
-
-    <fieldset>
-        <legend>Quá trình tăng lương</legend>
-        <div class="content">
-            Qúa trình lương trước đây:
-            <table>
-                <th>Tháng/năm</th>
-                <th>Ngạch</th>
-                <th>Bậc</th>
-                <th>Hệ số lương</th>
-                <th>Phụ cấp chức vụ</th>
-                <th>Phụ cấp thâm niên vượt khung</th>
-                <th>Mức lương khoán</th>
-                <tbody id="input-quatrinhluong">
-                <?php
-                if($this->quatrinhluong){
-                    foreach($this->quatrinhluong as $value){
-                        echo '<tr>
+                    <?php if($flagFullRole){
+                        echo '<a href="', $this->basePath('manager/canbo/luong/'),$this->lylich['Ma_Can_Bo'] , '" class="upgrade" title="Nâng lương"></a>';
+                    } ?>
+                    <table>
+                        <th>Tháng/năm</th>
+                        <th>Ngạch</th>
+                        <th>Bậc</th>
+                        <th>Hệ số lương</th>
+                        <th>Phụ cấp chức vụ</th>
+                        <th>Phụ cấp thâm niên vượt khung</th>
+                        <th>Mức lương khoán</th>
+                        <tbody id="input-quatrinhluong">
+                            <?php
+                                if($this->quatrinhluong){
+                                    foreach($this->quatrinhluong as $value){
+                                        echo '<tr>
                                                     <td>',$value['Thoi_Gian_Nang_Luong'],'</td>
                                                     <td>',$value['Ma_So_Ngach'],'</td>
                                                     <td>',$value['Bac_Luong'],'</td>
                                                     <td>',$value['He_So_Luong'],'</td>
                                                     <td>',$value['He_So_Phu_Cap'],'</td>
                                                     <td>',$value['Phu_Cap_Vuot_Khung'],'</td>
-                                                    <td>',$value['Muc_Luong_Khoang'],'</td>
-                                                    <td>
-                                                        <a href="', $this->basePath('manager/canbo/xoaLuong/'),$value['Ma_CB'],'-',strtotime($value['Thoi_Gian_Nang_Luong'])  , '" class="delete" title="Xóa"></a>
-                                                    </td>
-                                                </tr>';
-                    }
-
-                }
-                ?>
-                </tbody>
-            </table>
-            <select id="quatrinhluong">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <button type="button" id="addquatrinhluong">Thêm</button>
-
-            <br/>
-
-        </div>
-    </fieldset>
-    <fieldset>
-                    <span>- Nguồn Thu Nhập Chính Gia Đình (hàng năm):<br/>
+                                                    <td>',$value['Muc_Luong_Khoang'],'</td>';
+                                        echo '</tr>';
+                                    }
+                                
+                                }
+                                ?>
+                        </tbody>
+                    </table>
+                    <select id="quatrinhluong">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <br/>
+                </div>
+            </fieldset>
+            <fieldset>
+                <span>
+                    - Nguồn Thu Nhập Chính Gia Đình (hàng năm):<br/>
                     <span> + Lương: <input type='number' name="luongnam" step='1000' value="<?=$this->lylich['Luong_Thu_Nhap_Nam']?>"/> VNĐ/ năm.<br/>
                     <span> + Các nguồn khác: </span>  <input type="text" name="nguonthunhapkhac" size="70" value="<?=$this->lylich['Nguon_Thu_Khac']?>"/>
                     <br/>
                     <br/>
                     - Nhà ở:<br/>
-                     + Được cấp, được thuê, loại nhà: <input type="text" name="loainhaduoccap" value="<?=$this->lylich['Loai_Nha_Đuoc_Cap']?>">,	 tổng diện tích sử dụng: <input type='number' name="dientichnhaduoccap" value="<?=$this->lylich['Dien_Tich_Nha_Đuoc_Cap']?>"/>  m<sup>2</sup> <br/>
-                     + Nhà tự mua, tự xây, loại nhà: <input type="text" name="loainhatuxay" value="<?=$this->lylich['Loai_Nha_Tu_Xay']?>">,	tổng diện tích sử dụng <input type='number' name="dientichnhatuxay" value="<?=$this->lylich['Dien_Tich_Nha_Tu_Xay']?>"/> m<sup>2</sup>
+                    + Được cấp, được thuê, loại nhà: <input type="text" name="loainhaduoccap" value="<?=$this->lylich['Loai_Nha_Đuoc_Cap']?>">,  tổng diện tích sử dụng: <input type='number' name="dientichnhaduoccap" value="<?=$this->lylich['Dien_Tich_Nha_Đuoc_Cap']?>"/>  m<sup>2</sup> <br/>
+                    + Nhà tự mua, tự xây, loại nhà: <input type="text" name="loainhatuxay" value="<?=$this->lylich['Loai_Nha_Tu_Xay']?>">,  tổng diện tích sử dụng <input type='number' name="dientichnhatuxay" value="<?=$this->lylich['Dien_Tich_Nha_Tu_Xay']?>"/> m<sup>2</sup>
                     <br/>
                     <br/>
-                    - Đất ở: + Đất được cấp: <input type='number' name="dientichdatduoccap" value="<?=$this->lylich['Dien_Tich_Đat_O_Đuoc_Cap']?>"/> m<sup>2</sup>;	+ Đất tự mua: <input type='number' name="dientichdattumua" value="<?=$this->lylich['Dien_Tich_Đat_O_Tu_Mua']?>"/> m<sup>2</sup>
+                    - Đất ở: + Đất được cấp: <input type='number' name="dientichdatduoccap" value="<?=$this->lylich['Dien_Tich_Đat_O_Đuoc_Cap']?>"/> m<sup>2</sup>; + Đất tự mua: <input type='number' name="dientichdattumua" value="<?=$this->lylich['Dien_Tich_Đat_O_Tu_Mua']?>"/> m<sup>2</sup>
                     <br/>
                     <span>- Đất sản xuất, kinh doanh</span> <input type='number' name="dientichdatsx" value="<?=$this->lylich['Dien_Tich_Đat_San_Xuat']?>"/></span>m<sup>2</sup>
-    </fieldset>
-
-    <p align='middle'>-----------------oOo---------------------</p>
-
-    <fieldset>
-        <legend>Thông Tin Cựu Cán Bộ</legend>
-        <div class="content">
+            </fieldset>
+            <p align='middle'>-----------------oOo---------------------</p>
+            <fieldset>
+            <legend>Thông Tin Cựu Cán Bộ</legend>
+            <div class="content">
             <span>- Ngày rời khỏi: </span> <span> <input class="ngaythang" name="ngayroikhoi" value="<?=formatDate($this->lylich['Ngay_Roi_Khoi'])?>"/> ;</span>
-
             <span>- Tình trạng hiện tại: </span> <span>
-                                             <select name="trangthai">
-                                                <option value="1"   <?=($this->lylich['Trang_Thai']==1)?'selected="selected"':''?> > Đang công tác </option>
-                                                <option value="0"   <?=($this->lylich['Trang_Thai']==0)?'selected="selected"':''?> > Không còn công tác </option>
-                                                <option value="-1"  <?=($this->lylich['Trang_Thai']==-1)?'selected="selected"':''?> > Đã mất </option>
-                                                <option value="2"  <?=($this->lylich['Trang_Thai']==2)?'selected="selected"':''?> > Đơn vị khác </option>
-                                                <option value="3"  <?=($this->lylich['Trang_Thai']==3)?'selected="selected"':''?> > Tại gia </option>
-                                             </select>
-                                             </span>
-
+            <select name="trangthai">
+            <option value="1"   <?=($this->lylich['Trang_Thai']==1)?'selected="selected"':''?> > Đang công tác </option>
+            <option value="0"   <?=($this->lylich['Trang_Thai']==0)?'selected="selected"':''?> > Không còn công tác </option>
+            <option value="-1"  <?=($this->lylich['Trang_Thai']==-1)?'selected="selected"':''?> > Đã mất </option>
+            <option value="2"  <?=($this->lylich['Trang_Thai']==2)?'selected="selected"':''?> > Đơn vị khác </option>
+            <option value="3"  <?=($this->lylich['Trang_Thai']==3)?'selected="selected"':''?> > Tại gia </option>
+            </select>
+            </span>
             <span>- Tham gia CLB Truyền Thống: </span>
             <input type="text" name="thamgia_clbtt" value="<?=formatDate($this->lylich['Tham_Gia_CLBTT'])?>">
             <br>
             <span>- Số thẻ hội viên: </span>
             <input type="text" name="sothehoivien" value="<?=$this->lylich['So_The_HoiVien']?>">
             </span>
-        </div>
-    </fieldset>
-    <fieldset>
-        <legend>Danh mục hồ sơ</legend>
-        <div class="content">
-            <div class="group">
-                <span>1. Bằng tốt nghiệp THPT</span> 
-                <input type="checkbox" name="dm_bangtotnghiep" <?php echo ($this->danhMucHoSo['bangtotnghiep'] == 1)?"checked":""?> value="1"/>
             </div>
-            <div class="group">
-                <span>2. Hợp đồng lao động</span> 
-                <input type="checkbox" name="dm_hopdonglaodong" <?php echo ($this->danhMucHoSo['hopdonglaodong'] == 1)?"checked":""?> value="1"/>
-            </div>
-            <div class="group">
-                <span>3. Quyết định tuyển dụng</span> 
-                <input type="checkbox" name="dm_quyetdinhtuyendung" <?php echo ($this->danhMucHoSo['quyetdinhtuyendung'] == 1)?"checked":""?> value="1"/>
-            </div>
-            <br>
-            <span>4. Bằng chuyên môn nghiệp vụ (Tiến sỹ, Thạc sỹ, Đại học, Cao đẳng, Trung cấp chuyên nghiệp…)</span>
-            <p><textarea name="dm_bangchuyenmon" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bangchuyenmon'] ?></textarea></p>
-            <span>5. Bằng ngoại ngữ</span>
-            <p><textarea name="dm_bangngoaingu" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bangngoaingu'] ?></textarea></p>
-            <span>6. Bằng tin học</span>
-            <p><textarea name="dm_bangtinhoc" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bangtinhoc'] ?></textarea></p>
-            <span>7. Các loại văn bằng, chửng chỉ về đào tạo, bồi dưỡng: </span>
-            <p><textarea name="dm_vanbangkhac" class="danhmucTextArea"><?php echo $this->danhMucHoSo['vanbangkhac'] ?></textarea></p>
-            <span>8. Quyết định bổ nhiệm ngạch: </span>
-            <p><textarea name="dm_bonhiemngach" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bonhiemngach'] ?></textarea></p>
-            <span>9. Quyết định về công tác cán bộ (bổ nhiệm, điều động, luân chuyển, chuẩn y, thôi nhiệm vụ): </span>
-            <p><textarea name="dm_congtaccanbo" class="danhmucTextArea"><?php echo $this->danhMucHoSo['congtaccanbo'] ?></textarea></p>
-            <span>10. Các hình thức khen thưởng </span>
-            <p><textarea name="dm_hinhthuongkhenhtuong" class="danhmucTextArea"><?php echo $this->danhMucHoSo['hinhthuongkhenhtuong'] ?></textarea></p>
-            <span>11. Quyết định kỷ luật </span>
-            <p><textarea name="dm_kyluat" class="danhmucTextArea"><?php echo $this->danhMucHoSo['kyluat'] ?></textarea></p>
-            <span>12. Quyết định cử cán bộ đi nước ngoài (ghi rõ số quyết định và tên nước đến): </span>
-            <p><textarea name="dm_dinuocngoai" class="danhmucTextArea"><?php echo $this->danhMucHoSo['dinuocngoai'] ?></textarea></p>
-            <span>13. Quyết định cử cán bộ đi học: </span>
-            <p><textarea name="dm_canbodihoc" class="danhmucTextArea"><?php echo $this->danhMucHoSo['canbodihoc'] ?></textarea></p>
-            <span>14. Giấy thôi trả lương: </span>
-            <p><textarea name="dm_thoitraluong" class="danhmucTextArea"><?php echo $this->danhMucHoSo['thoitraluong'] ?></textarea></p>            
-        </div>
-    </fieldset>
-    <p>
-        <mark> <?php echo $this->message?> <mark>
-    </p>
-    <button type="submit">Sửa thông tin</button>
-    </form>
-    <?php
-    endif;
-    ?>
+            </fieldset>
+
+            <?php if($flagFullRole){?>            
+                <fieldset>
+                    <legend>Danh mục hồ sơ</legend>
+                    <div class="content">
+                        <div class="group">
+                            <span>1. Bằng tốt nghiệp THPT</span> 
+                            <input type="checkbox" name="dm_bangtotnghiep" <?php echo ($this->danhMucHoSo['bangtotnghiep'] == 1)?"checked":""?> value="1"/>
+                        </div>
+                        <div class="group">
+                            <span>2. Hợp đồng lao động</span> 
+                            <input type="checkbox" name="dm_hopdonglaodong" <?php echo ($this->danhMucHoSo['hopdonglaodong'] == 1)?"checked":""?> value="1"/>
+                        </div>
+                        <div class="group">
+                            <span>3. Quyết định tuyển dụng</span> 
+                            <input type="checkbox" name="dm_quyetdinhtuyendung" <?php echo ($this->danhMucHoSo['quyetdinhtuyendung'] == 1)?"checked":""?> value="1"/>
+                        </div>
+                        <br>
+                        <span>4. Bằng chuyên môn nghiệp vụ (Tiến sỹ, Thạc sỹ, Đại học, Cao đẳng, Trung cấp chuyên nghiệp…)</span>
+                        <p><textarea name="dm_bangchuyenmon" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bangchuyenmon'] ?></textarea></p>
+                        <span>5. Bằng ngoại ngữ</span>
+                        <p><textarea name="dm_bangngoaingu" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bangngoaingu'] ?></textarea></p>
+                        <span>6. Bằng tin học</span>
+                        <p><textarea name="dm_bangtinhoc" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bangtinhoc'] ?></textarea></p>
+                        <span>7. Các loại văn bằng, chửng chỉ về đào tạo, bồi dưỡng: </span>
+                        <p><textarea name="dm_vanbangkhac" class="danhmucTextArea"><?php echo $this->danhMucHoSo['vanbangkhac'] ?></textarea></p>
+                        <span>8. Quyết định bổ nhiệm ngạch: </span>
+                        <p><textarea name="dm_bonhiemngach" class="danhmucTextArea"><?php echo $this->danhMucHoSo['bonhiemngach'] ?></textarea></p>
+                        <span>9. Quyết định về công tác cán bộ (bổ nhiệm, điều động, luân chuyển, chuẩn y, thôi nhiệm vụ): </span>
+                        <p><textarea name="dm_congtaccanbo" class="danhmucTextArea"><?php echo $this->danhMucHoSo['congtaccanbo'] ?></textarea></p>
+                        <span>10. Các hình thức khen thưởng </span>
+                        <p><textarea name="dm_hinhthuongkhenhtuong" class="danhmucTextArea"><?php echo $this->danhMucHoSo['hinhthuongkhenhtuong'] ?></textarea></p>
+                        <span>11. Quyết định kỷ luật </span>
+                        <p><textarea name="dm_kyluat" class="danhmucTextArea"><?php echo $this->danhMucHoSo['kyluat'] ?></textarea></p>
+                        <span>12. Quyết định cử cán bộ đi nước ngoài (ghi rõ số quyết định và tên nước đến): </span>
+                        <p><textarea name="dm_dinuocngoai" class="danhmucTextArea"><?php echo $this->danhMucHoSo['dinuocngoai'] ?></textarea></p>
+                        <span>13. Quyết định cử cán bộ đi học: </span>
+                        <p><textarea name="dm_canbodihoc" class="danhmucTextArea"><?php echo $this->danhMucHoSo['canbodihoc'] ?></textarea></p>
+                        <span>14. Giấy thôi trả lương: </span>
+                        <p><textarea name="dm_thoitraluong" class="danhmucTextArea"><?php echo $this->danhMucHoSo['thoitraluong'] ?></textarea></p>
+                    </div>
+                </fieldset>
+            <?php } ?>
+            <p>
+                <mark> <?php echo $this->message?> <mark>
+            </p>
+            <button type="submit">Sửa thông tin</button>
+        </form>
+        <?php
+            endif;
+            ?>
     </div>
 </div>
-
 <script>
     function getDaoTaoBoiDuong(truong, nganh, thoigian, ketthuc, hinhthuc, vanbang){
         var html    = '';
@@ -784,13 +708,12 @@ function formatDate($date){
                             <td><input type="text" name="daotao-vanbang[]" value="' + vanbang + '" /></td>\
                             <td><button type="button" onclick="deleteContent(this);" class="delete"></button></td>\
                        </tr>';
-
+    
         return html;
         //, tgketthuc
         //<td><input type="text" name="daotao-tgketthuc[]" class="ngaythang" value="' + tgketthuc + '" /></td>\ 
     }
-
-
+    
     function getQuaTrinhCongTac(tu, den, thongtin){
         var html    = '';
         html        = '<tr>\
@@ -801,7 +724,7 @@ function formatDate($date){
                        </tr>';
         return html;
     }
-
+    
     function getQuanHeGiaDinh(quanhe, hoten, namsinh, thongtin){
         var html    = '';
         html        = '<tr>\
@@ -813,7 +736,7 @@ function formatDate($date){
                        </tr>';
         return html;
     }
-
+    
     function getQuanHeGiaDinhVo(quanhe, hoten, namsinh, thongtin){
         var html    = '';
         html        = '<tr>\
@@ -825,8 +748,8 @@ function formatDate($date){
                        </tr>';
         return html;
     }
-
-
+    
+    
     function getQuaTrinhLuong(thang, ngach, bac, hesoluong, vuotkhung, phucap, mucluongkhoan){
         var html    = '';
         html        = '<tr>\
@@ -841,7 +764,7 @@ function formatDate($date){
                        </tr>';
         return html;
     }
-
+    
     var daotao          = $('#input-daotao');
     var quatrinh        = $('#input-quatrinh');
     var quanhegiadinh   = $('#input-quanhegiadinh');
@@ -849,7 +772,7 @@ function formatDate($date){
     var kyluat          = $('#input-kyluat');
     var khenthuong      = $('#input-khenthuong');
     var quatrinhluong   = $('#input-quatrinhluong');
-
+    
     $(function() {
         $('#adddaotao').click(function(){
             number = $('#daotaoboiduong').val();
@@ -858,10 +781,10 @@ function formatDate($date){
             }
             $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
         });
-
+    
     });
-
-
+    
+    
     $(function() {
         $('#addquatrinh').click(function(){
             number = $('#quatrinhcongtac').val();
@@ -871,7 +794,7 @@ function formatDate($date){
             $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
         });
     });
-
+    
     $(function() {
         $('#addquanhegiadinh').click(function(){
             number = $('#quanhegiadinh').val();
@@ -881,8 +804,8 @@ function formatDate($date){
             $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
         });
     });
-
-
+    
+    
     $(function() {
         $('#addquanhegiadinhvo').click(function(){
             number = $('#quanhegiadinhvo').val();
@@ -892,7 +815,7 @@ function formatDate($date){
             $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
         });
     });
-
+    
     $(function() {
         $('#addquatrinhluong').click(function(){
             number = $('#quatrinhluong').val();
@@ -902,13 +825,13 @@ function formatDate($date){
             $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
         });
     });
-
-
-
+    
+    
+    
     function deleteContent(obj){
         obj = $(obj);
         obj.parent().parent().remove();
     }
-
+    
     $(".ngaythang").datepicker({dateFormat: 'dd/mm/yy'});
 </script>

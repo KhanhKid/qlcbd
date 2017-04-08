@@ -75,21 +75,16 @@ class CanboController extends AbstractActionController
         //init model
         $canboModel = $this->getServiceLocator()->get('Manager\Model\CanBoModel');
         //init view
-
-
         //get CanBoID
         $auth = (new AuthenticationService());
         $id = $auth->getIdentity()->Identifier_Info;
-        //var_dump( $id); exit;
-
-
 
         //get data from model
         $view['lylich'] = $canboModel->getLyLichCanBo($id);
         $view['dao_tao_boi_duong'] = $canboModel->getDaoTaoBoiDuong($id);
         $view['dacdiemlichsu'] = $canboModel->getDacDiemLichSu($id);
         $view['quatrinhcongtac'] = $canboModel->getQuaTrinhCongTac($id);
-        //var_dump($view['quatrinhcongtac']);exit;
+        $view['quatrinhcongtacnoibo'] =  $canboModel->getQuaTrinhCongTacNoiBo($id);
 
         //send data to view
         return new ViewModel($view);

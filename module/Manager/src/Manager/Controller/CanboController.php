@@ -507,10 +507,6 @@ class CanboController extends AbstractActionController {
 	 * @return ViewModel
 	 */
 	public function lylichAction() {
-		//init model
-
-		//init view
-
 		//get parameter from request
 		$id = $this->params('id');
 
@@ -519,15 +515,11 @@ class CanboController extends AbstractActionController {
 		$view['dao_tao_boi_duong'] = $this->canboModel->getDaoTaoBoiDuong($id);
 		$view['dacdiemlichsu']     = $this->canboModel->getDacDiemLichSu($id);
 		$view['quatrinhcongtac']   = $this->canboModel->getQuaTrinhCongTac($id);
+		$view['quatrinhcongtacnoibo'] =  $this->canboModel->getQuaTrinhCongTacNoiBo($id);
 		$view['quanhegiadinh']     = $this->canboModel->getQuanHeGiaDinh($id, 0); //của bản thân
 		$view['quanhegiadinhvo']   = $this->canboModel->getQuanHeGiaDinh($id, 1); //của nhà vợ
 		$view['quatrinhluong']     = $this->canboModel->getQuaTrinhLuong($id);
 		$view['congtacnuocngoai']  = $this->canboModel->getCongTacNuocNgoai($id);
-
-		//var_dump($view['quatrinhcongtac']);exit;
-		//$a = $this->canboModel->getSoLuongKienNghi();
-
-		//var_dump($a);exit;
 
 		//send data to view
 		return new ViewModel($view);
@@ -538,6 +530,17 @@ class CanboController extends AbstractActionController {
 	 * @return ViewModel
 	 */
 	public function bosungAction() {
+
+		// $flagFullRole: Phần này để cho phép chỉ Ban tổ chức change 1 vài fill
+		$infoCurUser = (new AuthenticationService())->getIdentity();
+		$flagFullRole = false;
+		if($infoCurUser->Role_Name == "admin"){
+			$flagFullRole = true;
+		}
+		$view['flagFullRole']   = $flagFullRole; //của bản thân
+
+
+
 
 		$idKienNghi = $this->getRequest()->getQuery('id');
 
@@ -629,8 +632,9 @@ class CanboController extends AbstractActionController {
 						$parameters['dientichdatduoccap'], $parameters['dientichdattumua'], $parameters['dientichdatsx'], $parameters['soquyetdinhcongchuc'], $parameters['sohopdong']
 					);
 
-					$canboModel->bosungDanhMuc($curId,$parameters['dm_bangtotnghiep'],$parameters['dm_hopdonglaodong'],$parameters['dm_quyetdinhtuyendung'],$parameters['dm_bangchuyenmon'],$parameters['dm_bangngoaingu'],$parameters['dm_bangtinhoc'],$parameters['dm_vanbangkhac'],$parameters['dm_bonhiemngach'],$parameters['dm_congtaccanbo'],$parameters['dm_hinhthuongkhenhtuong'],$parameters['dm_kyluat'],$parameters['dm_dinuocngoai'],$parameters['dm_canbodihoc'],$parameters['dm_thoitraluong']
-					);
+					if($flagFullRole)
+						$canboModel->bosungDanhMuc($curId,$parameters['dm_bangtotnghiep'],$parameters['dm_hopdonglaodong'],$parameters['dm_quyetdinhtuyendung'],$parameters['dm_bangchuyenmon'],$parameters['dm_bangngoaingu'],$parameters['dm_bangtinhoc'],$parameters['dm_vanbangkhac'],$parameters['dm_bonhiemngach'],$parameters['dm_congtaccanbo'],$parameters['dm_hinhthuongkhenhtuong'],$parameters['dm_kyluat'],$parameters['dm_dinuocngoai'],$parameters['dm_canbodihoc'],$parameters['dm_thoitraluong']);
+
 					$view['message'] = 'Đã sửa đổi, bổ sung thông tin';
 				} catch (\Exception $exc) {
 					//throw $exc;
@@ -695,7 +699,7 @@ class CanboController extends AbstractActionController {
 				}
 
 				//Quá trình lương
-				if (isset($thongtin['qtluong-thoigian'])) {
+				if (isset($thongtin['qtluong-thoigian']) && $flagFullRole) {
 					//////lấy giá trị
 					$dsQuaTrinhLuong['thoigian']      = $thongtin['qtluong-thoigian'];
 					$dsQuaTrinhLuong['ngach']         = $thongtin['qtluong-ngach'];
@@ -891,16 +895,8 @@ class CanboController extends AbstractActionController {
 	 * @return \Zend\Stdlib\ResponseInterface
 	 */
 	public function xoaLuongAction() {
-		//get parameter from GET request
-		//$paras = explode('-',$this->params('id'));
-		//$id = $paras[0];
-		//$date = date('Y-m-d', $paras[1]);
-
-		//$paras = $this->getRequest()->getQuery();
-		//$id = $paras['id'];
-		//$date = $paras['date'];
-		//var_dump($paras);exit;
-		//var_dump($id,$date);exit;
+		$infoCurUser = (new AuthenticationService())->getIdentity();
+		if($infoCurUser->Role_Name != "admin") return false;
 
 		$paras = $this->getRequest()->getPost();
 		$id    = $paras['id'];
@@ -908,25 +904,13 @@ class CanboController extends AbstractActionController {
 
 		//process request (GET)
 		if ($this->getRequest()) {
-
 			//delete data
 			try {
-				$this->canboModel->deleteQuaTrinhLuong(
-					$id,
-					$date
-				);
+				$this->canboModel->deleteQuaTrinhLuong($id,$date);
 			} catch (InvalidQueryException $exc) {
-
 			}
 
 		}
-
-		//var_dump($this->getRequest()->getHeader('Referer')->getUri());
-		//var_dump($this->getRequest()->getRequestUri());exit;
-
-		//$basePath = $this->getRequest()->getBasePath();
-		//$lastUrl = $this->getRequest()->getHeader('Referer')->getUri();
-		//$this->redirect()->toUrl($lastUrl);
 
 		return $this->getResponse();
 	}

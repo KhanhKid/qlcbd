@@ -1203,7 +1203,6 @@ class CanBoModel extends AbstractModel {
 		//
 		$sql = 'DELETE FROM `qua_trinh_luong`
                 WHERE `Ma_CB`= :maCanbo AND `Thoi_Gian_Nang_Luong` =:ngaynangluong;';
-
 		$parameters = array(
 			'maCanbo'       => $maCanbo,
 			'ngaynangluong' => $ngaynangluong,

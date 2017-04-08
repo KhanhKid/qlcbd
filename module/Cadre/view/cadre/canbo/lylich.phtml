@@ -196,9 +196,17 @@
                                     foreach($this->quatrinhcongtac as $value){
                                         echo '<tr>
                                         <td>',formatDate($value['Tu_Ngay']),' đến ',formatDate($value['Đen_Ngay']),'</td>
+                                        <td>',$value['So_Luoc'],'</td>
+                                    </tr>';
+                                    }
+                                }
+                                if($this->quatrinhcongtacnoibo){
+                                    foreach($this->quatrinhcongtacnoibo as $value){
+                                        echo '<tr>
+                                        <td>',formatDate($value['Tu_Ngay']),' đến ',formatDate($value['Đen_Ngay']),'</td>
                                         <td>',$value['So_Luoc'],' tại ',$value['Ban_Den'],'</td>
                                     </tr>';
-                                }
+                                    }
                                 }
                                 ?>
                         </table>

@@ -23,7 +23,7 @@ Cách hiểu đơn giản:
 Mục lục:
 
 
-- [Câu hỏi thường gặp](/tutorial/hd01_tao-tai-khoan-ly-lich-va-dang-nhap.html)
+- [Câu hỏi thường gặp](/tutorial/menu_cau-hoi-thuong-gap.html)
 - I. Tổng quan
 - [II. Cán Bộ](/tutorial/02_CanBo.html)
 - 2.1 Trang chủ

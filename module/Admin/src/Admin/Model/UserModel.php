@@ -87,7 +87,7 @@ class UserModel  extends  AbstractModel
     }
 
     public function getRoleList(){
-        $sql = 'select Role_Name,Role_Display_Name from role';
+        $sql = 'select Role_Name,Role_Display_Name from role Order by Role_Display_Name';
         $result = null;
         try{
             $sm = $this->adapter->createStatement($sql,null);

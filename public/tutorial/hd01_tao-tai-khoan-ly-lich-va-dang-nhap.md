@@ -1,8 +1,10 @@
 # Cách tạo 1 tài khoản Cán Bộ và Tài Khoản Đăng Nhập #
 
-Bước 1: Tạo tài khoản cán bộ (lý lịch cán bộ)
-Bước 2: Tạo Tài khoản đăng nhập cho cán bộ (dùng để đăng nhập vào website)
+**Bước 1:** Tạo tài khoản cán bộ (lý lịch cán bộ)
 
+**Bước 2:** Tạo Tài khoản đăng nhập cho cán bộ (dùng để đăng nhập vào website)
+
+----------
 
 ## Tạo tài khoản cán bộ (lý lịch cán bộ) ##
 

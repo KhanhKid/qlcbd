@@ -42,7 +42,13 @@
                     <?php
                     if($this->dsCanBo){
                         foreach($this->dsCanBo as $key => $element){
-                            $luanchuyen = ($this->infoCbCur->Role_Name == "admin")?'<a href="luanchuyen/' . $element['Ma_Can_Bo'] . '" class="refresh" title="Luân Chuyển"></a>':"";
+                            $luanchuyen = "";
+                            $nangluong = "";
+                            if($this->infoCbCur->Role_Name == "admin"){
+                                $luanchuyen ='<a href="luanchuyen/' . $element['Ma_Can_Bo'] . '" class="refresh" title="Luân Chuyển"></a>';
+                                $nangluong = '<a href="luong/' . $element['Ma_Can_Bo'] . '" class="upgrade" title="Nâng Lương"></a>';
+                            }
+
                             echo '<tr>
                                         <td>',($key+1), '</td>
                                         <td>',$element['Ho_Ten_CB'], '</td>
@@ -54,8 +60,7 @@
                                             <a href="lylich/' . $element['Ma_Can_Bo'] . '" class="view" title="Xem lý lịch"></a>
                                             <a href="bosung/' . $element['Ma_Can_Bo'] . '" class="edit" title="Bổ sung lý lịch"></a>
                                             <a href="danhgia/' .$element['Ma_Can_Bo'] . '" class="rate" title="Đánh giá cán bộ"></a>
-                                            '.$luanchuyen.'
-                                            <a href="luong/' . $element['Ma_Can_Bo'] . '" class="upgrade" title="Nâng Lương"></a>
+                                            '.$luanchuyen.$nangluong.'
                                             <a href="congtacnuocngoai/' . $element['Ma_Can_Bo'] . '" class="travel" title="Công tác nước ngoài"></a>
                                         </td>
                                       </tr>';

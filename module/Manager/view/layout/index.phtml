@@ -75,7 +75,10 @@
                                     <li><a href="<?php echo $this->basePath('manager/canbo/canbocu'); ?>">Cựu cán bộ</a></li>
                                 </ul>
                             </li>
-
+                            <?php
+                                if ((new \Zend\Authentication\AuthenticationService)->getIdentity()->Role_Name == 'admin')
+                                {
+                                ?>
                             <li><a href="<?php echo $this->basePath('manager/cocau'); ?>">Quản lý cơ cấu</a>
                                 <ul class="<?php if(strpos($uri, 'manager/cocau')) echo 'active-menu-ul'; ?>">
                                     <!-- <li><a href="<?php echo $this->basePath('manager/cocau/thanhlapdonvi'); ?>">Đơn vị</a></li> -->
@@ -95,7 +98,7 @@
                                     <li><a href="<?php echo $this->basePath('manager/baocao/lichsudonvi'); ?>">Lịch sử đơn vị</a></li>
                                 </ul>
                             </li>
-
+                            <?php } ?>
                         </ul>
                     </div>
                 </div>

@@ -8,24 +8,28 @@
                     <span><i class="fa fa-user fa-5x"></i></span>
                 </a>
             </li>
-            <li title="Quản lý tổ chức cơ cấu, thành lập các phòng ban, đơn vị, ban chấp hành">
-                <a href="<?php echo $this->basePath('manager/cocau'); ?>">
-                    Quản lý cơ cấu
-                    <span ><i class="fa fa-pie-chart fa-5x"></i></span>
-                </a>
-            </li>
-            <li>
-                <a href="<?php echo $this->basePath('manager/search'); ?>">
-                    Tra cứu nhanh
-                    <span><i class="fa fa-search fa-5x"></i></span>
-                </a>
-            </li>
-            <li title="Thực hiện báo cáo thông kê theo yêu cầu">
-                <a href="<?php echo $this->basePath('manager/baocao'); ?>">
-                    Báo cáo thống kê
-                    <span><i class="fa fa-bar-chart fa-5x"></i></span>
-                </a>
-            </li>
+            <?php 
+                if($infoCbCur->Role_Name == "admin"){
+            ?>
+                <li title="Quản lý tổ chức cơ cấu, thành lập các phòng ban, đơn vị, ban chấp hành">
+                    <a href="<?php echo $this->basePath('manager/cocau'); ?>">
+                        Quản lý cơ cấu
+                        <span ><i class="fa fa-pie-chart fa-5x"></i></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo $this->basePath('manager/search'); ?>">
+                        Tra cứu nhanh
+                        <span><i class="fa fa-search fa-5x"></i></span>
+                    </a>
+                </li>
+                <li title="Thực hiện báo cáo thông kê theo yêu cầu">
+                    <a href="<?php echo $this->basePath('manager/baocao'); ?>">
+                        Báo cáo thống kê
+                        <span><i class="fa fa-bar-chart fa-5x"></i></span>
+                    </a>
+                </li>
+            <?php } ?>
         </ul>
     </div>
 </div>

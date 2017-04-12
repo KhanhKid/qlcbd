@@ -57,7 +57,7 @@
     var dsCanBo = <?php echo json_encode($this->dsCanBo);?>;
     var dsChucVu = <?php echo json_encode($this->dsChucVu); ?>;
 
-    dsCanBoHtml = '<select class="combobox hotencombobox" name="hoten[]">';
+    dsCanBoHtml = '<select disabled class="hotencombobox" name="hoten[]">';
     dsCanBoHtml += '<option>Chọn cán bộ</option>';
     var size = dsCanBo.length;
     for (i = 0; i < size; i++)
@@ -66,7 +66,7 @@
     }
     dsCanBoHtml += '</select>';
 
-    dsChucVuHtml = '<select class="combobox chucvucombobox" name="chucvu[]">';
+    dsChucVuHtml = '<select class="chucvucombobox" name="chucvu[]">';
     size =  dsChucVu.length;
 
     for (i = 0; i < size; i++)
@@ -132,19 +132,19 @@
                 </tr>
             </table>
 
-            <button type="button" id="add">Thêm cán bộ</button>
+            <!-- <button type="button" id="add">Thêm cán bộ</button>
             <br/>
             <br/>
-            <button type="submit" class="changelable-submitbutton">Cập nhật Phòng/Ban</button>
+            <button type="submit" class="changelable-submitbutton">Cập nhật Phòng/Ban</button> -->
         </form>
-        <br><br><br>
+        <br><br><br><!-- 
         <fieldset>
             <legend>Danh sách các phòng/ban hiện tại - nhấp vào để thay đổi</legend>
             <div class="content">
                 <div class="block-content" id="js-hire-tree">
                 </div>
             </div>
-        </fieldset>
+        </fieldset> -->
     </div>
 </div>
 
@@ -229,9 +229,11 @@
  
                 // set value
                 newElement = '<tr>\
-                        <td id="canbo'+i+'">' + dsCanBoHtmlEdited + '</td>\
-                        <td id="chucvu'+i+'">' + dsChucVuHtmlEdited + '</td>\
-                        <td><button class="xemlylich" type="button">Xem lý lịch</button><button type="button" onclick="deleteRow(this)">Xóa</button> </td>\
+                        <td id="canbo'+i+'">' + dsCanBo[i].Ho_Ten_CB + '</td>\
+                        <td id="chucvu'+i+'">' + dsCanBo[i].Ten_Ban + '</td>\
+                        <td><a href="/manager/canbo/lylich/' + dsCanBo[i].Ma_CB + '" class="view" target="_blank" title="Xem lý lịch"></a>\
+                        <a href="/manager/canbo/luanchuyen/'  + dsCanBo[i].Ma_CB + '" class="refresh" target="_blank" title="Luân Chuyển"></a>\
+                        </td>\
                 </tr>';
 
                 $('#danhsachBCH').append(newElement);

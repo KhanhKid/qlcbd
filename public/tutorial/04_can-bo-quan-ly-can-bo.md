@@ -3,7 +3,7 @@
 ----------
 Tài khoản Quản lý cán bộ gốm 2 phần chính
 
-A Thao tác với cán bộ 
+**A Thao tác với cán bộ **
 
 B [Thao tác với tài khoản](/tutorial/04_CanBoQuanLy.html)
 
@@ -13,32 +13,58 @@ Tài khoản quản lý cán bộ được cấp full quyền chỉnh sửa tấ
 
 
 -----
-Chức năng chính Quán lý cán bộ gồm
+Chức năng chính Quán lý cán bộ gồm những chức năng của cán bộ quản trị và kèm theo những quyền thêm trong 
 
-1. Thông Tin Cán Bộ
-2. Phản hồi ý kiến
-3. Quản lý cựu cán bộ
+1. Quản lý cán bộ : thêm 2 quyền luân chuyển, nâng lương, bổ sung các danh mục trong phần thông tin cán bộ
+2. Quản lý cơ cấu: quản lý các phòng ban
+3. Tra cứu nhanh: Tra cứu theo tên của cán bộ
+4. Báo cáo thống kê: Dùng để trích xuất dữ liệu
 
-![](image\Screenshots\2017-04\2017-04\chrome_2017-04-12_00-28-03.png)
 
 ----------
 
 ## Hướng dẫn chi tiết ##
 
-**1. Thông Tin Cán Bộ**
+**1. Quản lý cán bộ -> Thông Tin Cán Bộ**
 Chứa danh sách các thành viên trong ban của mình quản lý và những tính năng cập nhật thông tin 
 
-![](image\Screenshots\2017-04\2017-04\chrome_2017-04-12_00-34-58.png)
+![](image\Screenshots\2017-04\2017-04\chrome_2017-04-12_23-06-47.png)
 
-**2. Phản hồi ý kiến**
+- Luân chuyển cán bộ:
 
-Kiểm tra xem cấp dưới có đưa ra ý kiến gì không sau đó chỉnh sử thông tin hoặc nắm thông tin.
+![](image\Screenshots\2017-04\2017-04\chrome_2017-04-12_23-10-04.png)
 
-![](image\Screenshots\2017-04\2017-04\chrome_2017-04-12_00-40-36.png)
+- Nâng lương cho cán bộ:
+
+![](image\Screenshots\2017-04\2017-04\chrome_2017-04-12_23-11-06.png)
+
+- Danh mục trong bổ sung cán bộ:
+
+![](image\Screenshots\2017-04\2017-04\chrome_2017-04-12_23-12-35.png)
 
 
-**3. Quản lý cựu cán bộ**
+**2. Quản lý cơ cấu phòng ban**
 
-Quản lý các cán bộ chuyển công tác đi. 
+Quản lý danh sách các phòng ban và những thành viên trong ban
 
-*Đang cập nhật lại.....*
+![]( image\Screenshots\2017-04\2017-04\chrome_2017-04-13_00-01-08.png)
+
+
+**3. Tra cứu nhanh**
+
+Tìm kiếm theo tên của cán bộ
+
+![](image\Screenshots\2017-04\2017-04\chrome_2017-04-13_00-02-48.png)
+
+
+**3. Báo cáo thống kê**
+
+- Báo cáo truy vấn: Tải  Báo cáo truy vấn và thông tin cán bộ có trong hệ thống
+![](image\Screenshots\2017-04\2017-04\chrome_2017-04-13_00-10-33.png)
+
+
+- DS nâng lương: 
+*
+Đang cập nhật*
+
+

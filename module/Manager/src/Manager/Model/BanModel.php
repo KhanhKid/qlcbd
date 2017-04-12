@@ -48,10 +48,11 @@ class BanModel extends  AbstractModel
      */
     public function getDSCanBoThuocBan($maBan){
         //init
-        $sql = 'SELECT thong_tin_tham_gia_ban.Ma_CB, Ho_Ten_CB
+        $sql = 'SELECT thong_tin_tham_gia_ban.Ma_CB, Ho_Ten_CB, Ten_Ban
                 FROM thong_tin_tham_gia_ban LEFT JOIN can_bo ON (thong_tin_tham_gia_ban.Ma_CB = can_bo.Ma_Can_Bo)
                                             LEFT JOIN ly_lich ON (thong_tin_tham_gia_ban.Ma_CB = ly_lich.Ma_CB)
-                WHERE Ma_Ban = :maBan
+                                            LEFT JOIN ban ON (ban.Ma_Ban = thong_tin_tham_gia_ban.Ma_Ban)
+                WHERE thong_tin_tham_gia_ban.Ma_Ban = :maBan
                      AND thong_tin_tham_gia_ban.Ngay_Roi_Khoi IS NULL;';
 
         $parameters = array(

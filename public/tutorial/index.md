@@ -18,10 +18,10 @@ Cách hiểu đơn giản:
 + **Quản trị**: Trưởng phó phòng
 + **Cán bộ quản lý**: Ban tổ chức, ban giám đốc quản trị
 
+![](image\Screenshots\2017-04\chrome_2017-04-13_18-24-16.png)
 
 
 Mục lục:
-
 
 - [Câu hỏi thường gặp](/tutorial/menu_cau-hoi-thuong-gap.html)
 - I. Tổng quan

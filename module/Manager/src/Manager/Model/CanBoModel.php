@@ -390,7 +390,6 @@ class CanBoModel extends AbstractModel {
 		$thongtin['ngaytuyendung'] = $this->formatDateForDB($thongtin['ngaybienche']);
 		$thongtin['ngaybienche']   = $this->formatDateForDB($thongtin['ngaybienche']);
 		$thongtin['ngaysinh']      = $this->formatDateForDB($thongtin['ngaysinh']);
-
 		//l??ng
 		$thongtin['ngaynangbac'] = $this->formatDateForDB($thongtin['ngaynangbac']);
 

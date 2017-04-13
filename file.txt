@@ -18,7 +18,7 @@ Zend\Db\Adapter\Driver\Pdo\Statement Object
                             [driver] => Pdo
                             [dsn] => mysql:dbname=qlcbd;host=localhost;
                             [username] => root
-                            [password] => root
+                            [password] => 
                             [driver_options] => Array
                                 (
                                     [1002] => SET NAMES 'UTF8' 
@@ -73,21 +73,21 @@ Zend\Db\Adapter\Driver\Pdo\Statement Object
         (
             [data:protected] => Array
                 (
-                    [sohieu] => 1232
-                    [hoten] => test can bo 1
+                    [sohieu] => sohieucanbo222
+                    [hoten] => khánh kid
                     [gioitinh] => 0
-                    [ngaysinh] => 2017-08-04
+                    [ngaysinh] => 2017-04-18
                     [ngaygianhap] => 1970-01-01
                     [ngaytuyendung] => 1970-01-01
                     [ngaybienche] => 1970-01-01
-                    [ngaynangbac] => 2017-04-08
+                    [ngaynangbac] => 2017-04-13
                     [mangach] => 00000
                     [bacluong] => 
                     [hesoluong] => 
                     [phucap] => 
                     [vuotkhung] => 
                     [mucluongkhoan] => 
-                    [cmnd] => 324324123
+                    [cmnd] => 839844833
                     [ngaycapCMND] => 1970-01-01
                     [noicapCMND] => 
                     [tengoikhac] => 

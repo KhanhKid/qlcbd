@@ -1,12 +1,26 @@
 # Cách tạo 1 tài khoản Cán Bộ và Tài Khoản Đăng Nhập #
 
+[<- Về trang câu hỏi ](/tutorial/menu_cau-hoi-thuong-gap.html)
+
 **Bước 1:** Tạo tài khoản cán bộ (lý lịch cán bộ)
+
+Hướng dẫn bằng video:
+
+![](image\Screenshots\2017-04\2017-04\hd_taolylichcanbo.gif)
 
 **Bước 2:** Tạo Tài khoản đăng nhập cho cán bộ (dùng để đăng nhập vào website)
 
-----------
+Hệ thống tự tạo tài khoàn đăng nhập cho cán bộ mới với 
 
-## Tạo tài khoản cán bộ (lý lịch cán bộ) ##
+Username: [Số CMND]
+
+Pass: [ngày/tháng/năm sinh]
+
+
+
+----------
+## Hướng dẫn chi tiết ##
+## B1 Tạo tài khoản cán bộ (lý lịch cán bộ) ##
 
 Step 1: Từ tài khoản Admin 
 ![](image\Screenshots\2017-04\chrome_2017-04-09_14-07-58.png)
@@ -38,20 +52,8 @@ Kiểm tra tài khoản lý lịch tại danh sách cán bộ
 ----
 ## Tạo Tài khoản đăng nhập cho cán bộ (dùng để đăng nhập vào website) ##
 
-Step 1: Vào menu Cấp quyền
+Sau khi tạo tài khoản thì hệ thống tự tạo username và password login cho tài khoản cán bộ mới luôn với thông tin 
 
-![](image\Screenshots\2017-04\chrome_2017-04-09_14-22-11.png)
+Username: [Số CMND]
 
-Step 2: 
-
-Chọn tài khoản muốn cấp quyền, nhập tên đăng nhập và mật khẩu, sau đó chọn quyền đăng nhập
-
-- Cán bộ: 
-- Cán bộ Quản Lý: Trưởng Phòng, Phó Phòng
-- Cán bộ cấp cao: Ban tổ chức
-
-![](image\Screenshots\2017-04\chrome_2017-04-09_14-25-09.png)
-
-Nhấn tạo tài khoản đền hoàn thành quá trình cấp quyền
-
-Sau Bước này thì Tài khoản vừa tạo sẽ được quyền đăng nhập vào hệ thống.
+Pass: [ngày/tháng/năm sinh]

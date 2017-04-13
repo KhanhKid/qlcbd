@@ -32,7 +32,7 @@ Mục lục:
 - 2.4 Công Tác
 - * 2.4.1 Đánh giá
 - * 2.4.2 Kiến nghị
-- III. Quản trị
+- [III. Quản trị](/tutorial/03_quan-tri.html)
 - [IV. Cán bộ quản lý](/tutorial/04_CanBoQuanLy.html)
 - 4.1. Trang Chủ
 - 4.2. Quản lý Tài khoản

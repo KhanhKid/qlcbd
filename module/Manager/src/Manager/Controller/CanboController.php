@@ -269,6 +269,10 @@ class CanboController extends AbstractActionController {
 			try {
 				$maCB            = $this->canboModel->themCanBo($thongtin);
 				$view['message'] = 'Lưu thông chính thành công';
+				if(is_array($maCB)){
+					$view['message'] = 'Không lưu được thông tin chính, <br>'.implode("<br>",$maCB);
+					$maCB = null;
+				}
 
 			} catch (InvalidQueryException $exc) {
 				$view['message'] = 'Không lưu được thông tin chính';
@@ -276,20 +280,21 @@ class CanboController extends AbstractActionController {
 
 			//
 			//var_dump($thongtin);
-			//tạo tài khoản cho cán bộ (user = số cmnd, pass = ngày sinh, role= "cadre", mã cán bộ)
-			try {
-				$userModel->createNew(
-					$thongtin['cmnd'],
-					$password,
-					'cadre',
-					$maCB
-				);
-			} catch (InvalidQueryException $exc) {
-				$view['message'] += ', không thể tạo user mới(kiểm tra trùng số CMND)';
-			}
+			
 
 			//Nhập các thông tin nhiều dòng khác
 			if (null != $maCB) {
+				//tạo tài khoản cho cán bộ (user = số cmnd, pass = ngày sinh, role= "cadre", mã cán bộ)
+				try {
+					$userModel->createNew(
+						$thongtin['cmnd'],
+						$password,
+						'cadre',
+						$maCB
+					);
+				} catch (InvalidQueryException $exc) {
+					$view['message'] += ', không thể tạo user mới(kiểm tra trùng số CMND)';
+				}
 				//đào tạo bồi dưỡng
 				if (isset($dsDaoTaoBoiDuong)) {
 					try {

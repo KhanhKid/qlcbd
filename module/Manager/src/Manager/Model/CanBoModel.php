@@ -480,13 +480,45 @@ class CanBoModel extends AbstractModel {
                                :luongnam, :nguonthunhapkhac, :loainhaduoccap, :dientichnhaduoccap, :loainhatuxay, :dientichnhatuxay,
                                :dientichdatduoccap, :dientichdattumua, :dientichdatsx);
                 ';
-
-		//process database
-		$canboID = $this->executeNonQuery1($sql, $parameters);
+        $arrValid = array('cmnd' => $thongtin['cmnd'],'sohieu'=> $thongtin['sohieu']);
+        $checkValidate = self::checkValidate($arrValid);
+        if(count($checkValidate)==0){
+			//process database
+			$canboID = $this->executeNonQuery1($sql, $parameters);
+        }else{
+        	$canboID = $checkValidate;
+        }
 
 		return $canboID;
 
 	}
+	public function checkValidate($arrParam) {
+		$arrResult = array();
+		foreach ($arrParam as $key => $value) {
+			switch ($key) {
+				case 'cmnd':
+					$sql = 'SELECT *
+						FROM ly_lich
+						WHERE (So_CMND = ' . $value . ')';
+					$temp = $this->query($sql);
+					if($temp){
+						$arrResult[]="Số CMND bị trùng.";
+					}
+					break;
+				case 'sohieu':
+					$sql = 'SELECT *
+						FROM ly_lich
+						WHERE (So_Hieu_CB = "' . $value . '")';
+					$temp = $this->query($sql);
+					if($temp){
+						$arrResult[]="Số Hiệu Cán bộ bị trùng.";
+					}
+					break;
+			}
+		}
+	
+		return $arrResult;
+	} 
 
 	public function bosungThongTin($Ma_CB,
 		$Ho_Ten_CB, $Ngay_Gia_Nhap, $Ngay_Tuyen_Dung, $Ngay_Bien_Che, $Ngay_Roi_Khoi, $Trang_Thai, $Tham_Gia_CLBTT,$So_The_HoiVien,

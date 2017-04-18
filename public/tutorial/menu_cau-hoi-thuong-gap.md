@@ -6,4 +6,7 @@
 [2. Cách luân chuyển 1 cán bộ ](/tutorial/hd02_luan-chuyen-can-bo.html)
 
 
-[3. Cách nâng lương cho cán bộ ](/tutorial/hd02_luan-chuyen-can-bo.html)
+[3. Cách nâng lương cho cán bộ ](/tutorial/hd03_cach-nang-luong-mot-can-bo.html)
+
+
+[4. Cách khoá và Xoá tài khoản đăng nhập ](/tutorial/hd04_cach-khoa-va-xoa-tai-khoan-dang-nhap.html)

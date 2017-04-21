@@ -501,8 +501,8 @@ class CanBoModel extends AbstractModel {
 						FROM ly_lich
 						WHERE (So_CMND = ' . $value . ')';
 					$temp = $this->query($sql);
-					if($temp){
-						$arrResult[]="Số CMND bị trùng.";
+					if($temp[0]){
+						$arrResult[]="Số CMND bị trùng( Mã Cán Bộ:".$temp[0]['Ma_CB']." Tên:".$temp[0]['Ho_Ten_Khai_Sinh'].") ";
 					}
 					break;
 				case 'sohieu':
@@ -510,8 +510,8 @@ class CanBoModel extends AbstractModel {
 						FROM ly_lich
 						WHERE (So_Hieu_CB = "' . $value . '")';
 					$temp = $this->query($sql);
-					if($temp){
-						$arrResult[]="Số Hiệu Cán bộ bị trùng.";
+					if($temp[0]){
+						$arrResult[]="Số Hiệu Cán bộ bị trùng.(Mã Cán Bộ:".$temp[0]['Ma_CB']." Tên:".$temp[0]['Ho_Ten_Khai_Sinh'].")";
 					}
 					break;
 			}

@@ -31,17 +31,21 @@ class UserController extends AbstractActionController
     }
 
     public function accountAction(){
-        //$this->layout('layout/login');
 
         //get user info from their auth
         $auth = (new AuthenticationService());
         $userInfo = (!$auth->hasIdentity())
             ?array('username' => 'you', 'roleName' => 'guest')
             :$auth->getIdentity();
-
-
-
+        if($userInfo->Username == "admin"){
+            $nameAccountOwn = "Admin";
+        }else{
+            $canBoModel = $this->getServiceLocator()->get('Manager\Model\CanBoModel');
+            $infoOwn = $canBoModel->thongTinDetailCanBo($userInfo->Identifier_Info);
+            $nameAccountOwn = $infoOwn[0]['Ho_Ten_CB'];
+        }
         //to view
+        $view['nameAccountOwn'] = $nameAccountOwn;
         $view['userInfo'] = $userInfo;
         return new ViewModel($view);
     }

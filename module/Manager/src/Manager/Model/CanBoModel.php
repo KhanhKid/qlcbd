@@ -29,6 +29,15 @@ class CanBoModel extends AbstractModel {
 
 		return $this->query($sql);
 	} 
+
+	public function thongTinDetailCanBo($Ma_Can_Bo) {
+		// Delete before
+		$sql        = 'SELECT *
+						FROM can_bo
+						WHERE (Ma_Can_Bo = ' . $Ma_Can_Bo . ')';
+
+		return $this->query($sql);
+	} 
 	public function giaNhapBan($Ma_Can_Bo, $Ma_Ban_Den, $Ngay_Gia_Nhap, $ma_chuc_vu_moi, $lydo = null) {
 
 		// FormatDate

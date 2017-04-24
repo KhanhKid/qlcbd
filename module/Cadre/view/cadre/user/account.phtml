@@ -1,6 +1,5 @@
 <?php
     $this->data=(new \Zend\Authentication\AuthenticationService)->getIdentity();
-    //var_dump($this->data);exit;
 ?>
 <div class="block">
     <div class="block-content">
@@ -15,7 +14,7 @@
             </tr>
             <tr>
                 <td>Tên cán bộ sở hữu</td>
-                <td><?php echo ''; ?></td>
+                <td><?=$this->nameAccountOwn?></td>
             </tr>
             <tr>
                 <td>Mật khẩu</td>

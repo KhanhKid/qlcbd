@@ -22,6 +22,7 @@
                         <td><input type="text" value="" class="search_init" /></td>
                         <td><input type="text" value="" class="search_init" /></td>
                         <td><input type="text" value="" class="search_init" /></td>
+                        <td><input type="text" value="" class="search_init" /></td>
                         <td>
                             <input type="text" <?php echo ($this->infoCbCur->Role_Name != "admin")?"disabled":"";?> id="searchBan" value="" class="search_init" />
                         </td>
@@ -35,6 +36,7 @@
                         <th>Chức vụ</th>
                         <th>Ban</th>
                         <th>Đơn vị</th>
+                        <th>Số hiệu cán bộ</th>
                         <th>Thao tác</th>
                     </tr>
 
@@ -56,6 +58,7 @@
                                         <td>',$element['Ten_Chuc_Vu'], '</td>
                                         <td>',$element['Ten_Ban'], '</td>
                                         <td>',$element['Ten_Đon_Vi'], '</td>
+                                        <td>',$element['So_Hieu_CB'], '</td>
                                         <td>
                                             <a href="lylich/' . $element['Ma_Can_Bo'] . '" class="view" title="Xem lý lịch"></a>
                                             <a href="bosung/' . $element['Ma_Can_Bo'] . '" class="edit" title="Bổ sung lý lịch"></a>

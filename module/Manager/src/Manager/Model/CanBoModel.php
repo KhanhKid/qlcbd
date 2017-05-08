@@ -284,7 +284,7 @@ DELETE FROM `qlcbd`.`đao_tao_boi_duong` WHERE `đao_tao_boi_duong`.`Ma_CB` = :M
 		if(isset($param["Ma_Ban"]) && $param["Ma_Ban"] != 0){
 			$condTemp .= " AND (thong_tin_tham_gia_ban.Ma_Ban = ".$param["Ma_Ban"].")";
 		}
-		$sql = 'SELECT Ten_Đon_Vi, Ten_Ban, Ma_Can_Bo, Ho_Ten_CB, DATE_FORMAT(Ngay_Sinh,"%d/%m/%Y") AS Ngay_Sinh, So_CMND, chuc_vu.Ten_Chuc_Vu, ban.Ten_Ban
+		$sql = 'SELECT Ten_Đon_Vi, Ten_Ban, Ma_Can_Bo, Ho_Ten_CB, DATE_FORMAT(Ngay_Sinh,"%d/%m/%Y") AS Ngay_Sinh, So_CMND, chuc_vu.Ten_Chuc_Vu, ban.Ten_Ban, ly.So_Hieu_CB
                 FROM can_bo ca LEFT JOIN ly_lich ly ON (ca.Ma_Can_Bo = ly.Ma_CB)
                             LEFT JOIN thong_tin_tham_gia_ban ON (thong_tin_tham_gia_ban.Ma_CB = ca.Ma_Can_Bo
                                                                     AND (thong_tin_tham_gia_ban.Ngay_Roi_Khoi IS NULL)

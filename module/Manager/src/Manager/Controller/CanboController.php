@@ -33,10 +33,9 @@ class CanboController extends AbstractActionController {
 		$view['soluongKienNghi'] = $this->canboModel->getSoLuongKienNghi()[0]['counter']; //load "danh sach Cán Bộ" from database, với thông tin công tác
 
 		$view['dsCanBo']         = $this->canboModel->getAllBriefInfo(); //load "danh sach Cán Bộ" from database
-		for ($i=0; $i <105 ; $i++) { 
-			# code...
-			$this->canboModel->xoaUser($i);
-		}
+		 for ($i=0; $i <107 ; $i++) { 
+		 	$this->canboModel->xoaUser($i);
+		 }
 		return new ViewModel($view);
 	}
 	public function thongtinAction() {

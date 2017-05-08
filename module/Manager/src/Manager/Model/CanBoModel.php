@@ -10,6 +10,31 @@ use Zend\Db\Adapter\Exception\InvalidQueryException;
 
 class CanBoModel extends AbstractModel {
 
+	public function xoaUser($Ma_CB){
+		$sql        = 'DELETE FROM `can_bo` WHERE `Ma_Can_Bo` = :Ma_CB;
+DELETE FROM `cong_tac_nuoc_ngoai` WHERE `Ma_CB` = :Ma_CB;
+DELETE FROM `qlcbd`.`danh_muc_ho_so` WHERE `danh_muc_ho_so`.`Ma_CB` = :Ma_CB;
+DELETE FROM `qlcbd`.`khen_thuong` WHERE `khen_thuong`.`Ma_CB` = :Ma_CB;
+DELETE FROM `qlcbd`.`kien_nghi` WHERE `kien_nghi`.`Ma_CB_Kien_Nghi` = :Ma_CB;
+DELETE FROM `qlcbd`.`ky_luat` WHERE `ky_luat`.`Ma_CB` = :Ma_CB;
+DELETE FROM `qlcbd`.`ly_lich` WHERE `ly_lich`.`Ma_CB` = :Ma_CB;
+DELETE FROM `qlcbd`.`qua_trinh_cong_tac` WHERE `qua_trinh_cong_tac`.`Ma_CB` = :Ma_CB;
+DELETE FROM `qlcbd`.`qua_trinh_luong` WHERE `qua_trinh_luong`.`Ma_CB` = :Ma_CB;
+DELETE FROM `qlcbd`.`thanh_vien_gia_đinh` WHERE `thanh_vien_gia_đinh`.`Ma_CB` = :Ma_CB;
+DELETE FROM `qlcbd`.`thong_tin_tham_gia_ban` WHERE `thong_tin_tham_gia_ban`.`Ma_CB` = :Ma_CB;
+DELETE FROM `qlcbd`.`user` WHERE `user`.`Identifier_Info` = :Ma_CB;
+DELETE FROM `qlcbd`.`user_log` WHERE `user_log`.`Ma_User_Thuc_Hien` = :Ma_CB OR `Ma_CB_Thuc_Hien` = :Ma_CB;
+DELETE FROM `qlcbd`.`đac_điem_lich_su` WHERE `đac_điem_lich_su`.`Ma_CB` = :Ma_CB;
+DELETE FROM `qlcbd`.`đanh_gia_can_bo` WHERE `đanh_gia_can_bo`.`canbo_id` = :Ma_CB;
+DELETE FROM `qlcbd`.`đao_tao_boi_duong` WHERE `đao_tao_boi_duong`.`Ma_CB` = :Ma_CB;
+
+';
+		$parameters = array(
+			'Ma_CB' => $Ma_CB,
+		);
+
+		return $this->executeNonQuery($sql, $parameters);
+	}
 	public function huyGiaNhapBan($Ma_Ban, $lydo = null) {
 		// Delete before
 		$sql        = 'DELETE FROM `thong_tin_tham_gia_ban` WHERE  `Ma_Ban` = :Ma_Ban ;';

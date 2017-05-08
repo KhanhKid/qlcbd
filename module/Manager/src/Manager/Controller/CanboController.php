@@ -71,6 +71,10 @@ class CanboController extends AbstractActionController {
 		$view['dsBanThuocThanhDoan'] = $arrDSBan;
 		return new ViewModel($view);
 	}
+	public function xoalylichAction($test){
+		echo '<pre>',var_dump($test),'</pre>';die();
+		$this->canboModel->xoaUser($i);
+	}
 
 	public function danhgiaAction() {
 		//init view

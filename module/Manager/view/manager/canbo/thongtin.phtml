@@ -52,7 +52,7 @@
                             }
 
                             echo '<tr>
-                                        <td>',($key+1), '</td>
+                                        <td>',$element['Ma_Can_Bo'], '</td>
                                         <td>',$element['Ho_Ten_CB'], '</td>
                                         <td>',$element['Ngay_Sinh'], '</td>
                                         <td>',$element['Ten_Chuc_Vu'], '</td>
@@ -65,6 +65,7 @@
                                             <a href="danhgia/' .$element['Ma_Can_Bo'] . '" class="rate" title="Đánh giá cán bộ"></a>
                                             <a href="congtacnuocngoai/' . $element['Ma_Can_Bo'] . '" class="travel" title="Công tác nước ngoài"></a>
                                             '.$luanchuyen.$nangluong.'
+                                            <a href="javascript:void(0)" data-id="'.$element['Ma_Can_Bo'].'" class="voiddeletebutton" title="Xóa Lý lịch"></a>
                                         </td>
                                       </tr>';
                         }
@@ -79,6 +80,13 @@
 </div>
 <script>
     $(document).ready( function () {
+        $(".voiddeletebutton").click(function(event) {
+            maCB = $(this).attr('data-id');
+            var r = confirm("Bạn có chắc muốn xoá cán bộ No."+maCB);
+            if (r == true) {
+                window.location = "/manager/canbo/xoalylich?id="+maCB;
+            }
+        });
         var oTable;
         /* Add the events etc before DataTables hides a column */
 

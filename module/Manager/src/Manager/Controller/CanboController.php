@@ -71,9 +71,14 @@ class CanboController extends AbstractActionController {
 		$view['dsBanThuocThanhDoan'] = $arrDSBan;
 		return new ViewModel($view);
 	}
-	public function xoalylichAction($test){
-		echo '<pre>',var_dump($test),'</pre>';die();
-		$this->canboModel->xoaUser($i);
+	public function xoalylichAction(){
+		$idRemove = isset($_GET['id'])?(int)$_GET['id']:0;
+		$infoCurUser = (new AuthenticationService())->getIdentity();
+		$flagFullRole = false;
+		if($infoCurUser->Role_Name == "admin"){
+			$this->canboModel->xoaUser($idRemove);
+		}
+		$this->redirect()->toUrl("/manager/canbo/thongtin");
 	}
 
 	public function danhgiaAction() {
